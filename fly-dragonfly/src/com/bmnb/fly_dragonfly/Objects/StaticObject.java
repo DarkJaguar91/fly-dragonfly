@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 /**
+ * Static object, the most basic of all objects in the game. Allows for
+ * rotation. Holds the basic draw method
  * 
  * @author Brandon James Talbot
  * 

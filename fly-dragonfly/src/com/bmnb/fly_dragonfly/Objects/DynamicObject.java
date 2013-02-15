@@ -6,12 +6,14 @@ package com.bmnb.fly_dragonfly.Objects;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * @author Brandon James Talbot
+ * The Dynamic object, extends Static object to add variables needed for
+ * movement
  * 
+ * @author Brandon James Talbot
  */
 public abstract class DynamicObject extends StaticObject {
 
-	public Vector2 direction;
+	protected Vector2 direction;
 	protected float speed;
 
 	/**
@@ -59,4 +61,10 @@ public abstract class DynamicObject extends StaticObject {
 		this.speed = speed;
 	}
 
+	/**
+	 * Stops the movement of the object
+	 */
+	public void stop() {
+		direction = new Vector2(0, 0);
+	}
 }
