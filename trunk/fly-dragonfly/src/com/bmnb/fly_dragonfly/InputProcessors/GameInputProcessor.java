@@ -17,6 +17,7 @@ import com.bmnb.fly_dragonfly.Screen.GameScreen;
  */
 public class GameInputProcessor implements InputProcessor {
 	GameScreen screen;
+	int movementPointer = -1;
 
 	public GameInputProcessor(GameScreen screen) {
 		this.screen = screen;
@@ -39,21 +40,30 @@ public class GameInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		screen.getPlayer().moveToFinger(
-				new Vector2(screenX, Gdx.graphics.getHeight() - screenY));
+		if (movementPointer == -1) {
+			// remember to check for shooting area
+			screen.getPlayer().moveToFinger(
+					new Vector2(screenX, Gdx.graphics.getHeight() - screenY));
+			movementPointer = pointer;
+		}
+
 		return true;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		this.screen.getPlayer().stop();
+		if (pointer == movementPointer) {
+			this.screen.getPlayer().stop();
+			movementPointer = -1;
+		}
 		return true;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		screen.getPlayer().moveToFinger(
-				new Vector2(screenX, Gdx.graphics.getHeight() - screenY));
+		if (pointer == movementPointer)
+			screen.getPlayer().moveToFinger(
+					new Vector2(screenX, Gdx.graphics.getHeight() - screenY));
 		return true;
 	}
 

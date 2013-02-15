@@ -40,9 +40,16 @@ public class Player extends DynamicObject {
 	@Override
 	public void update(float delta) {
 
-		// movement checking (if close to finger) the ship stops
+		/*
+		 * movement checking (if close to finger) the ship stops - note, since
+		 * we stop the ship from moving all the way up the screen we reach an
+		 * issue where the player could move off the screen. We thus have to add
+		 * a extra check for if the finger is too far up with the y value
+		 * section
+		 */
 		if ((Math.abs(position.x - lastFingerPos.x) < 2)
-				&& (Math.abs(position.y - lastFingerPos.y) < 2)) {
+				&& ((Math.abs(position.y - lastFingerPos.y) < 2) || (position.y >= Gdx.graphics
+						.getHeight() * 0.2f))) {
 			direction = new Vector2(0, 0);
 		}
 
@@ -52,9 +59,12 @@ public class Player extends DynamicObject {
 	@Override
 	protected void move(float delta) {
 		this.position.x += this.direction.x * delta * speed;
+		// since we are already "moving forward" we cannot move forward as fast
+		// as we move backward. and we move back even faster
+		float ySpeed = direction.y > 0 ? speed / 2 : speed * 1.5f;
 		this.position.y += this.direction.y > 0 ? this.position.y >= Gdx.graphics
-				.getHeight() * 0.2f ? 0 : this.direction.y * delta * speed
-				: this.direction.y * delta * speed;
+				.getHeight() * 0.2f ? 0 : this.direction.y * delta * ySpeed
+				: this.direction.y * delta * ySpeed;
 	}
 
 	/**

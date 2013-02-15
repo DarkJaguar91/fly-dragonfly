@@ -45,7 +45,7 @@ public class GameScreen implements Screen {
 	public void show() {
 		batch = new SpriteBatch();
 
-		player = new Player(new Vector2(), 50, 50, 0, 60, "data/square.png");
+		player = new Player(new Vector2(Gdx.graphics.getWidth() / 2f, 25), 50, 50, 0, 300, "data/square.png");
 
 		Gdx.input.setInputProcessor(new GameInputProcessor(this));
 	}
