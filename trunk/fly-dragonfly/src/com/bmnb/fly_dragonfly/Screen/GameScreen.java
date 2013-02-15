@@ -8,15 +8,27 @@ import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.InputProcessors.GameInputProcessor;
 import com.bmnb.fly_dragonfly.Objects.Player;
 
+/**
+ * The Game screen This holds all objects and drawing methods required for the
+ * game
+ * 
+ * @author Brandon James Talbot
+ * 
+ */
+
 public class GameScreen implements Screen {
 
-	public Player player;
+	protected Player player;
 	protected SpriteBatch batch;
-	
+
+	public Player getPlayer() {
+		return player;
+	}
+
 	@Override
 	public void render(float delta) {
 		player.update(delta);
-		
+
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -32,9 +44,9 @@ public class GameScreen implements Screen {
 	@Override
 	public void show() {
 		batch = new SpriteBatch();
-		
+
 		player = new Player(new Vector2(), 50, 50, 0, 60, "data/square.png");
-		
+
 		Gdx.input.setInputProcessor(new GameInputProcessor(this));
 	}
 

@@ -8,9 +8,9 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "fly-dragonfly";
 		cfg.useGL20 = true;
-		cfg.width = 480;
-		cfg.height = 320;
-		
+		cfg.width = 1920;
+		cfg.height = 1080;
+
 		new LwjglApplication(new Fly_DragonFly(), cfg);
 	}
 }
