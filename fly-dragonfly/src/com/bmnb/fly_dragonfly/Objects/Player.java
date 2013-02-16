@@ -38,7 +38,16 @@ public class Player extends DynamicObject {
 	}
 
 	@Override
-	public void update(float delta) {
+	protected void move(float delta) {
+		// calculate the new direction to move if the player wants it to move
+		Vector2 fingerpos = lastFingerPos.cpy();
+		Vector2 pos = position.cpy();
+
+		fingerpos.sub(pos);
+		fingerpos.nor();
+
+		direction = fingerpos.cpy();
+		// calculated the correct direction
 
 		/*
 		 * movement checking (if close to finger) the ship stops - note, since
@@ -47,24 +56,29 @@ public class Player extends DynamicObject {
 		 * a extra check for if the finger is too far up with the y value
 		 * section
 		 */
-		if ((Math.abs(position.x - lastFingerPos.x) < 2)
-				&& ((Math.abs(position.y - lastFingerPos.y) < 2) || (position.y >= Gdx.graphics
-						.getHeight() * 0.2f))) {
-			direction = new Vector2(0, 0);
+		if (position.dst(lastFingerPos) <= speed * delta * direction.len()) {
+			direction = new Vector2();
+			position = lastFingerPos;
 		}
+		// end of close check
 
-		super.update(delta);
-	}
-
-	@Override
-	protected void move(float delta) {
+		// x movement
 		this.position.x += this.direction.x * delta * speed;
-		// since we are already "moving forward" we cannot move forward as fast
-		// as we move backward. and we move back even faster
-		float ySpeed = direction.y > 0 ? speed / 2 : speed * 1.5f;
+		// since the dragonfly is moving already (scrolling background)
+		// it makes sense that the fly cant move forward in the screen as
+		// quickly as backward
+		// this fixes this.
+		float ySpeed = direction.y > 0 ? speed / 2f : speed * 1.5f;
+		// y movement
 		this.position.y += this.direction.y > 0 ? this.position.y >= Gdx.graphics
 				.getHeight() * 0.2f ? 0 : this.direction.y * delta * ySpeed
 				: this.direction.y * delta * ySpeed;
+	}
+
+	@Override
+	public void stop() {
+		lastFingerPos = position.cpy();
+		super.stop();
 	}
 
 	/**
@@ -77,12 +91,11 @@ public class Player extends DynamicObject {
 	public void moveToFinger(Vector2 fingerPos) {
 		lastFingerPos = fingerPos.cpy();
 
-		Vector2 fingerpos = fingerPos.cpy();
-		Vector2 pos = position.cpy();
-
-		fingerpos.sub(pos);
-		fingerpos.nor();
-
-		direction = fingerpos.cpy();
+		lastFingerPos.y = lastFingerPos.y > Gdx.graphics.getHeight() * 0.2f
+				- height / 2f ? Gdx.graphics.getHeight() * 0.2f
+				: lastFingerPos.y < height / 2f ? height / 2f : lastFingerPos.y;
+		lastFingerPos.x = lastFingerPos.x > Gdx.graphics.getWidth() - width
+				/ 2f ? Gdx.graphics.getWidth() - width / 2f
+				: lastFingerPos.x < width / 2f ? width / 2f : lastFingerPos.x;
 	}
 }
