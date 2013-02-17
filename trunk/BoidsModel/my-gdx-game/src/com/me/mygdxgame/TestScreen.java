@@ -26,6 +26,14 @@ public class TestScreen implements Screen{
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		batch.setProjectionMatrix(camera.combined);
+		
+		sr.begin(ShapeType.FilledCircle);
+		sr.setColor(1, 0.3f, 0.3f, 1);
+		for (int i = 0; i < 5; ++i)
+			if (Gdx.input.isTouched(i))
+				sr.filledCircle(Gdx.input.getX(i), Gdx.graphics.getHeight() - Gdx.input.getY(i), 100);
+		sr.end();
+		
 		sr.begin(ShapeType.FilledTriangle);
 		sr.setColor(1, 1, 1, 1);
 		bm.update(delta);
