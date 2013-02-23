@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter;
+import com.bmnb.fly_dragonfly.tools.MathTools;
 
 /**
  * Player class, holds all methods needed for the player specifically
@@ -22,7 +23,10 @@ public class Player extends GameObject {
 	 */
 	protected static final float maxVertPath = 0.35f, upSpeedPercent = 0.8f,
 			downSpeedPercent = 1.2f;
-//	protected static final float [] asd;
+	protected static final float [] mosColor = {0.8888999f, 0.105882354f, 0.91764706f}, flyColor = {0.91764706f, 0.105882354f, 0.047058824f},
+									mosAngle = {0.0f, 0.0f, 0.0f}, flyAngle = {0.6f, 0.8f, 1.0f},
+									mosVel3 = {1.0f, 1.0f, 1.0f}, flyVel3 = {0.6f, 0.8f, 1.0f},
+									mosVel2 = {600f, 700f}, flyVel2 = {400f, 500f};
 	
 	/**
 	 * Global vars
@@ -135,7 +139,31 @@ public class Player extends GameObject {
 		super.draw(spriteBatch, delta);
 	}
 
+	/**
+	 * Converts the gun into the firefly version by 1 step
+	 */
 	public void convertWeaponFireflies(){
-		
+		dragonBreath.getTint().setColors(MathTools.interp(dragonBreath.getTint().getColors(), flyColor, mosColor, 10));
+		dragonBreath.getAngle().setScaling(MathTools.interp(dragonBreath.getAngle().getScaling(), flyAngle, mosAngle, 10));
+		dragonBreath.getVelocity().setScaling(MathTools.interp(dragonBreath.getVelocity().getScaling(), flyVel3, mosVel3, 10));
+		float vel[] = new float[2];
+		vel[0] = dragonBreath.getVelocity().getHighMin();
+		vel[1] = dragonBreath.getVelocity().getHighMax();
+		vel = MathTools.interp(vel, flyVel2, mosVel2, 10);
+		dragonBreath.getVelocity().setHigh(vel[0], vel[1]);
+	}
+	
+	/**
+	 * Converts the gun into the mossy version by 1 step
+	 */
+	public void convertWeaponMossies(){
+		dragonBreath.getTint().setColors(MathTools.interp(dragonBreath.getTint().getColors(), mosColor, flyColor, 10));
+		dragonBreath.getAngle().setScaling(MathTools.interp(dragonBreath.getAngle().getScaling(), mosAngle, flyAngle,  10));
+		dragonBreath.getVelocity().setScaling(MathTools.interp(dragonBreath.getVelocity().getScaling(), mosVel3, flyVel3, 10));
+		float vel[] = new float[2];
+		vel[0] = dragonBreath.getVelocity().getHighMin();
+		vel[1] = dragonBreath.getVelocity().getHighMax();
+		vel = MathTools.interp(vel, mosVel2, flyVel2, 10);
+		dragonBreath.getVelocity().setHigh(vel[0], vel[1]);
 	}
 }
