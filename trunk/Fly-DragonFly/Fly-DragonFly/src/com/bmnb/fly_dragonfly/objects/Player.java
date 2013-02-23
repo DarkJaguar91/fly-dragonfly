@@ -23,7 +23,7 @@ public class Player extends GameObject {
 	 */
 	protected static final float maxVertPath = 0.35f, upSpeedPercent = 0.8f,
 			downSpeedPercent = 1.2f;
-	protected static final float [] mosColor = {0.8888999f, 0.105882354f, 0.91764706f}, flyColor = {0.91764706f, 0.105882354f, 0.047058824f},
+	protected static final float [] mosColor = {0.047058824f, 0.105882354f, 0.91764706f}, flyColor = {0.91764706f, 0.105882354f, 0.047058824f},
 									mosAngle = {0.0f, 0.0f, 0.0f}, flyAngle = {0.6f, 0.8f, 1.0f},
 									mosVel3 = {1.0f, 1.0f, 1.0f}, flyVel3 = {0.6f, 0.8f, 1.0f},
 									mosVel2 = {600f, 700f}, flyVel2 = {400f, 500f};
@@ -57,7 +57,7 @@ public class Player extends GameObject {
 							"data/dragonflyBreath").read()), 512), new Texture(
 					"data/particle.png"));
 			
-			dragonBreath.setContinuous(false);
+			dragonBreath.setContinuous(true);
 		} catch (Exception e) {
 			Gdx.app.log("error", e.getMessage());
 		}
