@@ -22,7 +22,8 @@ public class Player extends GameObject {
 	 */
 	protected static final float maxVertPath = 0.35f, upSpeedPercent = 0.8f,
 			downSpeedPercent = 1.2f;
-
+//	protected static final float [] asd;
+	
 	/**
 	 * Global vars
 	 */
@@ -43,16 +44,14 @@ public class Player extends GameObject {
 			float scWidth, float scHeight) {
 		super(position, width, height, speed, scWidth, scHeight);
 		targetPosition = position;
-	}
-
-	@Override
-	protected void loadTexture() {
+		
+		// load textures (loading here for now, must create texture loader later)
 		setTexture(new Texture("data/libgdx.png"));
 		try {
 			dragonBreath = new GameParticleEmitter(new BufferedReader(
 					new InputStreamReader(Gdx.files.internal(
 							"data/dragonflyBreath").read()), 512), new Texture(
-					"data/ember.png"));
+					"data/particle.png"));
 			
 			dragonBreath.setContinuous(false);
 		} catch (Exception e) {
@@ -136,5 +135,7 @@ public class Player extends GameObject {
 		super.draw(spriteBatch, delta);
 	}
 
-	
+	public void convertWeaponFireflies(){
+		
+	}
 }

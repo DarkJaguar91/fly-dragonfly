@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Vector2;
  * 
  */
 public abstract class GameObject extends Sprite {
-
+	
 	/**
 	 * global vars
 	 */
@@ -28,11 +28,7 @@ public abstract class GameObject extends Sprite {
 		this.speed = speed;
 		this.screenWidth = scWidth;
 		this.screenHeight = scHeight;
-		
-		loadTexture();
 	}
-
-	protected abstract void loadTexture();
 	
 	/**
 	 * @param sprite

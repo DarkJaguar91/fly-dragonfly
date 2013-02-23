@@ -931,10 +931,6 @@ public class GameParticleEmitter {
 		}
 
 		@Override
-		protected void loadTexture() {
-		}
-
-		@Override
 		protected void move(float delta) {
 		}
 	}
