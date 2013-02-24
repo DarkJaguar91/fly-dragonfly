@@ -16,7 +16,7 @@ public abstract class GameObject extends Sprite {
 	/**
 	 * global vars
 	 */
-	protected boolean dead = false;
+	protected boolean dead = false, removeable = false;
 	protected float screenWidth, screenHeight, speed;
 
 	public GameObject(Vector2 position, float width,
@@ -108,6 +108,14 @@ public abstract class GameObject extends Sprite {
 	 */
 	public void kill(){
 		dead = true;
+	}
+	
+	/**
+	 * Checks if the object is now removeable (for death animations)
+	 * @return If the object is removeable
+	 */
+	public boolean isRemovable(){
+		return removeable;
 	}
 
 }

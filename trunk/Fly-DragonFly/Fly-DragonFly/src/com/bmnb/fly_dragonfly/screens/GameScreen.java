@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.Particle;
 import com.bmnb.fly_dragonfly.graphics.ScrollingBackground;
 import com.bmnb.fly_dragonfly.input.GameInput;
+import com.bmnb.fly_dragonfly.objects.Enemy;
 import com.bmnb.fly_dragonfly.objects.Frog;
 import com.bmnb.fly_dragonfly.objects.GameObject;
 import com.bmnb.fly_dragonfly.objects.Player;
@@ -37,8 +38,6 @@ public class GameScreen implements Screen {
 	protected OrthographicCamera camera;
 	protected Player player;
 	protected ScrollingBackground scroller;
-	
-	protected Frog frog;
 	
 	/**
 	 * Static vars for static methods
@@ -70,7 +69,7 @@ public class GameScreen implements Screen {
 		Gdx.input.setInputProcessor(new GameInput(width, height, player));
 		
 		// debug
-		frog = new Frog(new Vector2(width /2, height /2), 50, 50, 0, width, height);
+		addObject(new Frog(new Vector2(width /2, height /2), 50, 50, 0, width, height));
 	}
 
 	@Override
@@ -85,8 +84,6 @@ public class GameScreen implements Screen {
 		//draw background
 		scroller.draw(batch, delta);
 		
-		frog.draw(batch, delta);
-		
 		//draw objects
 		for (int i = 0; i < objects.size(); ++i)
 			objects.get(i).draw(batch, delta);
@@ -94,9 +91,13 @@ public class GameScreen implements Screen {
 		batch.end();
 		
 		for (int i = 0; i < particles.size(); ++i){
-			if (particles.get(i).getBoundingRectangle().overlaps(frog.getBoundingRectangle())){
-				particles.get(i).kill();
-				frog.doDamage(player.getDamage());
+			for (int a = 0; a < objects.size(); ++a){
+				if (objects.get(a) instanceof Enemy){
+					if (particles.get(i).getBoundingRectangle().overlaps(objects.get(a).getBoundingRectangle())){
+						particles.get(i).kill();
+						((Enemy)objects.get(a)).doDamage(player.getDamage());
+					}
+				}
 			}
 		}
 		
@@ -106,15 +107,15 @@ public class GameScreen implements Screen {
 	
 	protected void removeDeadObjects (){
 		for (int i = 0; i < objects.size(); ++i){
-			if (objects.get(i).isDead()){
+			if (objects.get(i).isRemovable()){
 				objects.remove(i);
-				i--;
+				--i;
 			}
 		}
 		for (int i = 0; i < particles.size(); ++i){
 			if (particles.get(i).isDead()){
 				particles.remove(i);
-				i--;
+				--i;
 			}
 		}	
 	}
