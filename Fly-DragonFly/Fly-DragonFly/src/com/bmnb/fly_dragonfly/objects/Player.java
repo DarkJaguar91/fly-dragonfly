@@ -21,8 +21,7 @@ public class Player extends GameObject {
 	/**
 	 * Static set up vars
 	 */
-	protected static final float maxVertPath = 0.35f, upSpeedPercent = 0.8f,
-			downSpeedPercent = 1.2f;
+	protected static final float maxVertPath = 0.35f, upSpeedPercent = 0.8f, downSpeedPercent = 1.2f, mosDamage = 0.007f, flyDamage = 0.5f;
 	protected static final float [] mosColor = {0.047058824f, 0.105882354f, 0.91764706f}, flyColor = {0.91764706f, 0.105882354f, 0.047058824f},
 									mosAngle = {0.0f, 0.0f, 0.0f}, flyAngle = {0.6f, 0.8f, 1.0f},
 									mosVel3 = {1.0f, 1.0f, 1.0f}, flyVel3 = {0.6f, 0.8f, 1.0f},
@@ -33,6 +32,7 @@ public class Player extends GameObject {
 	 */
 	protected Vector2 targetPosition;
 	protected GameParticleEmitter dragonBreath;
+	protected float damage = flyDamage;
 
 	/**
 	 * Constructor
@@ -151,6 +151,9 @@ public class Player extends GameObject {
 		vel[1] = dragonBreath.getVelocity().getHighMax();
 		vel = MathTools.interp(vel, flyVel2, mosVel2, 1);
 		dragonBreath.getVelocity().setHigh(vel[0], vel[1]);
+		
+		damage = damage + Math.abs(flyDamage - mosDamage) * 0.01f;
+		damage = damage > flyDamage ? flyDamage : damage;
 	}
 	
 	/**
@@ -165,5 +168,16 @@ public class Player extends GameObject {
 		vel[1] = dragonBreath.getVelocity().getHighMax();
 		vel = MathTools.interp(vel, mosVel2, flyVel2, 1);
 		dragonBreath.getVelocity().setHigh(vel[0], vel[1]);
+		
+		damage = damage - Math.abs(flyDamage - mosDamage) * 0.01f;
+		damage = damage < mosDamage ? mosDamage : damage;
+	}
+	
+	/**
+	 * Returns the damage of the players fireBreath
+	 * @return the firebreath damage
+	 */
+	public float getDamage(){
+		return damage;
 	}
 }
