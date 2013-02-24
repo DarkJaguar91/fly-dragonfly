@@ -37,12 +37,12 @@ public class Player extends GameObject {
 	/**
 	 * Constructor
 	 * 
-	 * @param position
-	 * @param width
-	 * @param height
-	 * @param speed
-	 * @param scWidth
-	 * @param scHeight
+	 * @param position The position of the object
+	 * @param width The width of the object
+	 * @param height the height of the object
+	 * @param speed the speed for the object
+	 * @param scWidth the scren width of the game
+	 * @param scHeight the screen height of the game
 	 */
 	public Player(Vector2 position, float width, float height, float speed,
 			float scWidth, float scHeight) {
@@ -143,13 +143,13 @@ public class Player extends GameObject {
 	 * Converts the gun into the firefly version by 1 step
 	 */
 	public void convertWeaponFireflies(){
-		dragonBreath.getTint().setColors(MathTools.interp(dragonBreath.getTint().getColors(), flyColor, mosColor, 10));
-		dragonBreath.getAngle().setScaling(MathTools.interp(dragonBreath.getAngle().getScaling(), flyAngle, mosAngle, 10));
-		dragonBreath.getVelocity().setScaling(MathTools.interp(dragonBreath.getVelocity().getScaling(), flyVel3, mosVel3, 10));
+		dragonBreath.getTint().setColors(MathTools.interp(dragonBreath.getTint().getColors(), flyColor, mosColor, 1));
+		dragonBreath.getAngle().setScaling(MathTools.interp(dragonBreath.getAngle().getScaling(), flyAngle, mosAngle, 1));
+		dragonBreath.getVelocity().setScaling(MathTools.interp(dragonBreath.getVelocity().getScaling(), flyVel3, mosVel3, 1));
 		float vel[] = new float[2];
 		vel[0] = dragonBreath.getVelocity().getHighMin();
 		vel[1] = dragonBreath.getVelocity().getHighMax();
-		vel = MathTools.interp(vel, flyVel2, mosVel2, 10);
+		vel = MathTools.interp(vel, flyVel2, mosVel2, 1);
 		dragonBreath.getVelocity().setHigh(vel[0], vel[1]);
 	}
 	
@@ -157,13 +157,13 @@ public class Player extends GameObject {
 	 * Converts the gun into the mossy version by 1 step
 	 */
 	public void convertWeaponMossies(){
-		dragonBreath.getTint().setColors(MathTools.interp(dragonBreath.getTint().getColors(), mosColor, flyColor, 10));
-		dragonBreath.getAngle().setScaling(MathTools.interp(dragonBreath.getAngle().getScaling(), mosAngle, flyAngle,  10));
-		dragonBreath.getVelocity().setScaling(MathTools.interp(dragonBreath.getVelocity().getScaling(), mosVel3, flyVel3, 10));
+		dragonBreath.getTint().setColors(MathTools.interp(dragonBreath.getTint().getColors(), mosColor, flyColor, 1));
+		dragonBreath.getAngle().setScaling(MathTools.interp(dragonBreath.getAngle().getScaling(), mosAngle, flyAngle,  1));
+		dragonBreath.getVelocity().setScaling(MathTools.interp(dragonBreath.getVelocity().getScaling(), mosVel3, flyVel3, 1));
 		float vel[] = new float[2];
 		vel[0] = dragonBreath.getVelocity().getHighMin();
 		vel[1] = dragonBreath.getVelocity().getHighMax();
-		vel = MathTools.interp(vel, mosVel2, flyVel2, 10);
+		vel = MathTools.interp(vel, mosVel2, flyVel2, 1);
 		dragonBreath.getVelocity().setHigh(vel[0], vel[1]);
 	}
 }

@@ -1,6 +1,15 @@
 package com.bmnb.fly_dragonfly.tools;
 
 public class MathTools {
+	
+	/**
+	 * Interprolates between two values in an array
+	 * @param orig the vector to change
+	 * @param target the target values
+	 * @param start the starting values (for amount to change)
+	 * @param percent the percentage to move by
+	 * @return the interprolated array
+	 */
 	public static float [] interp(float [] orig, float [] target, float start [], int percent){
 		float [] out = new float[orig.length];
 		for (int i = 0; i < orig.length; ++i){
