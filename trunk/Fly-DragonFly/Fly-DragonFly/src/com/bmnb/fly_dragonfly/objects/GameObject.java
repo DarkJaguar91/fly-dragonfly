@@ -95,8 +95,19 @@ public abstract class GameObject extends Sprite {
 		return super.getY() + this.getHeight() / 2f;
 	}
 	
+	/**
+	 * Getter for the dead boolean
+	 * @return Whether the object is dead or not
+	 */
 	public boolean isDead(){
 		return dead;
+	}
+	
+	/**
+	 * Kills the object
+	 */
+	public void kill(){
+		dead = true;
 	}
 
 }

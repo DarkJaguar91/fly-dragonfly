@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.Particle;
 import com.bmnb.fly_dragonfly.graphics.ScrollingBackground;
 import com.bmnb.fly_dragonfly.input.GameInput;
+import com.bmnb.fly_dragonfly.objects.Frog;
 import com.bmnb.fly_dragonfly.objects.GameObject;
 import com.bmnb.fly_dragonfly.objects.Player;
 
@@ -36,6 +37,8 @@ public class GameScreen implements Screen {
 	protected OrthographicCamera camera;
 	protected Player player;
 	protected ScrollingBackground scroller;
+	
+	protected Frog frog;
 	
 	/**
 	 * Static vars for static methods
@@ -63,7 +66,11 @@ public class GameScreen implements Screen {
 		// init the scroller
 		scroller = new ScrollingBackground("data/space.jpg", width, height, scrollSpeed);
 		
+		// set the input processor
 		Gdx.input.setInputProcessor(new GameInput(width, height, player));
+		
+		// debug
+		frog = new Frog(new Vector2(width /2, height /2), 50, 50, 0, width, height);
 	}
 
 	@Override
@@ -78,13 +85,23 @@ public class GameScreen implements Screen {
 		//draw background
 		scroller.draw(batch, delta);
 		
+		frog.draw(batch, delta);
+		
 		//draw objects
 		for (int i = 0; i < objects.size(); ++i)
 			objects.get(i).draw(batch, delta);
 		
 		batch.end();
 		
+		for (int i = 0; i < particles.size(); ++i){
+			if (particles.get(i).getBoundingRectangle().overlaps(frog.getBoundingRectangle())){
+				particles.get(i).kill();
+				frog.doDamage(player.getDamage());
+			}
+		}
 		
+		// remove all dead opjects
+		removeDeadObjects();
 	}
 	
 	protected void removeDeadObjects (){
