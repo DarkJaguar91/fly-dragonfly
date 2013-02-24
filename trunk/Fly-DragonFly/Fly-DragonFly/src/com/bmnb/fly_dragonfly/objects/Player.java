@@ -21,12 +21,15 @@ public class Player extends GameObject {
 	/**
 	 * Static set up vars
 	 */
-	protected static final float maxVertPath = 0.35f, upSpeedPercent = 0.8f, downSpeedPercent = 1.2f, mosDamage = 0.007f, flyDamage = 0.5f;
-	protected static final float [] mosColor = {0.047058824f, 0.105882354f, 0.91764706f}, flyColor = {0.91764706f, 0.105882354f, 0.047058824f},
-									mosAngle = {0.0f, 0.0f, 0.0f}, flyAngle = {0.6f, 0.8f, 1.0f},
-									mosVel3 = {1.0f, 1.0f, 1.0f}, flyVel3 = {0.6f, 0.8f, 1.0f},
-									mosVel2 = {600f, 700f}, flyVel2 = {400f, 500f};
-	
+	protected static final float maxVertPath = 0.35f, upSpeedPercent = 0.8f,
+			downSpeedPercent = 1.2f, mosDamage = 0.05f, flyDamage = 0.3f;
+	protected static final float[] mosColor = { 0.047058824f, 0.105882354f,
+			0.91764706f },
+			flyColor = { 0.91764706f, 0.105882354f, 0.047058824f },
+			mosAngle = { 0.0f, 0.0f, 0.0f }, flyAngle = { 0.6f, 0.8f, 1.0f },
+			mosVel3 = { 1.0f, 1.0f, 1.0f }, flyVel3 = { 0.6f, 0.8f, 1.0f },
+			mosVel2 = { 600f, 700f }, flyVel2 = { 400f, 500f };
+
 	/**
 	 * Global vars
 	 */
@@ -37,27 +40,34 @@ public class Player extends GameObject {
 	/**
 	 * Constructor
 	 * 
-	 * @param position The position of the object
-	 * @param width The width of the object
-	 * @param height the height of the object
-	 * @param speed the speed for the object
-	 * @param scWidth the scren width of the game
-	 * @param scHeight the screen height of the game
+	 * @param position
+	 *            The position of the object
+	 * @param width
+	 *            The width of the object
+	 * @param height
+	 *            the height of the object
+	 * @param speed
+	 *            the speed for the object
+	 * @param scWidth
+	 *            the scren width of the game
+	 * @param scHeight
+	 *            the screen height of the game
 	 */
 	public Player(Vector2 position, float width, float height, float speed,
 			float scWidth, float scHeight) {
 		super(position, width, height, speed, scWidth, scHeight);
 		targetPosition = position;
-		
-		// load textures (loading here for now, must create texture loader later)
+
+		// load textures (loading here for now, must create texture loader
+		// later)
 		setTexture(new Texture("data/libgdx.png"));
 		try {
 			dragonBreath = new GameParticleEmitter(new BufferedReader(
 					new InputStreamReader(Gdx.files.internal(
 							"data/dragonflyBreath").read()), 512), new Texture(
 					"data/particle.png"));
-			
-			dragonBreath.setContinuous(true);
+
+			dragonBreath.setContinuous(false);
 		} catch (Exception e) {
 			Gdx.app.log("error", e.getMessage());
 		}
@@ -87,21 +97,21 @@ public class Player extends GameObject {
 	public void stopMovingToFinger() {
 		targetPosition = this.getPosition().cpy();
 	}
-	
+
 	/**
 	 * Starts the shooting of the dragonBreath
 	 */
-	public void startShooting(){
+	public void startShooting() {
 		dragonBreath.setContinuous(true);
 	}
 
 	/**
 	 * Stops the shooting of the dragonbreath
 	 */
-	public void stopShooting(){
+	public void stopShooting() {
 		dragonBreath.setContinuous(false);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -125,59 +135,77 @@ public class Player extends GameObject {
 				* direction.y);
 
 		// move the particle engine position for the fire breath
-		dragonBreath.setPosition(this.getX(), this.getY() + this.getHeight() / 2f);
+		dragonBreath.setPosition(this.getX(), this.getY() + this.getHeight()
+				/ 2f);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.bmnb.fly_dragonfly.objects.GameObject#draw(com.badlogic.gdx.graphics.g2d.SpriteBatch, float)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.bmnb.fly_dragonfly.objects.GameObject#draw(com.badlogic.gdx.graphics
+	 * .g2d.SpriteBatch, float)
 	 */
 	@Override
 	public void draw(SpriteBatch spriteBatch, float delta) {
-		
+
 		dragonBreath.draw(spriteBatch, delta);
-		
+
 		super.draw(spriteBatch, delta);
 	}
 
 	/**
 	 * Converts the gun into the firefly version by 1 step
 	 */
-	public void convertWeaponFireflies(){
-		dragonBreath.getTint().setColors(MathTools.interp(dragonBreath.getTint().getColors(), flyColor, mosColor, 1));
-		dragonBreath.getAngle().setScaling(MathTools.interp(dragonBreath.getAngle().getScaling(), flyAngle, mosAngle, 1));
-		dragonBreath.getVelocity().setScaling(MathTools.interp(dragonBreath.getVelocity().getScaling(), flyVel3, mosVel3, 1));
+	public void convertWeaponFireflies() {
+		dragonBreath.getTint().setColors(
+				MathTools.interp(dragonBreath.getTint().getColors(), flyColor,
+						mosColor, 1));
+		dragonBreath.getAngle().setScaling(
+				MathTools.interp(dragonBreath.getAngle().getScaling(),
+						flyAngle, mosAngle, 1));
+		dragonBreath.getVelocity().setScaling(
+				MathTools.interp(dragonBreath.getVelocity().getScaling(),
+						flyVel3, mosVel3, 1));
 		float vel[] = new float[2];
 		vel[0] = dragonBreath.getVelocity().getHighMin();
 		vel[1] = dragonBreath.getVelocity().getHighMax();
 		vel = MathTools.interp(vel, flyVel2, mosVel2, 1);
 		dragonBreath.getVelocity().setHigh(vel[0], vel[1]);
-		
+
 		damage = damage + Math.abs(flyDamage - mosDamage) * 0.01f;
 		damage = damage > flyDamage ? flyDamage : damage;
 	}
-	
+
 	/**
 	 * Converts the gun into the mossy version by 1 step
 	 */
-	public void convertWeaponMossies(){
-		dragonBreath.getTint().setColors(MathTools.interp(dragonBreath.getTint().getColors(), mosColor, flyColor, 1));
-		dragonBreath.getAngle().setScaling(MathTools.interp(dragonBreath.getAngle().getScaling(), mosAngle, flyAngle,  1));
-		dragonBreath.getVelocity().setScaling(MathTools.interp(dragonBreath.getVelocity().getScaling(), mosVel3, flyVel3, 1));
+	public void convertWeaponMossies() {
+		dragonBreath.getTint().setColors(
+				MathTools.interp(dragonBreath.getTint().getColors(), mosColor,
+						flyColor, 1));
+		dragonBreath.getAngle().setScaling(
+				MathTools.interp(dragonBreath.getAngle().getScaling(),
+						mosAngle, flyAngle, 1));
+		dragonBreath.getVelocity().setScaling(
+				MathTools.interp(dragonBreath.getVelocity().getScaling(),
+						mosVel3, flyVel3, 1));
 		float vel[] = new float[2];
 		vel[0] = dragonBreath.getVelocity().getHighMin();
 		vel[1] = dragonBreath.getVelocity().getHighMax();
 		vel = MathTools.interp(vel, mosVel2, flyVel2, 1);
 		dragonBreath.getVelocity().setHigh(vel[0], vel[1]);
-		
+
 		damage = damage - Math.abs(flyDamage - mosDamage) * 0.01f;
 		damage = damage < mosDamage ? mosDamage : damage;
 	}
-	
+
 	/**
 	 * Returns the damage of the players fireBreath
+	 * 
 	 * @return the firebreath damage
 	 */
-	public float getDamage(){
+	public float getDamage() {
 		return damage;
 	}
 }
