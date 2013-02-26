@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
 	/**
 	 * Static vars for static methods
 	 */
-	protected static ArrayList<GameObject> objects, particles;
+	protected static ArrayList<GameObject> objects, particles, enemies;
 	
 	@Override
 	public void show() {
@@ -58,6 +58,7 @@ public class GameScreen implements Screen {
 		// init the arrays
 		objects = new ArrayList<GameObject>();
 		particles = new ArrayList<GameObject>();
+		enemies = new ArrayList<GameObject>();
 		
 		// init player
 		addObject(player = new Player(new Vector2(width / 2f, 25), 50, 50, 300, width, height));
@@ -69,7 +70,7 @@ public class GameScreen implements Screen {
 		Gdx.input.setInputProcessor(new GameInput(width, height, player));
 		
 		// debug
-		addObject(new Frog(new Vector2(width /2, height /2), 50, 50, 0, width, height));
+		addObject(new Frog(new Vector2(width /2, height /2), 50, 50, 0, width, height, player));
 	}
 
 	@Override
@@ -108,6 +109,9 @@ public class GameScreen implements Screen {
 	protected void removeDeadObjects (){
 		for (int i = 0; i < objects.size(); ++i){
 			if (objects.get(i).isRemovable()){
+				if (objects.get(i) instanceof Enemy){
+					enemies.remove(objects.get(i));
+				}				
 				objects.remove(i);
 				--i;
 			}
@@ -129,6 +133,9 @@ public class GameScreen implements Screen {
 			particles.add(o);
 		}
 		else {
+			if (o instanceof Enemy){
+				enemies.add(o);
+			}
 			objects.add(o);
 		}
 	}
