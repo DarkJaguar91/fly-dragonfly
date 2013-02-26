@@ -6,8 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 public class Frog extends StaticEnemy{
 
 	public Frog(Vector2 position, float width, float height, float speed,
-			float scWidth, float scHeight) {
-		super(position, width, height, speed, scWidth, scHeight);
+			float scWidth, float scHeight, Player player) {
+		super(position, width, height, speed, scWidth, scHeight, player);
 		
 		setTexture(new Texture("data/square.png"));
 	}
