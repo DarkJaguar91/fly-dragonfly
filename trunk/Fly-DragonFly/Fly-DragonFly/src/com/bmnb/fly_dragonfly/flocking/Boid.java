@@ -1,5 +1,6 @@
 package com.bmnb.fly_dragonfly.flocking;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.objects.GameObject;
 
@@ -11,6 +12,7 @@ public class Boid extends GameObject{
 	public Boid(Vector2 position, Vector2 direction, float width,
 			float height, float scWidth, float scHeight){
 		super(position,width,height,(float)Math.random()*MAX_SPEED,scWidth,scHeight);
+		setTexture(new Texture("data/libgdx.png"));
 	}
 	
 	public Vector2 getOldPosition() {

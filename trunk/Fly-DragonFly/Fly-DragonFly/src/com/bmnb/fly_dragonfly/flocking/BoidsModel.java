@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.bmnb.fly_dragonfly.screens.GameScreen;
 
 /**
  * Flocking Model (Boids) with fleeing behavior
@@ -122,18 +123,22 @@ public class BoidsModel {
 			if (b.getPosition().x < -DESTRUCTION_BUFFER ||
 				b.getPosition().y < -DESTRUCTION_BUFFER ||
 				b.getPosition().x > Gdx.graphics.getWidth()+DESTRUCTION_BUFFER ||
-				b.getPosition().y > Gdx.graphics.getHeight()+DESTRUCTION_BUFFER)
+				b.getPosition().y > Gdx.graphics.getHeight()+DESTRUCTION_BUFFER){
 					elements.remove(i--);
+					b.kill();
+			}
 		}
 	}
 	/**
 	 * Method to add boids to the system on a timed interval 
 	 * @param delta
 	 */
-	private void spawnBoids(float widthPerBoid,float heightPerBoid,float scWidth,float scHeight){
-		for (int i = 0; i < NUM_ELEMENTS; ++i){
-			Vector2 bPos = new Vector2((float)Math.random()*Gdx.graphics.getWidth(),Gdx.graphics.getHeight()+CREATION_BUFFER);
-			elements.add(new Boid(bPos,new Vector2(0,-1),widthPerBoid,heightPerBoid,scWidth,scHeight));
+	public void spawnBoids(float widthPerBoid,float heightPerBoid,float scWidth,float scHeight, int numBoids){
+		for (int i = 0; i < numBoids; ++i){
+			Vector2 bPos = new Vector2((float)Math.random()*scWidth,scHeight+CREATION_BUFFER);
+			Boid b = new Boid(bPos,new Vector2(0,-1),widthPerBoid,heightPerBoid,scWidth,scHeight);
+			elements.add(b);
+			GameScreen.addObject(b);
 		}
 	}
 	/**

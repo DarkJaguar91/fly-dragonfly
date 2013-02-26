@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.bmnb.fly_dragonfly.flocking.BoidsModel;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.Particle;
 import com.bmnb.fly_dragonfly.graphics.ScrollingBackground;
 import com.bmnb.fly_dragonfly.input.GameInput;
@@ -38,7 +39,7 @@ public class GameScreen implements Screen {
 	protected OrthographicCamera camera;
 	protected Player player;
 	protected ScrollingBackground scroller;
-	
+	protected BoidsModel mosquitoes;
 	/**
 	 * Static vars for static methods
 	 */
@@ -70,6 +71,10 @@ public class GameScreen implements Screen {
 		
 		// debug
 		addObject(new Frog(new Vector2(width /2, height /2), 50, 50, 0, width, height, player));
+		
+		//Add the flocking models:
+		mosquitoes = new BoidsModel();
+		mosquitoes.spawnBoids(20, 20, width, height, 100); //DEBUG
 	}
 
 	@Override
