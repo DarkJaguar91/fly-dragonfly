@@ -18,7 +18,8 @@ public abstract class GameObject extends Sprite {
 	 */
 	protected boolean dead = false, removeable = false;
 	protected float screenWidth, screenHeight, speed;
-
+	protected Vector2 direction;
+	
 	public GameObject(Vector2 position, float width,
 			float height, float speed, float scWidth, float scHeight) {
 		super();
@@ -28,6 +29,7 @@ public abstract class GameObject extends Sprite {
 		this.speed = speed;
 		this.screenWidth = scWidth;
 		this.screenHeight = scHeight;
+		this.direction = new Vector2();		
 	}
 	
 	/**

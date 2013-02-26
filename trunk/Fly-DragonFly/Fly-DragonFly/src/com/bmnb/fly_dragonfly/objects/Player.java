@@ -125,7 +125,7 @@ public class Player extends GameObject {
 		}
 
 		// calc new direction
-		Vector2 direction = targetPosition.cpy().sub(this.getPosition());
+		direction = targetPosition.cpy().sub(this.getPosition());
 		direction.nor();
 
 		// move the player
