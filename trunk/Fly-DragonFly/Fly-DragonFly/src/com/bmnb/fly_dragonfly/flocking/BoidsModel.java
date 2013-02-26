@@ -151,18 +151,13 @@ public class BoidsModel {
 	 * Update method. Invoke this method to update boid positions.
 	 * @param delta
 	 */
-	private void update(float delta){
+	public void update(float delta){
 		//boid ops
 		cohere(delta);
 		align(delta);
-		separate(delta);
+		//separate(delta);
 		//Now bound Boids to the viewport
 		removeBoidsOutsideBounds();
-	}
-	public void draw(float delta, SpriteBatch sp){
-		for (Boid b:elements)
-			b.draw(sp,delta);
-		update(delta);
 	}
 	/**
 	 * Returns the squared distance between POINTS in homogeneous coords
