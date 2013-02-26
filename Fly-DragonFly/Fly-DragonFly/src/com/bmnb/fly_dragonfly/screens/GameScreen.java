@@ -90,6 +90,7 @@ public class GameScreen implements Screen {
 		scroller.draw(batch, delta);
 		
 		//draw objects
+		mosquitoes.update(delta);
 		for (int i = 0; i < objects.size(); ++i)
 			objects.get(i).draw(batch, delta);
 		
