@@ -54,7 +54,6 @@ public class GameScreen implements Screen {
 		batch.setProjectionMatrix(camera.combined); // needs only be done once,
 													// since camera does not
 													// move
-		
 		// init the arrays
 		objects = new ArrayList<GameObject>();
 		particles = new ArrayList<GameObject>();
@@ -88,6 +87,8 @@ public class GameScreen implements Screen {
 		//draw objects
 		for (int i = 0; i < objects.size(); ++i)
 			objects.get(i).draw(batch, delta);
+		
+		
 		
 		batch.end();
 		
