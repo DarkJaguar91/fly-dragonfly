@@ -74,7 +74,7 @@ public class GameScreen implements Screen {
 		
 		//Add the flocking models:
 		mosquitoes = new BoidsModel();
-		mosquitoes.spawnBoids(20, 20, width, height, 100); //DEBUG
+		mosquitoes.spawnBoids(5, 5, width, height, 50); //DEBUG
 	}
 
 	@Override

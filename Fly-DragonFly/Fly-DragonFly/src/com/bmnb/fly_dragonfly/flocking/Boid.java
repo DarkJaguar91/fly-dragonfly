@@ -1,12 +1,15 @@
 package com.bmnb.fly_dragonfly.flocking;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.objects.GameObject;
 
 public class Boid extends GameObject{
-	private static final float MAX_SPEED = 15f;
-	private static final float MIN_SPEED = 5f;
+	private static final float MAX_SPEED = 9f;
+	private static final float MIN_SPEED = 8f;
 	
 	private Vector2 oldPosition;
 	public Boid(Vector2 position, Vector2 direction, float width,
@@ -29,7 +32,6 @@ public class Boid extends GameObject{
 		this.speed = velocity.len();
 		this.direction = velocity.cpy().nor();
 	}
-
 	@Override
 	protected void move(float delta) {
 		setOldPosition(getPosition());
