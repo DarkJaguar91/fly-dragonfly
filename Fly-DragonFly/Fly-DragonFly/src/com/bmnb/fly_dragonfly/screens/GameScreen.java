@@ -74,7 +74,7 @@ public class GameScreen implements Screen {
 		
 		//Add the flocking models:
 		mosquitoes = new BoidsModel();
-		mosquitoes.spawnBoids(5, 5, width, height, 50); //DEBUG
+//		mosquitoes.spawnBoids(5, 5, width, height, 50); //DEBUG
 	}
 
 	@Override
@@ -90,14 +90,13 @@ public class GameScreen implements Screen {
 		scroller.draw(batch, delta);
 		
 		//draw objects
-		mosquitoes.update(delta);
 		for (int i = 0; i < objects.size(); ++i)
 			objects.get(i).draw(batch, delta);
-		
-		
+		mosquitoes.update(delta);
 		
 		batch.end();
 		
+		// debug
 		for (int i = 0; i < particles.size(); ++i){
 			for (int a = 0; a < objects.size(); ++a){
 				if (objects.get(a) instanceof Enemy){
@@ -113,6 +112,9 @@ public class GameScreen implements Screen {
 		removeDeadObjects();
 	}
 	
+	/**
+	 * This removes all objects that need to be.
+	 */
 	protected void removeDeadObjects (){
 		for (int i = 0; i < objects.size(); ++i){
 			if (objects.get(i).isRemovable()){
@@ -168,5 +170,6 @@ public class GameScreen implements Screen {
 		batch.dispose();
 		objects = new ArrayList<GameObject>();
 		particles = new ArrayList<GameObject>();
+		enemies = new ArrayList<GameObject>();
 	}
 }
