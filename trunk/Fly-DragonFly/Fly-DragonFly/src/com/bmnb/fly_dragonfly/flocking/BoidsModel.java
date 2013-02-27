@@ -15,15 +15,13 @@ import com.bmnb.fly_dragonfly.screens.GameScreen;
  * Harry Brundage. Neat Algorithms - Flocking. Available at [http://harry.me/2011/02/17/neat-algorithms---flocking/]
  */
 public class BoidsModel {
-	private final float COHERE_RADIUS = 200;
-	private final float ALIGN_RADIUS = 190;
-	private final float SEPARATE_RADIUS = 25;
-	private final float SEPARATION_SCALE = 0.5f;
+	private final float COHERE_RADIUS = 600;
+	private final float ALIGN_RADIUS = 590;
+	private final float SEPARATE_RADIUS = 5;
+	private final float SEPARATION_SCALE = 200f;
 	private final int NUM_ELEMENTS = 100;
 	private final float DESTRUCTION_BUFFER = 150;
-	private final float CREATION_BUFFER = 100;
-	private final float WAIT_TIME_BEFORE_NEW_FLOCK = 20;
-	private float countDownBeforeNewFlock = 0;
+	private final float CREATION_BUFFER = 20;
 	public Vector<Boid> elements;
 	/**
 	 * Method to compute cohesion for each element (based on the cohesion radius)
@@ -45,7 +43,7 @@ public class BoidsModel {
 				}
 			}
 			if (countInRadius > 0){
-				b1.setVelocity(b1.getVelocity().add(meanPos.div(countInRadius).sub(b1.getPosition()).nor()));
+				b1.setVelocity(b1.getVelocity().add(meanPos.div(countInRadius).sub(b1.getPosition())));
 			}
 		}
 	}
@@ -89,7 +87,7 @@ public class BoidsModel {
 				Boid b2 = elements.get(j);
 				double dist = distSq(b1.getPosition(),b2.getPosition());
 				if (dist < SEPARATE_RADIUS * SEPARATE_RADIUS){
-					meanVel.add(b1.getPosition().cpy().sub(b2.getPosition()).nor().div((float)Math.sqrt(dist)*SEPARATION_SCALE));
+					meanVel.add(b1.getPosition().cpy().sub(b2.getPosition()).nor().div((float)Math.sqrt(dist+0.000000001f)*SEPARATION_SCALE));
 					countInRadius++;
 				}
 			}
@@ -112,7 +110,7 @@ public class BoidsModel {
 		}
 	}
 	private void flee(){
-		
+		fleeFromObject(new Vector2(Gdx.input.getX(0),Gdx.graphics.getHeight()-Gdx.input.getY(0)),70);
 	}
 	/**
 	 * Remove the boids that are off-screen
@@ -155,7 +153,8 @@ public class BoidsModel {
 		//boid ops
 		cohere(delta);
 		align(delta);
-		//separate(delta);
+		separate(delta);
+		flee();
 		//Now bound Boids to the viewport
 		removeBoidsOutsideBounds();
 	}
