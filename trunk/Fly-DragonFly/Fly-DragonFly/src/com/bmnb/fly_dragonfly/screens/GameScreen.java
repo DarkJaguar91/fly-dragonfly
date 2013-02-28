@@ -10,11 +10,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.flocking.BoidsModel;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.Particle;
 import com.bmnb.fly_dragonfly.graphics.ScrollingBackground;
 import com.bmnb.fly_dragonfly.input.GameInput;
+import com.bmnb.fly_dragonfly.objects.Enemy;
 import com.bmnb.fly_dragonfly.objects.Frog;
 import com.bmnb.fly_dragonfly.objects.GameObject;
 import com.bmnb.fly_dragonfly.objects.Player;
@@ -44,7 +46,7 @@ public class GameScreen implements Screen {
 	/**
 	 * Static vars for static methods
 	 */
-	protected static ArrayList<GameObject> objects, particles, enemies;
+	protected static ArrayList<GameObject> objects, particles, enemies, rocks;
 
 	@Override
 	public void show() {
@@ -60,10 +62,11 @@ public class GameScreen implements Screen {
 		objects = new ArrayList<GameObject>();
 		particles = new ArrayList<GameObject>();
 		enemies = new ArrayList<GameObject>();
+		rocks = new ArrayList<GameObject>();
 
 		// init player
-		addObject(player = new Player(new Vector2(width / 2f, 50), 100, 100, 300,
-				width, height));
+		addObject(player = new Player(new Vector2(width / 2f, 50), 100, 100,
+				300, width, height));
 
 		// init the scroller
 		scroller = new ScrollingBackground("data/space.jpg", width, height,
@@ -109,12 +112,10 @@ public class GameScreen implements Screen {
 		batch.end();
 
 		// do collision
-//		for (GameObject o : enemies){
-//			
-//		}
+		doCollisionDetection();
 
 		// remove all dead opjects
-		
+
 		removeDeadObjects();
 	}
 
@@ -124,6 +125,8 @@ public class GameScreen implements Screen {
 	protected void removeDeadObjects() {
 		for (int i = 0; i < objects.size(); ++i) {
 			if (objects.get(i).isRemovable()) {
+				if (objects.get(i) instanceof Enemy)
+					enemies.remove(objects.get(i));
 				objects.remove(i);
 				--i;
 			}
@@ -134,6 +137,29 @@ public class GameScreen implements Screen {
 				--i;
 			}
 		}
+	}
+
+	protected void doCollisionDetection() {
+		// first enemies
+		Rectangle particlesBox = getParticleRect();
+
+		for (GameObject o : enemies) {
+			if (particlesBox != null)
+				if (o.getBoundingRectangle().overlaps(particlesBox)) {
+					for (GameObject p : particles) {
+						if (p.getBoundingRectangle().overlaps(
+								o.getBoundingRectangle())) {
+							((Particle) p).kill();
+							((Enemy) o).doDamage(player.getDamage());
+						}
+					}
+				}
+
+			// do for player with checks
+		}
+
+		// add player check with boids
+
 	}
 
 	/**
@@ -147,17 +173,33 @@ public class GameScreen implements Screen {
 			if (!particles.contains(o))
 				particles.add(o);
 		} else {
+			if (o instanceof Enemy)
+				enemies.add(o);
 			objects.add(o);
 		}
 	}
 
 	/**
-	 * moves the object within the grid
+	 * Calculates a Bounding rectangle for all the particles in order to keep
+	 * efficiency
 	 * 
-	 * @param The
-	 *            obejct to move
+	 * @return The bounding rectangle for all the particles
 	 */
-	public static void moveObject(GameObject o) {
+	protected Rectangle getParticleRect() {
+		int xmin = Integer.MAX_VALUE, ymin = Integer.MAX_VALUE;
+		int xmax = Integer.MIN_VALUE, ymax = Integer.MIN_VALUE;
+		for (GameObject o : particles) {
+			xmin = (int) Math.min(xmin, o.getX() - o.getWidth());
+			ymin = (int) Math.min(ymin, o.getY() - o.getHeight());
+			xmax = (int) Math.min(xmax, o.getX() + o.getWidth());
+			ymax = (int) Math.min(ymax, o.getY() + o.getHeight());
+		}
+
+		if (xmin == Integer.MAX_VALUE || ymin == Integer.MAX_VALUE)
+			return null;
+		else
+			return new Rectangle(xmin, ymin, Math.abs(xmax - xmin),
+					Math.abs(ymax - ymin));
 	}
 
 	@Override
@@ -182,5 +224,6 @@ public class GameScreen implements Screen {
 		objects = new ArrayList<GameObject>();
 		particles = new ArrayList<GameObject>();
 		enemies = new ArrayList<GameObject>();
+		rocks = new ArrayList<GameObject>();
 	}
 }
