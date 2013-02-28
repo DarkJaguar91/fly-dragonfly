@@ -15,11 +15,9 @@ import com.bmnb.fly_dragonfly.flocking.BoidsModel;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.Particle;
 import com.bmnb.fly_dragonfly.graphics.ScrollingBackground;
 import com.bmnb.fly_dragonfly.input.GameInput;
-import com.bmnb.fly_dragonfly.objects.Enemy;
 import com.bmnb.fly_dragonfly.objects.Frog;
 import com.bmnb.fly_dragonfly.objects.GameObject;
 import com.bmnb.fly_dragonfly.objects.Player;
-import com.bmnb.fly_dragonfly.tools.CollisionDetector;
 
 /**
  * Game screen controls the drawing update, everything for the game
@@ -46,8 +44,7 @@ public class GameScreen implements Screen {
 	/**
 	 * Static vars for static methods
 	 */
-	protected static ArrayList<GameObject> objects, particles, colisionObjects;
-	protected static CollisionDetector collisionDetector;
+	protected static ArrayList<GameObject> objects, particles, enemies;
 
 	@Override
 	public void show() {
@@ -62,13 +59,10 @@ public class GameScreen implements Screen {
 		// init the arrays
 		objects = new ArrayList<GameObject>();
 		particles = new ArrayList<GameObject>();
-		colisionObjects = new ArrayList<GameObject>();
-
-		// collision (col) detector init
-		collisionDetector = new CollisionDetector(width, height);
+		enemies = new ArrayList<GameObject>();
 
 		// init player
-		addObject(player = new Player(new Vector2(width / 2f, 25), 50, 50, 300,
+		addObject(player = new Player(new Vector2(width / 2f, 50), 100, 100, 300,
 				width, height));
 
 		// init the scroller
@@ -115,22 +109,12 @@ public class GameScreen implements Screen {
 		batch.end();
 
 		// do collision
-		// collisionDetector.checkForCollision(objects);
-
-		// debug
-		for (int i = 0; i < colisionObjects.size(); ++i) {
-			for (int a = 0; a < particles.size(); ++a) {
-				if (!particles.get(a).isDead())
-					if (colisionObjects.get(i).getBoundingRectangle()
-							.overlaps(particles.get(a).getBoundingRectangle())) {
-						((Enemy) colisionObjects.get(i)).doDamage(Player
-								.getDamage());
-						particles.get(a).kill();
-					}
-			}
-		}
+//		for (GameObject o : enemies){
+//			
+//		}
 
 		// remove all dead opjects
+		
 		removeDeadObjects();
 	}
 
@@ -140,17 +124,12 @@ public class GameScreen implements Screen {
 	protected void removeDeadObjects() {
 		for (int i = 0; i < objects.size(); ++i) {
 			if (objects.get(i).isRemovable()) {
-				if (objects.get(i) instanceof Enemy) {
-					colisionObjects.remove(objects.get(i));
-				}
-				// collisionDetector.deregisterFromGrid(objects.get(i));
 				objects.remove(i);
 				--i;
 			}
 		}
 		for (int i = 0; i < particles.size(); ++i) {
 			if (particles.get(i).isDead()) {
-				// collisionDetector.deregisterFromGrid(particles.get(i));
 				particles.remove(i);
 				--i;
 			}
@@ -164,15 +143,10 @@ public class GameScreen implements Screen {
 	 *            Object to add
 	 */
 	public static void addObject(GameObject o) {
-		// collisionDetector.registerOnGrid(o);
-
 		if (o instanceof Particle) {
 			if (!particles.contains(o))
 				particles.add(o);
 		} else {
-			if (o instanceof Enemy) {// || o instanceof Player){
-				colisionObjects.add(o);
-			}
 			objects.add(o);
 		}
 	}
@@ -184,7 +158,6 @@ public class GameScreen implements Screen {
 	 *            obejct to move
 	 */
 	public static void moveObject(GameObject o) {
-		collisionDetector.registerOnGrid(o);
 	}
 
 	@Override
@@ -208,7 +181,6 @@ public class GameScreen implements Screen {
 		batch.dispose();
 		objects = new ArrayList<GameObject>();
 		particles = new ArrayList<GameObject>();
-		colisionObjects = new ArrayList<GameObject>();
-		collisionDetector = null;
+		enemies = new ArrayList<GameObject>();
 	}
 }
