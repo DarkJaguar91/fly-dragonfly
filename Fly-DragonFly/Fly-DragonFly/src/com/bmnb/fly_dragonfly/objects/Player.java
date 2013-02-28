@@ -35,7 +35,7 @@ public class Player extends GameObject {
 	 */
 	protected Vector2 targetPosition;
 	protected GameParticleEmitter dragonBreath;
-	protected static float damage = flyDamage;
+	protected float damage = flyDamage;
 
 	/**
 	 * Constructor
@@ -210,7 +210,7 @@ public class Player extends GameObject {
 	 * 
 	 * @return the firebreath damage
 	 */
-	public static float getDamage() {
+	public float getDamage() {
 		return damage;
 	}
 }
