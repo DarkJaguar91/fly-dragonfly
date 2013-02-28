@@ -15,21 +15,23 @@ import com.bmnb.fly_dragonfly.screens.GameScreen;
  * Harry Brundage. Neat Algorithms - Flocking. Available at [http://harry.me/2011/02/17/neat-algorithms---flocking/]
  */
 public class BoidsModel {
-	private final float COHERE_RADIUS = 600;
-	private final float ALIGN_RADIUS = 590;
-	private final float SEPARATE_RADIUS = 5;
-	private final float SEPARATION_SCALE = 200f;
-	private final int NUM_ELEMENTS = 100;
+	private final float COHERE_RADIUS = 150;
+	private final float ALIGN_RADIUS = 140;
+	private final float SEPARATE_RADIUS = 60;
+	private final float SEPARATION_SCALE = 1800f;
+	private final float COHERE_SCALE = 1f;
+	private final float ALIGN_SCALE = 4.0f;	
+	private final float DRAW_TO_BOTTOM_SCALE = 0.002f;
+	private final float FLEE_SCALE = 0.63f;
+	private final int NUM_ELEMENTS = 50;
 	private final float DESTRUCTION_BUFFER = 150;
-	private final float CREATION_BUFFER = 20;
+	private final float CREATION_BUFFER = -250;
 	public Vector<Boid> elements;
 	/**
 	 * Method to compute cohesion for each element (based on the cohesion radius)
 	 * The method works based on the mean of the position within radius.
-	 * @param delta
 	 */
-	private void cohere(float delta){
-		//TODO optimize: use a grid to exploit locality
+	private void cohere(){
 		for(int i = 0; i < elements.size() - 1; ++i){
 			Boid b1 = elements.get(i);
 			Vector2 meanPos = new Vector2();
@@ -43,17 +45,16 @@ public class BoidsModel {
 				}
 			}
 			if (countInRadius > 0){
-				b1.setVelocity(b1.getVelocity().add(meanPos.div(countInRadius).sub(b1.getPosition())));
+				meanPos.div(countInRadius);
+				b1.setVelocity(b1.getVelocity().add(meanPos.sub(b1.getPosition()).nor().mul(COHERE_SCALE)));
 			}
 		}
 	}
 	/**
 	 * Method to compute alignment for each element (based on the velocity, and thus direction, of neighbouring boids).
 	 * These calculations are based on the alignment radius.
-	 * @param delta
 	 */
-	private void align(float delta){
-		//TODO optimize: use a grid to exploit locality
+	private void align(){
 		for(int i = 0; i < elements.size() - 1; ++i){
 			Boid b1 = elements.get(i);
 			Vector2 meanVel = new Vector2();
@@ -67,7 +68,7 @@ public class BoidsModel {
 				}
 			}
 			if (countInRadius > 0){
-				b1.setVelocity(b1.getVelocity().add(meanVel.div(countInRadius).nor()));
+				b1.setVelocity(b1.getVelocity().add(meanVel.div(countInRadius).nor().mul(ALIGN_SCALE)));
 			}
 		}
 	}
@@ -75,10 +76,8 @@ public class BoidsModel {
 	 * Method to compute separation of boids that are very close together (think of repulsion).
 	 * The calculations are based on the separation radius (simply a matter of adding a mean distance to the velocity)
 	 * 
-	 * @param delta
 	 */
-	private void separate(float delta){
-		//TODO optimize: use a grid to exploit locality
+	private void separate(){
 		for(int i = 0; i < elements.size() - 1; ++i){
 			Boid b1 = elements.get(i);
 			Vector2 meanVel = new Vector2();
@@ -87,13 +86,23 @@ public class BoidsModel {
 				Boid b2 = elements.get(j);
 				double dist = distSq(b1.getPosition(),b2.getPosition());
 				if (dist < SEPARATE_RADIUS * SEPARATE_RADIUS){
-					meanVel.add(b1.getPosition().cpy().sub(b2.getPosition()).nor().div((float)Math.sqrt(dist+0.000000001f)*SEPARATION_SCALE));
+					meanVel.add(b1.getPosition().cpy().sub(b2.getPosition()).nor()
+							.div((float)Math.sqrt(dist+0.000000000001f)));
 					countInRadius++;
 				}
 			}
 			if (countInRadius > 0){
-				b1.setVelocity(b1.getVelocity().add(meanVel.div(countInRadius).nor()));
+				b1.setVelocity(b1.getVelocity().add(meanVel.div(countInRadius).mul(SEPARATION_SCALE)));
 			}
+		}
+	}
+	/**
+	 * The boids ultimately need to go down the screen, so make them chase their projections onto the x-axis
+	 * @param delta
+	 */
+	private void drawToBottom(){
+		for (Boid b: elements){
+			b.setVelocity(b.getVelocity().add((new Vector2(b.getPosition().x,0)).sub(b.getPosition()).mul(DRAW_TO_BOTTOM_SCALE)));
 		}
 	}
 	/**
@@ -106,12 +115,16 @@ public class BoidsModel {
 		for (Boid b: elements){
 			double dist = distSq(b.getPosition(),pos);
 			if (dist < radSq)
-				b.setVelocity(b.getVelocity().sub(pos.cpy().sub(b.getPosition())));
+				b.setVelocity(b.getVelocity().sub(pos.cpy().sub(b.getPosition()).mul(FLEE_SCALE)));
 		}
 	}
+	//TODO: STUB::: FIX THIS 
 	private void flee(){
-		fleeFromObject(new Vector2(Gdx.input.getX(0),Gdx.graphics.getHeight()-Gdx.input.getY(0)),70);
+		//TODO: STUB Need the map HERE NOW!!@!!
+		fleeFromObject(new Vector2(GameScreen.width/2,GameScreen.height/2),150);
+		
 	}
+	
 	/**
 	 * Remove the boids that are off-screen
 	 */
@@ -120,8 +133,8 @@ public class BoidsModel {
 			Boid b = elements.get(i);
 			if (b.getPosition().x < -DESTRUCTION_BUFFER ||
 				b.getPosition().y < -DESTRUCTION_BUFFER ||
-				b.getPosition().x > Gdx.graphics.getWidth()+DESTRUCTION_BUFFER ||
-				b.getPosition().y > Gdx.graphics.getHeight()+DESTRUCTION_BUFFER){
+				b.getPosition().x > GameScreen.width+DESTRUCTION_BUFFER ||
+				b.getPosition().y > GameScreen.height+DESTRUCTION_BUFFER){
 					elements.remove(i--);
 					b.kill();
 			}
@@ -131,9 +144,9 @@ public class BoidsModel {
 	 * Method to add boids to the system on a timed interval 
 	 * @param delta
 	 */
-	public void spawnBoids(float widthPerBoid,float heightPerBoid,float scWidth,float scHeight, int numBoids){
+	public void spawnBoids(float widthPerBoid,float heightPerBoid,float scWidth,float scHeight,int numBoids){
 		for (int i = 0; i < numBoids; ++i){
-			Vector2 bPos = new Vector2((float)Math.random()*scWidth,scHeight+CREATION_BUFFER);
+			Vector2 bPos = new Vector2((float)Math.random()*scWidth,scHeight+(float)Math.random()*CREATION_BUFFER);
 			Boid b = new Boid(bPos,new Vector2(0,-1),widthPerBoid,heightPerBoid,scWidth,scHeight);
 			elements.add(b);
 			GameScreen.addObject(b);
@@ -151,9 +164,10 @@ public class BoidsModel {
 	 */
 	public void update(float delta){
 		//boid ops
-		cohere(delta);
-		align(delta);
-		separate(delta);
+		cohere();
+		align();
+		separate();
+		drawToBottom();
 		flee();
 		//Now bound Boids to the viewport
 		removeBoidsOutsideBounds();
