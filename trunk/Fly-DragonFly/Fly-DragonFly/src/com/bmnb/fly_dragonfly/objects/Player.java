@@ -35,7 +35,7 @@ public class Player extends GameObject {
 	 */
 	protected Vector2 targetPosition;
 	protected GameParticleEmitter dragonBreath;
-	protected float damage = flyDamage;
+	protected static float damage = flyDamage;
 
 	/**
 	 * Constructor
@@ -119,6 +119,8 @@ public class Player extends GameObject {
 	 */
 	@Override
 	protected void move(float delta) {
+//		Gdx.app.log("grid pos", getLocation(0).x + " - " + getLocation(0).y);
+		
 		// check distancing
 		if (this.getPosition().cpy().sub(targetPosition).len() <= speed * delta) {
 			targetPosition = this.getPosition().cpy();
@@ -205,7 +207,7 @@ public class Player extends GameObject {
 	 * 
 	 * @return the firebreath damage
 	 */
-	public float getDamage() {
+	public static float getDamage() {
 		return damage;
 	}
 }
