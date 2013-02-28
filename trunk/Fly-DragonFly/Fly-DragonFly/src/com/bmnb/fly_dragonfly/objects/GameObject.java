@@ -3,8 +3,7 @@
  */
 package com.bmnb.fly_dragonfly.objects;
 
-import java.util.ArrayList;
-
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -22,9 +21,7 @@ public abstract class GameObject extends Sprite {
 	protected boolean dead = false, removeable = false;
 	protected float screenWidth, screenHeight, speed;
 	protected Vector2 direction;
-	protected Vector2 oldPosition;
-	protected ArrayList<Vector2> gridLocations;
-
+	
 	public GameObject(Vector2 position, float width, float height, float speed,
 			float scWidth, float scHeight) {
 		super();
@@ -35,10 +32,6 @@ public abstract class GameObject extends Sprite {
 		this.screenWidth = scWidth;
 		this.screenHeight = scHeight;
 		this.direction = new Vector2();
-		
-		// nathans stuff, if dont work -> delete
-		oldPosition = new Vector2(position);
-		gridLocations = new ArrayList<Vector2>();
 	}
 
 	/**
@@ -46,9 +39,6 @@ public abstract class GameObject extends Sprite {
 	 */
 	public GameObject(Sprite sprite) {
 		super(sprite);
-
-		oldPosition = new Vector2(this.getPosition());
-		gridLocations = new ArrayList<Vector2>();
 	}
 
 	@Override
@@ -137,27 +127,14 @@ public abstract class GameObject extends Sprite {
 		return removeable;
 	}
 
-	// update the object's list of grid locations
-	public void setNewLocation(Vector2 newPosition) {
-		gridLocations.add(newPosition);
+	@Override
+	public void setTexture(Texture texture) {
+		super.setTexture(texture);
+		setRegion(0, 0, texture.getWidth(), texture.getHeight());
+		setColor(1, 1, 1, 1);
+		setSize(Math.abs(getWidth()), Math.abs(getHeight()));
+		setOrigin(getWidth() / 2, getHeight() / 2);
 	}
-
-	// return the size of the list of grid locations cotaining the object
-	public int getCapacity() {
-		return gridLocations.size();
-	}
-
-	// return the location vector for specified index
-	public Vector2 getLocation(int index) {
-		return gridLocations.get(index);
-	}
-
-	// clear the list of grid locations containing the object
-	public void removeAllLocations() {
-		gridLocations = new ArrayList<Vector2>();
-	}
-
-	public Vector2 getPreviousPos() {
-		return oldPosition;
-	}
+	
+	
 }

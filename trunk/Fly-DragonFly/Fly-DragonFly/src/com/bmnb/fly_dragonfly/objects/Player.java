@@ -56,11 +56,14 @@ public class Player extends GameObject {
 	public Player(Vector2 position, float width, float height, float speed,
 			float scWidth, float scHeight) {
 		super(position, width, height, speed, scWidth, scHeight);
+
+		
+		
 		targetPosition = position;
 
 		// load textures (loading here for now, must create texture loader
 		// later)
-		setTexture(new Texture("data/libgdx.png"));
+		this.setTexture(new Texture("data/dragon.png"));
 		try {
 			dragonBreath = new GameParticleEmitter(new BufferedReader(
 					new InputStreamReader(Gdx.files.internal(
