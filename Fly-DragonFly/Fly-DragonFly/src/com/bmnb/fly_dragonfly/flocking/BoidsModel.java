@@ -21,9 +21,8 @@ public class BoidsModel {
 	private final float ALIGN_SCALE = 4.0f;	
 	private final float DRAW_TO_BOTTOM_SCALE = 0.002f;
 	private final float FLEE_SCALE = 0.63f;
-	private final int NUM_ELEMENTS = 50;
 	private final float DESTRUCTION_BUFFER = 150;
-	private final float CREATION_BUFFER = -250;
+	private final float CREATION_BUFFER = 250;
 	public Vector<Boid> elements;
 	/**
 	 * Method to compute cohesion for each element (based on the cohesion radius)
@@ -132,7 +131,7 @@ public class BoidsModel {
 			if (b.getPosition().x < -DESTRUCTION_BUFFER ||
 				b.getPosition().y < -DESTRUCTION_BUFFER ||
 				b.getPosition().x > GameScreen.width+DESTRUCTION_BUFFER ||
-				b.getPosition().y > GameScreen.height+DESTRUCTION_BUFFER){
+				b.getPosition().y > GameScreen.height+DESTRUCTION_BUFFER+CREATION_BUFFER){
 					elements.remove(i--);
 					b.kill();
 			}
@@ -142,9 +141,11 @@ public class BoidsModel {
 	 * Method to add boids to the system on a timed interval 
 	 * @param delta
 	 */
-	public void spawnBoids(float widthPerBoid,float heightPerBoid,float scWidth,float scHeight,int numBoids){
+	public void spawnBoids(float widthPerBoid,float heightPerBoid,float scWidth,float scHeight,
+			int numBoids,float spawnOrdinate, float spawnDeviation){
 		for (int i = 0; i < numBoids; ++i){
-			Vector2 bPos = new Vector2((float)Math.random()*scWidth,scHeight+(float)Math.random()*CREATION_BUFFER);
+			Vector2 bPos = new Vector2(spawnOrdinate + (float)Math.random()*spawnDeviation -
+					(float)Math.random()*spawnDeviation,scHeight+(float)Math.random()*(0.7f*CREATION_BUFFER)+0.3f*CREATION_BUFFER);
 			Boid b = new Boid(bPos,new Vector2(0,-1),widthPerBoid,heightPerBoid,scWidth,scHeight);
 			elements.add(b);
 			GameScreen.addObject(b);
@@ -154,7 +155,7 @@ public class BoidsModel {
 	 * Initializer. Can init boids uniformly or starting in a circle in the middle of the screen
 	 */
 	public BoidsModel(){
-		elements = new Vector<Boid>(NUM_ELEMENTS);
+		elements = new Vector<Boid>();
 	}
 	/**
 	 * Update method. Invoke this method to update boid positions.
