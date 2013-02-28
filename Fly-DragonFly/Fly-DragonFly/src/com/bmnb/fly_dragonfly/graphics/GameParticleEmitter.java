@@ -260,6 +260,7 @@ public class GameParticleEmitter {
 				if (updateParticle(particle, delta, deltaMillis) && !particle.isDead())
 					particle.draw(spriteBatch);
 				else {
+					particle.kill();
 					active[i] = false;
 					activeCount--;
 				}
@@ -561,6 +562,8 @@ public class GameParticleEmitter {
 		particle.setColor(color[0], color[1], color[2],
 			particle.transparency + particle.transparencyDiff * transparencyValue.getScale(percent));
 
+		particle.update(delta);
+		
 		return true;
 	}
 

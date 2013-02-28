@@ -19,9 +19,11 @@ import com.bmnb.fly_dragonfly.objects.Enemy;
 import com.bmnb.fly_dragonfly.objects.Frog;
 import com.bmnb.fly_dragonfly.objects.GameObject;
 import com.bmnb.fly_dragonfly.objects.Player;
+import com.bmnb.fly_dragonfly.tools.CollisionDetector;
 
 /**
  * Game screen controls the drawing update, everything for the game
+ * 
  * @author Brandon James Talbot
  * 
  */
@@ -40,11 +42,13 @@ public class GameScreen implements Screen {
 	protected Player player;
 	protected ScrollingBackground scroller;
 	protected BoidsModel mosquitoes;
+
 	/**
 	 * Static vars for static methods
 	 */
-	protected static ArrayList<GameObject> objects, particles, enemies;
-	
+	protected static ArrayList<GameObject> objects, particles, colisionObjects;
+	protected static CollisionDetector collisionDetector;
+
 	@Override
 	public void show() {
 		// setting up of major devices
@@ -58,23 +62,37 @@ public class GameScreen implements Screen {
 		// init the arrays
 		objects = new ArrayList<GameObject>();
 		particles = new ArrayList<GameObject>();
-		enemies = new ArrayList<GameObject>();
-		
+		colisionObjects = new ArrayList<GameObject>();
+
+		// collision (col) detector init
+		collisionDetector = new CollisionDetector(width, height);
+
 		// init player
-		addObject(player = new Player(new Vector2(width / 2f, 25), 50, 50, 300, width, height));
-	
+		addObject(player = new Player(new Vector2(width / 2f, 25), 50, 50, 300,
+				width, height));
+
 		// init the scroller
-		scroller = new ScrollingBackground("data/space.jpg", width, height, scrollSpeed);
-		
+		scroller = new ScrollingBackground("data/space.jpg", width, height,
+				scrollSpeed);
+
 		// set the input processor
 		Gdx.input.setInputProcessor(new GameInput(width, height, player));
-		
+
 		// debug
-		addObject(new Frog(new Vector2(width /2, height /2), 50, 50, 0, width, height, player));
-		
-		//Add the flocking models:
+		addObject(new Frog(new Vector2(width / 2, height / 2), 50, 50, 0,
+				width, height, player));
+		addObject(new Frog(new Vector2(width / 2 - 50, height / 2), 50, 50, 0,
+				width, height, player));
+		addObject(new Frog(new Vector2(width / 2 + 50, height / 2), 50, 50, 0,
+				width, height, player));
+		addObject(new Frog(new Vector2(width / 2 - 100, height / 2), 50, 50, 0,
+				width, height, player));
+		addObject(new Frog(new Vector2(width / 2 + 100, height / 2), 50, 50, 0,
+				width, height, player));
+
+		// Add the flocking models:
 		mosquitoes = new BoidsModel();
-//		mosquitoes.spawnBoids(5, 5, width, height, 50); //DEBUG
+		// mosquitoes.spawnBoids(5, 5, width, height, 50); //DEBUG
 	}
 
 	@Override
@@ -82,73 +100,93 @@ public class GameScreen implements Screen {
 		// clear the screen
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		// draw everything
 		batch.begin();
-		
-		//draw background
+
+		// draw background
 		scroller.draw(batch, delta);
-		
-		//draw objects
+
+		// draw objects
 		for (int i = 0; i < objects.size(); ++i)
 			objects.get(i).draw(batch, delta);
 		mosquitoes.update(delta);
-		
+
 		batch.end();
-		
+
+		// do collision
+		// collisionDetector.checkForCollision(objects);
+
 		// debug
-		for (int i = 0; i < particles.size(); ++i){
-			for (int a = 0; a < objects.size(); ++a){
-				if (objects.get(a) instanceof Enemy){
-					if (particles.get(i).getBoundingRectangle().overlaps(objects.get(a).getBoundingRectangle())){
-						particles.get(i).kill();
-						((Enemy)objects.get(a)).doDamage(player.getDamage());
+		for (int i = 0; i < colisionObjects.size(); ++i) {
+			for (int a = 0; a < particles.size(); ++a) {
+				if (!particles.get(a).isDead())
+					if (colisionObjects.get(i).getBoundingRectangle()
+							.overlaps(particles.get(a).getBoundingRectangle())) {
+						((Enemy) colisionObjects.get(i)).doDamage(Player
+								.getDamage());
+						particles.get(a).kill();
 					}
-				}
 			}
 		}
-		
+
 		// remove all dead opjects
 		removeDeadObjects();
 	}
-	
+
 	/**
 	 * This removes all objects that need to be.
 	 */
-	protected void removeDeadObjects (){
-		for (int i = 0; i < objects.size(); ++i){
-			if (objects.get(i).isRemovable()){
-				if (objects.get(i) instanceof Enemy){
-					enemies.remove(objects.get(i));
-				}				
+	protected void removeDeadObjects() {
+		for (int i = 0; i < objects.size(); ++i) {
+			if (objects.get(i).isRemovable()) {
+				if (objects.get(i) instanceof Enemy) {
+					colisionObjects.remove(objects.get(i));
+				}
+				// collisionDetector.deregisterFromGrid(objects.get(i));
 				objects.remove(i);
 				--i;
 			}
 		}
-		for (int i = 0; i < particles.size(); ++i){
-			if (particles.get(i).isDead()){
+		for (int i = 0; i < particles.size(); ++i) {
+			if (particles.get(i).isDead()) {
+				// collisionDetector.deregisterFromGrid(particles.get(i));
 				particles.remove(i);
 				--i;
 			}
-		}	
+		}
 	}
 
 	/**
 	 * Add an object to the list
-	 * @param o Object to add
+	 * 
+	 * @param o
+	 *            Object to add
 	 */
-	public static void addObject(GameObject o){
-		if (o instanceof Particle){
-			particles.add(o);
-		}
-		else {
-			if (o instanceof Enemy){
-				enemies.add(o);
+	public static void addObject(GameObject o) {
+		// collisionDetector.registerOnGrid(o);
+
+		if (o instanceof Particle) {
+			if (!particles.contains(o))
+				particles.add(o);
+		} else {
+			if (o instanceof Enemy) {// || o instanceof Player){
+				colisionObjects.add(o);
 			}
 			objects.add(o);
 		}
 	}
-	
+
+	/**
+	 * moves the object within the grid
+	 * 
+	 * @param The
+	 *            obejct to move
+	 */
+	public static void moveObject(GameObject o) {
+		collisionDetector.registerOnGrid(o);
+	}
+
 	@Override
 	public void resize(int width, int height) {
 	}
@@ -170,6 +208,7 @@ public class GameScreen implements Screen {
 		batch.dispose();
 		objects = new ArrayList<GameObject>();
 		particles = new ArrayList<GameObject>();
-		enemies = new ArrayList<GameObject>();
+		colisionObjects = new ArrayList<GameObject>();
+		collisionDetector = null;
 	}
 }
