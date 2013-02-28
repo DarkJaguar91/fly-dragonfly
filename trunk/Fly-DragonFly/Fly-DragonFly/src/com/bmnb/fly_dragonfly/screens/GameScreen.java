@@ -89,9 +89,16 @@ public class GameScreen implements Screen {
 
 		// Add the flocking models:
 		mosquitoes = new BoidsModel();
-		mosquitoes.spawnBoids(32, 32, width, height, 10); //DEBUG
+		
+		// huge debug
+		((GameInput)Gdx.input.getInputProcessor()).setGameScreen(this);
 	}
 
+	// huge debug
+	public void spawnBoids(){
+		mosquitoes.spawnBoids(10, 10, width, height, 5);
+	}
+	
 	@Override
 	public void render(float delta) {
 		// clear the screen
