@@ -1,0 +1,75 @@
+
+dragon.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+dragon4
+  rotate: false
+  xy: 1, 1
+  size: 64, 72
+  orig: 64, 72
+  offset: 0, 0
+  index: -1
+dragon5
+  rotate: false
+  xy: 67, 1
+  size: 64, 72
+  orig: 64, 72
+  offset: 0, 0
+  index: -1
+dragon3
+  rotate: false
+  xy: 133, 1
+  size: 64, 72
+  orig: 64, 72
+  offset: 0, 0
+  index: -1
+dragon6
+  rotate: false
+  xy: 199, 1
+  size: 64, 72
+  orig: 64, 72
+  offset: 0, 0
+  index: -1
+dragon8
+  rotate: false
+  xy: 265, 1
+  size: 64, 72
+  orig: 64, 72
+  offset: 0, 0
+  index: -1
+dragon1
+  rotate: false
+  xy: 331, 1
+  size: 64, 72
+  orig: 64, 72
+  offset: 0, 0
+  index: -1
+dragon2
+  rotate: false
+  xy: 397, 1
+  size: 64, 72
+  orig: 64, 72
+  offset: 0, 0
+  index: -1
+dragon7
+  rotate: false
+  xy: 463, 1
+  size: 64, 72
+  orig: 64, 72
+  offset: 0, 0
+  index: -1
+dragon9
+  rotate: false
+  xy: 529, 2
+  size: 64, 71
+  orig: 64, 71
+  offset: 0, 0
+  index: -1
+dragon10
+  rotate: false
+  xy: 595, 2
+  size: 64, 71
+  orig: 64, 71
+  offset: 0, 0
+  index: -1
