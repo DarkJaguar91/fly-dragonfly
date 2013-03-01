@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter;
 import com.bmnb.fly_dragonfly.tools.MathTools;
+import com.bmnb.fly_dragonfly.tools.SpriteAnimator;
 
 /**
  * Player class, holds all methods needed for the player specifically
@@ -57,13 +58,15 @@ public class Player extends GameObject {
 			float scWidth, float scHeight) {
 		super(position, width, height, speed, scWidth, scHeight);
 
-		
-		
 		targetPosition = position;
 
 		// load textures (loading here for now, must create texture loader
 		// later)
-		this.setTexture(new Texture("data/dragon.png"));
+		// this.setTexture(new Texture("data/dragon.png"));
+		// animator = new SpriteAnimator(new TextureAtlas(
+		// Gdx.files.internal("data/dragon.pack")), "dragon", 15, this);
+		animator = new SpriteAnimator(new Texture("data/dragon2.png"), 10, 10,
+				"dragon", 15, this);
 		try {
 			dragonBreath = new GameParticleEmitter(new BufferedReader(
 					new InputStreamReader(Gdx.files.internal(
@@ -122,8 +125,8 @@ public class Player extends GameObject {
 	 */
 	@Override
 	protected void move(float delta) {
-//		Gdx.app.log("grid pos", getLocation(0).x + " - " + getLocation(0).y);
-		
+		// Gdx.app.log("grid pos", getLocation(0).x + " - " + getLocation(0).y);
+
 		// check distancing
 		if (this.getPosition().cpy().sub(targetPosition).len() <= speed * delta) {
 			targetPosition = this.getPosition().cpy();

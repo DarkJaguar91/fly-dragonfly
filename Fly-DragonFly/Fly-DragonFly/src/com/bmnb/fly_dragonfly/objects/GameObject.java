@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.bmnb.fly_dragonfly.tools.SpriteAnimator;
 
 /**
  * @author Brandon
@@ -20,6 +21,7 @@ public abstract class GameObject extends Sprite {
 	protected boolean dead = false, removeable = false;
 	protected float screenWidth, screenHeight, speed;
 	protected Vector2 direction;
+	protected SpriteAnimator animator = null;
 	
 	public GameObject(Vector2 position, float width, float height, float speed,
 			float scWidth, float scHeight) {
@@ -54,6 +56,8 @@ public abstract class GameObject extends Sprite {
 	 */
 	public void update(float delta) {
 		move(delta);
+		if (animator != null)
+			animator.update(delta);
 	}
 
 	/**
