@@ -1,6 +1,5 @@
 package com.bmnb.fly_dragonfly.objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Enemy extends GameObject{
@@ -16,8 +15,6 @@ public abstract class Enemy extends GameObject{
 	
 	public void doDamage(float amount){
 		health -= amount;
-		
-		Gdx.app.log("health", health + "");
 		
 		if (health <= 0)
 			kill();

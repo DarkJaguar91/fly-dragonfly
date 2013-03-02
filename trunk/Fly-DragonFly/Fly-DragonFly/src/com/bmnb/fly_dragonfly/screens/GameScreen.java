@@ -89,7 +89,7 @@ public class GameScreen implements Screen {
 
 		// Add the flocking models:
 		mosquitoes = new BoidsModel();
-		spawnBoids();
+		
 		// huge debug
 		((GameInput)Gdx.input.getInputProcessor()).setGameScreen(this);
 		
