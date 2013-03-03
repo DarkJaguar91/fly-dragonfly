@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+	<obj type="frog">
+	    <x>100</x>
+	    <y>850</y>
+	    <width>100</width>
+	    <height>100</height>
+	    <rotation>0</rotation>
+	</obj>    
+	<moziSpawner type="mosquitoes">
+	    <x>0</x>
+	    <y>500</y>
+	    <numberOfBoids>25</numberOfBoids>
+	    <deviation>100</deviation>
+	</moziSpawner>
+	<tutorialScreen>
+	    <id>0</id>
+	    <y>350</y>
+	</tutorialScreen>
+</map>
