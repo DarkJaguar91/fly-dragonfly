@@ -16,6 +16,7 @@ import com.bmnb.fly_dragonfly.flocking.BoidsModel;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.Particle;
 import com.bmnb.fly_dragonfly.graphics.ScrollingBackground;
 import com.bmnb.fly_dragonfly.input.GameInput;
+import com.bmnb.fly_dragonfly.map.MapLoader;
 import com.bmnb.fly_dragonfly.objects.Enemy;
 import com.bmnb.fly_dragonfly.objects.Frog;
 import com.bmnb.fly_dragonfly.objects.GameObject;
@@ -91,8 +92,11 @@ public class GameScreen implements Screen {
 		mosquitoes = new BoidsModel();
 
 		// huge debug
-		((GameInput) Gdx.input.getInputProcessor()).setGameScreen(this);
-
+		((GameInput)Gdx.input.getInputProcessor()).setGameScreen(this);
+		// Load map
+		try{
+			MapLoader m = new MapLoader("data/TestMap.xml");
+		} catch (Exception e) {e.printStackTrace(); System.exit(1);}
 	}
 
 	// huge debug
