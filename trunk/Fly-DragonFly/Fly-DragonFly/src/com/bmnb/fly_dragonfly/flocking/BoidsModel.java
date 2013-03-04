@@ -23,6 +23,7 @@ public class BoidsModel {
 	private final float FLEE_SCALE = 0.63f;
 	private final float DESTRUCTION_BUFFER = 150;
 	private final float CREATION_BUFFER = 250;
+	public final int MAX_BOIDS = 50;
 	public Vector<Boid> elements;
 	/**
 	 * Method to compute cohesion for each element (based on the cohesion radius)
@@ -143,7 +144,7 @@ public class BoidsModel {
 	 */
 	public void spawnBoids(float widthPerBoid,float heightPerBoid,float scWidth,float scHeight,
 			int numBoids,float spawnOrdinate, float spawnDeviation){
-		for (int i = 0; i < numBoids; ++i){
+		for (int i = 0; i < numBoids && elements.size() < MAX_BOIDS; ++i){
 			Vector2 bPos = new Vector2(spawnOrdinate + (float)Math.random()*spawnDeviation -
 					(float)Math.random()*spawnDeviation,scHeight+(float)Math.random()*(0.7f*CREATION_BUFFER)+0.3f*CREATION_BUFFER);
 			Boid b = new Boid(bPos,new Vector2(0,-1),widthPerBoid,heightPerBoid,scWidth,scHeight);
