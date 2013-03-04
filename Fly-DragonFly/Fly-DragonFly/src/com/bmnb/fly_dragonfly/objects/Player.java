@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter;
+import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.ParticleType;
 import com.bmnb.fly_dragonfly.tools.MathTools;
-import com.bmnb.fly_dragonfly.tools.SpriteAnimator;
 
 /**
  * Player class, holds all methods needed for the player specifically
@@ -62,16 +62,16 @@ public class Player extends GameObject {
 
 		// load textures (loading here for now, must create texture loader
 		// later)
-		// this.setTexture(new Texture("data/dragon.png"));
+		this.setTexture(new Texture("data/square.png"));
 		// animator = new SpriteAnimator(new TextureAtlas(
 		// Gdx.files.internal("data/dragon.pack")), "dragon", 15, this);
-		animator = new SpriteAnimator(new Texture("data/dragon2.png"), 10, 10,
-				"dragon", 15, this);
+		//animator = new SpriteAnimator(new Texture("data/dragon2.png"), 10, 10,
+		//		"dragon", 15, this);
 		try {
 			dragonBreath = new GameParticleEmitter(new BufferedReader(
 					new InputStreamReader(Gdx.files.internal(
 							"data/dragonflyBreath").read()), 512), new Texture(
-					"data/particle.png"));
+					"data/particle.png"), ParticleType.fire);
 
 			dragonBreath.setContinuous(false);
 		} catch (Exception e) {
