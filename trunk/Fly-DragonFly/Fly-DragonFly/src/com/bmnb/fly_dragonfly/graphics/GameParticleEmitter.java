@@ -36,6 +36,13 @@ public class GameParticleEmitter {
 	static private final int UPDATE_GRAVITY = 1 << 5;
 	static private final int UPDATE_TINT = 1 << 6;
 
+	public enum ParticleType {
+		fire,
+		spit;
+	}
+	
+	private ParticleType partType;
+	
 	private RangedNumericValue delayValue = new RangedNumericValue();
 	private ScaledNumericValue lifeOffsetValue = new ScaledNumericValue();
 	private RangedNumericValue durationValue = new RangedNumericValue();
@@ -83,9 +90,11 @@ public class GameParticleEmitter {
 	private boolean behind;
 	private boolean additive = true;
 
-	public GameParticleEmitter (BufferedReader reader, Texture texture) throws IOException {
+	public GameParticleEmitter (BufferedReader reader, Texture texture, ParticleType type) throws IOException {
 		initialize();
 		load(reader);
+		
+		this.partType = type;
 		
 //		String imagePath = this.getImagePath();
 //		String imageName = new File(imagePath.replace('\\', '/')).getName();
@@ -352,7 +361,7 @@ public class GameParticleEmitter {
 	}
 
 	protected Particle newParticle (Sprite sprite) {
-		Particle p = new Particle(sprite);
+		Particle p = new Particle(sprite, partType);
 //		game.addParticle(p);
 		return p;
 	}
@@ -925,8 +934,11 @@ public class GameParticleEmitter {
 		float gravity, gravityDiff;
 		float[] tint;
 		
-		public Particle (Sprite sprite) {
+		public ParticleType type;
+		
+		public Particle (Sprite sprite, ParticleType type) {
 			super(sprite);
+			this.type = type;
 		}
 		
 		public void ressurect(){
