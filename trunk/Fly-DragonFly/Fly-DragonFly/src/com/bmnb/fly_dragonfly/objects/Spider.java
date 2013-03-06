@@ -1,0 +1,23 @@
+package com.bmnb.fly_dragonfly.objects;
+
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+import com.bmnb.fly_dragonfly.screens.GameScreen;
+
+public class Spider extends StaticEnemy {
+	private static final float DIFF_Y_TRIGGER = 900;
+	private boolean hasTriggered = false;
+	public Spider(Vector2 position, float width, float height, float speed,
+			float scWidth, float scHeight, Player player) {
+		super(position, width, height, speed, scWidth, scHeight, player);
+		setTexture(new Texture("data/square.png"));
+	}
+	@Override
+	public void update(float delta){
+		super.update(delta);
+		if (this.getY() - player.getY() < DIFF_Y_TRIGGER && !hasTriggered){
+			hasTriggered = true;
+			GameScreen.addObject(new Web(this.getPosition(),0,50,GameScreen.scrollSpeed,GameScreen.width,GameScreen.height,player));
+		}
+	}
+}

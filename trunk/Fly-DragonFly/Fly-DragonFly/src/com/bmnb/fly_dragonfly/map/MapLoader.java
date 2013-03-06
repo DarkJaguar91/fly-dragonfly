@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 import com.bmnb.fly_dragonfly.map.MoziSpawner.SpawnerType;
+import com.bmnb.fly_dragonfly.map.ObjectSpawner.Type;
 import com.bmnb.fly_dragonfly.objects.GameObject;
 /**
  * Map loader class that parses Fly-Dragonfly XML maps
@@ -17,7 +18,7 @@ import com.bmnb.fly_dragonfly.objects.GameObject;
  */
 public class MapLoader {
 	XmlReader rdr;
-	ArrayList<GameObject> gameObjects;
+	ArrayList<ObjectSpawner> gameObjects;
 	ArrayList<MoziSpawner> spawners;
 	ArrayList<TutorialScreenSpawner> tutorialScreens;
 	/**
@@ -26,7 +27,7 @@ public class MapLoader {
 	 * @throws Exception
 	 */
 	public MapLoader(String filename) throws Exception{
-		gameObjects = new ArrayList<GameObject>();
+		gameObjects = new ArrayList<ObjectSpawner>();
 		spawners = new ArrayList<MoziSpawner>();
 		tutorialScreens = new ArrayList<TutorialScreenSpawner>();
 		rdr = new XmlReader();
@@ -61,9 +62,11 @@ public class MapLoader {
 			assert(subChild != null);
 			float rotation = Float.parseFloat(subChild.getText());
 			//Gdx.app.log("ML:", type + " " + x + " " + y + " " + width + " " + height + " " + rotation);
-			if (type.equals("frog")){
-				//TODO just instantiate objects when the classes have been created
-			} else throw new Exception("Unknown game object element in map. Check types.");
+			if (type.equals("frog")) gameObjects.add(new ObjectSpawner(x,y,width,height,rotation,Type.OS_FROG));
+			else if (type.equals("spider")) gameObjects.add(new ObjectSpawner(x,y,width,height,rotation,Type.OS_SPIDER));
+			else if (type.equals("flytrap")) gameObjects.add(new ObjectSpawner(x,y,width,height,rotation,Type.OS_VENUSFT));
+			else if (type.equals("bird")) gameObjects.add(new ObjectSpawner(x,y,width,height,rotation,Type.OS_BIRD));
+			else throw new Exception("Unknown game object element in map. Check types.");
 		}
 		//--------------------------------------------------------------
 		//Load flock spawners
@@ -110,7 +113,7 @@ public class MapLoader {
 	//--------------------------------------------------------------
 	//Accessors for the three lists of stored objects
 	//--------------------------------------------------------------
-	public ArrayList<GameObject> getGameObjects() {
+	public ArrayList<ObjectSpawner> getGameObjects() {
 		return gameObjects;
 	}
 	public ArrayList<MoziSpawner> getSpawners() {
