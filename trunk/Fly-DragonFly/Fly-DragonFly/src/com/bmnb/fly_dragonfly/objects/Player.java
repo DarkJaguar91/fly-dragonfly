@@ -66,7 +66,7 @@ public class Player extends GameObject {
 		// animator = new SpriteAnimator(new TextureAtlas(
 		// Gdx.files.internal("data/dragon.pack")), "dragon", 15, this);
 		//animator = new SpriteAnimator(new Texture("data/dragon2.png"), 10, 10,
-		//		"dragon", 15, this);
+		//		"dragon", 15, this);		
 		try {
 			dragonBreath = new GameParticleEmitter(new BufferedReader(
 					new InputStreamReader(Gdx.files.internal(
