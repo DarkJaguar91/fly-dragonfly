@@ -77,18 +77,17 @@ public class MapOutline extends JPanel {
 			g.setColor(Color.black);
 			x = x - parent.getDispersion()/2;
 			y = y + 20;
-			
-			g.drawLine( x, y, x+parent.getSelectedObjWidth()+parent.getDispersion(), y);
-			g.drawLine( x, y-10, x, y+10);
-			g.drawLine( x+parent.getSelectedObjWidth()+parent.getDispersion(), y-10, x+parent.getSelectedObjWidth()+parent.getDispersion(), y+10);
+			g.fillRect(x, y, parent.getSelectedObjWidth()+parent.getDispersion(), 10);
+			g.fillRect(x, y-10, 5, 30);
+			g.fillRect(x+parent.getSelectedObjWidth()+parent.getDispersion(), y-10, 5, 30);
 		}
 		else if(shape.equals("star")){
 			g.setColor(Color.black);
 			x = x + 10;
 			y = y + 20;
 			
-			g.drawLine( x, y, x+20, y);
-			g.drawLine( x+10, y-10, x+10, y+10);
+			g.fillRect(x, y, 25, 5);
+			g.fillRect(x+10, y-10, 5, 25);			
 		}
 		
 		//draw placed shapes
@@ -118,16 +117,18 @@ public class MapOutline extends JPanel {
 			} 
 			else if(gameObjects.get(i).object.equals("mosquitoes")){
 				g.setColor(Color.black);
-				
-				g.drawLine( gameObjects.get(i).X, gameObjects.get(i).Y, gameObjects.get(i).X+gameObjects.get(i).shapeSize.width, gameObjects.get(i).Y);
-				g.drawLine( gameObjects.get(i).X, gameObjects.get(i).Y-10, gameObjects.get(i).X, gameObjects.get(i).Y+10);
-				g.drawLine( gameObjects.get(i).X+gameObjects.get(i).shapeSize.width,gameObjects.get(i).Y-10, gameObjects.get(i).X+gameObjects.get(i).shapeSize.width, gameObjects.get(i).Y+10);
+				g.fillRect(gameObjects.get(i).X, gameObjects.get(i).Y, gameObjects.get(i).shapeSize.width, 10);
+				g.fillRect(gameObjects.get(i).X, gameObjects.get(i).Y-10, 5, 30);
+				g.fillRect(gameObjects.get(i).X+ gameObjects.get(i).shapeSize.width, gameObjects.get(i).Y-10, 5, 30);
 			}
 			else if(gameObjects.get(i).object.equals("tutorial")){
 				g.setColor(Color.black);
 				
-				g.drawLine( gameObjects.get(i).X, gameObjects.get(i).Y, gameObjects.get(i).X+20, gameObjects.get(i).Y);
-				g.drawLine( gameObjects.get(i).X+10, gameObjects.get(i).Y-10, gameObjects.get(i).X+10, gameObjects.get(i).Y+10);
+//				g.drawLine( gameObjects.get(i).X, gameObjects.get(i).Y, gameObjects.get(i).X+20, gameObjects.get(i).Y);
+//				g.drawLine( gameObjects.get(i).X+10, gameObjects.get(i).Y-10, gameObjects.get(i).X+10, gameObjects.get(i).Y+10);
+			
+				g.fillRect(gameObjects.get(i).X, gameObjects.get(i).Y, 25, 5);
+				g.fillRect(gameObjects.get(i).X+10, gameObjects.get(i).Y-10, 5, 25);
 			}
 		}
 	}
@@ -205,8 +206,8 @@ public class MapOutline extends JPanel {
 	//will check through all saved objects and grab the one which the mouse has clicked
 	public ShapeDimensions grabObject(int x,int y){
 		for(int i=0;i<gameObjects.size();i++){			
-			if((x > gameObjects.get(i).X) && (x < gameObjects.get(i).X+gameObjects.get(i).shapeSize.width)){
-				if((y > gameObjects.get(i).Y) && (y < gameObjects.get(i).Y+gameObjects.get(i).shapeSize.height)){
+			if((x >= gameObjects.get(i).X) && (x <= gameObjects.get(i).X+gameObjects.get(i).shapeSize.width)){
+				if((y >= gameObjects.get(i).Y) && (y <= gameObjects.get(i).Y+gameObjects.get(i).shapeSize.height)){
 					ShapeDimensions temp = gameObjects.get(i);
 					System.out.println(x+":"+y+", "+gameObjects.get(i).X+":"+gameObjects.get(i).Y);
 					gameObjects.remove(i);
@@ -220,8 +221,8 @@ public class MapOutline extends JPanel {
 	//will check through all saved objects and grab the one which the mouse has clicked
 	public void deleteObject(int x,int y){
 		for(int i=0;i<gameObjects.size();i++){			
-			if((x > gameObjects.get(i).X) && (x < gameObjects.get(i).X+gameObjects.get(i).shapeSize.width)){
-				if((y > gameObjects.get(i).Y) && (y < gameObjects.get(i).Y+gameObjects.get(i).shapeSize.height)){
+			if((x >= gameObjects.get(i).X) && (x <= gameObjects.get(i).X+gameObjects.get(i).shapeSize.width)){
+				if((y >= gameObjects.get(i).Y) && (y <= gameObjects.get(i).Y+gameObjects.get(i).shapeSize.height)){
 					System.out.println(x+":"+y+", "+gameObjects.get(i).X+":"+gameObjects.get(i).Y);
 					gameObjects.remove(i);
 					repaint();

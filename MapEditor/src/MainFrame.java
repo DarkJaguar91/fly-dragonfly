@@ -361,10 +361,10 @@ public class MainFrame extends JFrame{
 				map.addObjectToMap("triangle",rotation,0,0,0,new Dimension(width,height),x,y);
 			}
 			else if(parent.shape.equals("bench")){	
-				map.addObjectToMap("bench",0,dispersion,0,0,new Dimension(width+dispersion,0),x-dispersion/2,y+20);
+				map.addObjectToMap("bench",0,dispersion,0,0,new Dimension(width+dispersion,30),x-dispersion/2,y+20);
 			}
 			else if(parent.shape.equals("star")){	
-				map.addObjectToMap("star",0,0,obj_id,0,new Dimension(0,0),x+10,y+20);
+				map.addObjectToMap("star",0,0,obj_id,0,new Dimension(25,25),x+10,y+20);
 			}
 							
 		}
