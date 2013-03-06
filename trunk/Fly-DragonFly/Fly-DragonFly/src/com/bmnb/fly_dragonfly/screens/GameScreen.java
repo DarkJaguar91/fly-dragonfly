@@ -90,8 +90,8 @@ public class GameScreen implements Screen {
 				width, height, player));
 		addObject(new Frog(new Vector2(width / 2 + 100, height / 2), 50, 50, 0,
 				width, height, player));
-		addObject(new VenusFlytrap(new Vector2(width / 4, height / 4), 50, 50,
-				0, width, height, player));
+		addObject(new VenusFlytrap(new Vector2(width / 4, height / 4 * 3), 50, 50,
+				scrollSpeed, width, height, player));
 		// Add the flocking models:
 		mosquitoes = new BoidsModel();
 

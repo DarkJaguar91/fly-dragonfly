@@ -13,6 +13,8 @@ public class VenusFlytrap extends StaticEnemy {
 	private static final float VACUUM_RADIUS = 200;
 	private static final float MAX_PULL_SPEED = 200;
 	private static final float ALPHA = 0.000002f;
+	private static final float COUNT_DOWN_MAX = 20;
+	private float countDown = COUNT_DOWN_MAX; 
 	private GameParticleEmitter poisonGas;
 	public VenusFlytrap(Vector2 position, float width, float height,
 			float speed, float scWidth, float scHeight, Player player) {
@@ -24,7 +26,7 @@ public class VenusFlytrap extends StaticEnemy {
 					new InputStreamReader(Gdx.files.internal(
 							"data/flytrapSpit").read()), 512), new Texture(
 					"data/particle.png"),GameParticleEmitter.ParticleType.spit);
-
+			
 			poisonGas.setContinuous(false);
 		} catch (Exception e) {
 			Gdx.app.log("error", e.getMessage());
@@ -37,9 +39,13 @@ public class VenusFlytrap extends StaticEnemy {
 		Vector2 v = (this.getPosition().sub(player.getPosition()));
 		float radSq = VACUUM_RADIUS*VACUUM_RADIUS;
 		if (v.len2() < radSq){ 
-			player.setPosition(player.getPosition().add(v.nor().mul(MAX_PULL_SPEED*(float)Math.pow(1-v.len()/VACUUM_RADIUS,ALPHA)*delta)));
+			player.setPosition(player.getPosition().add(v.nor().mul(MAX_PULL_SPEED*(float)Math.pow(1-v.len()/VACUUM_RADIUS,ALPHA)*delta)));			
+		}
+		if (countDown-- <= 0){
 			poisonGas.setContinuous(true);
+			countDown = COUNT_DOWN_MAX;
 		} else poisonGas.setContinuous(false);
+			
 	}
 	@Override
 	public void draw(SpriteBatch spriteBatch, float delta){
