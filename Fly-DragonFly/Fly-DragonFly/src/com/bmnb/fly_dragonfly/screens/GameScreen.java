@@ -50,8 +50,8 @@ public class GameScreen implements Screen {
 	/**
 	 * Static vars for static methods
 	 */
-	protected static ArrayList<GameObject> objects, fireParticles, poisonParticles, enemies,
-			rocks;
+	protected static ArrayList<GameObject> objects, fireParticles,
+			poisonParticles, enemies, rocks;
 
 	@Override
 	public void show() {
@@ -92,8 +92,8 @@ public class GameScreen implements Screen {
 				width, height, player));
 		addObject(new Frog(new Vector2(width / 2 + 100, height / 2), 50, 50, 0,
 				width, height, player));
-		addObject(new VenusFlytrap(new Vector2(width / 4, height / 4 * 3), 50, 50,
-				scrollSpeed, width, height, player));
+		addObject(new VenusFlytrap(new Vector2(width / 4, height / 4 * 3), 50,
+				50, scrollSpeed, width, height, player));
 		addObject(new Bird(new Vector2(width, height), 50, 50,
 				scrollSpeed, width, height, player));
 		addObject(new Spider(new Vector2(width, height), 50, 50,
@@ -105,7 +105,7 @@ public class GameScreen implements Screen {
 		((GameInput) Gdx.input.getInputProcessor()).setGameScreen(this);
 		// Load map
 		try {
-			//MapLoader m = new MapLoader("data/TestMap.xml");
+			// MapLoader m = new MapLoader("data/TestMap.xml");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -150,8 +150,10 @@ public class GameScreen implements Screen {
 	protected void removeDeadObjects() {
 		for (int i = 0; i < objects.size(); ++i) {
 			if (objects.get(i).isRemovable()) {
+				// enemies
 				if (objects.get(i) instanceof Enemy)
 					enemies.remove(objects.get(i));
+				// objects
 				objects.remove(i);
 				--i;
 			}
@@ -175,16 +177,18 @@ public class GameScreen implements Screen {
 		Rectangle particlesBox = getParticleRect();
 
 		for (GameObject o : enemies) {
-			if (particlesBox != null)
-				if (o.getBoundingRectangle().overlaps(particlesBox)) {
-					for (GameObject p : fireParticles) {
-						if (p.getBoundingRectangle().overlaps(
-								o.getBoundingRectangle())) {
-							((Particle) p).kill();
-							((Enemy) o).doDamage(player.getDamage());
+			if (!o.isDead())
+				if (particlesBox != null)
+					if (o.getBoundingRectangle().overlaps(particlesBox)) {
+						for (GameObject p : fireParticles) {
+							if (!p.isDead())
+								if (p.getBoundingRectangle().overlaps(
+										o.getBoundingRectangle())) {
+									((Particle) p).kill();
+									((Enemy) o).doDamage(player.getDamage());
+								}
 						}
 					}
-				}
 
 			// do for player with checks
 		}
@@ -201,12 +205,12 @@ public class GameScreen implements Screen {
 	 */
 	public static void addObject(GameObject o) {
 		if (o instanceof Particle) {
-			if (((Particle) o).type == ParticleType.fire){
+			if (((Particle) o).type == ParticleType.fire) {
 				if (!fireParticles.contains(o))
 					fireParticles.add(o);
 			} else if (!poisonParticles.contains(o))
 				poisonParticles.add(o);
-				
+
 		} else {
 			if (o instanceof Enemy)
 				enemies.add(o);

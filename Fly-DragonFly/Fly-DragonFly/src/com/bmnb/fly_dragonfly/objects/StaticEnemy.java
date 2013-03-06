@@ -12,6 +12,11 @@ public abstract class StaticEnemy extends Enemy{
 	@Override
 	protected void move(float delta) {
 		translateY(-speed * delta);
+		
+		if (this.getPosition().y + this.getHeight() <= 0){
+			this.kill();
+			this.removeable = true;
+		}
 	}	
 
 }

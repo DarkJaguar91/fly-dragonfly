@@ -17,6 +17,7 @@ public class Frog extends StaticEnemy{
 		
 		if (isDead())
 			removeable = true;
+		
 		super.update(delta);
 	}
 
