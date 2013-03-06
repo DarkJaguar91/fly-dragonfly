@@ -170,7 +170,7 @@ public class MapOutline extends JPanel {
 						.pop()						
 					.pop();
 				}
-				else if(shape.equals("bench")){
+				else if(gameObjects.get(i).object.equals("mosquitoes")){
 					xmlBuilder.element("moziSpawner")
 						.attribute("type",gameObjects.get(i).object)
 						.element("x")
@@ -187,7 +187,7 @@ public class MapOutline extends JPanel {
 						.pop()										
 					.pop();
 				}
-				else if(shape.equals("star")){
+				else if(gameObjects.get(i).object.equals("tutorial")){
 					xmlBuilder.element("tutorialScreen")
 						.element("id")
 							.text(gameObjects.get(i).id)
