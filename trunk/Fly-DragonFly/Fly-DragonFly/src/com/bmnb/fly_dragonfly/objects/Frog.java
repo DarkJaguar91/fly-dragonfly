@@ -9,6 +9,8 @@ public class Frog extends StaticEnemy{
 			float scWidth, float scHeight, Player player) {
 		super(position, width, height, speed, scWidth, scHeight, player);
 		
+		sortVal = 2;
+		
 		setTexture(new Texture("data/square.png"));
 	}
 

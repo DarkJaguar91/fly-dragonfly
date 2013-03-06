@@ -11,7 +11,10 @@ public class Web extends StaticEnemy {
 	private static int direction = 1;
 	public Web(Vector2 position, float width, float height, float speed,
 			float scWidth, float scHeight, Player player) {
-		super(position, width, height, speed, scWidth, scHeight, player);		
+		super(position, width, height, speed, scWidth, scHeight, player);
+		
+		sortVal = 3;
+		
 		direction = (int)(Math.signum(player.getX() - this.getX())*direction);
 		setTexture(new Texture("data/square.png"));
 	}

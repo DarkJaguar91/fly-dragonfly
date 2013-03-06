@@ -214,7 +214,21 @@ public class GameScreen implements Screen {
 		} else {
 			if (o instanceof Enemy)
 				enemies.add(o);
-			objects.add(o);
+			
+			if (objects.size() == 0)
+				objects.add(o);
+			else {
+				boolean added = false;
+				for (int i = 0; i < objects.size(); ++i){
+					if (o.compareTo(objects.get(i)) < 0){
+						objects.add(i, o);
+						added = true;
+						break;
+					}
+				}
+				if (!added)
+					objects.add(o);
+			}
 		}
 	}
 

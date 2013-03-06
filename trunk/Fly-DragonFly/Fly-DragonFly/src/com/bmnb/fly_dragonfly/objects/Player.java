@@ -58,6 +58,8 @@ public class Player extends GameObject {
 			float scWidth, float scHeight) {
 		super(position, width, height, speed, scWidth, scHeight);
 
+		sortVal = 0;
+		
 		targetPosition = position;
 
 		// load textures (loading here for now, must create texture loader

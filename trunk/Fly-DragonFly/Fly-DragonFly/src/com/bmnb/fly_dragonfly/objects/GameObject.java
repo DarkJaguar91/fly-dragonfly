@@ -13,7 +13,7 @@ import com.bmnb.fly_dragonfly.tools.SpriteAnimator;
  * @author Brandon
  * 
  */
-public abstract class GameObject extends Sprite {
+public abstract class GameObject extends Sprite implements Comparable<GameObject>{
 
 	/**
 	 * global vars
@@ -22,6 +22,7 @@ public abstract class GameObject extends Sprite {
 	protected float screenWidth, screenHeight, speed;
 	protected Vector2 direction;
 	protected SpriteAnimator animator = null;
+	protected int sortVal = 0;	
 	
 	public GameObject(Vector2 position, float width, float height, float speed,
 			float scWidth, float scHeight) {
@@ -137,6 +138,9 @@ public abstract class GameObject extends Sprite {
 		setSize(Math.abs(getWidth()), Math.abs(getHeight()));
 		setOrigin(getWidth() / 2, getHeight() / 2);
 	}
-	
-	
+
+	@Override
+	public int compareTo(GameObject o) {
+		return this.sortVal < o.sortVal ? 1 : this.sortVal > o.sortVal ? -1 : 0;
+	}	
 }
