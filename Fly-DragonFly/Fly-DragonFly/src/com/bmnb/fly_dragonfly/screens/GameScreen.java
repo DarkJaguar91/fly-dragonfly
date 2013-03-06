@@ -17,10 +17,12 @@ import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.Particle;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.ParticleType;
 import com.bmnb.fly_dragonfly.graphics.ScrollingBackground;
 import com.bmnb.fly_dragonfly.input.GameInput;
+import com.bmnb.fly_dragonfly.objects.Bird;
 import com.bmnb.fly_dragonfly.objects.Enemy;
 import com.bmnb.fly_dragonfly.objects.Frog;
 import com.bmnb.fly_dragonfly.objects.GameObject;
 import com.bmnb.fly_dragonfly.objects.Player;
+import com.bmnb.fly_dragonfly.objects.Spider;
 import com.bmnb.fly_dragonfly.objects.VenusFlytrap;
 
 /**
@@ -91,6 +93,10 @@ public class GameScreen implements Screen {
 		addObject(new Frog(new Vector2(width / 2 + 100, height / 2), 50, 50, 0,
 				width, height, player));
 		addObject(new VenusFlytrap(new Vector2(width / 4, height / 4 * 3), 50, 50,
+				scrollSpeed, width, height, player));
+		addObject(new Bird(new Vector2(width, height), 50, 50,
+				scrollSpeed, width, height, player));
+		addObject(new Spider(new Vector2(width, height), 50, 50,
 				scrollSpeed, width, height, player));
 		// Add the flocking models:
 		mosquitoes = new BoidsModel();
