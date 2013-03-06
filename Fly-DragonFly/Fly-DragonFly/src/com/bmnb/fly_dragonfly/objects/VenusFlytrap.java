@@ -19,7 +19,9 @@ public class VenusFlytrap extends StaticEnemy {
 	public VenusFlytrap(Vector2 position, float width, float height,
 			float speed, float scWidth, float scHeight, Player player) {
 		super(position, width, height, speed, scWidth, scHeight, player);
-		// TODO Auto-generated constructor stub
+		
+		sortVal = 2;
+		
 		setTexture(new Texture("data/square.png")); 
 		try {
 			poisonGas = new GameParticleEmitter(new BufferedReader(
