@@ -17,6 +17,8 @@ import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.Particle;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.ParticleType;
 import com.bmnb.fly_dragonfly.graphics.ScrollingBackground;
 import com.bmnb.fly_dragonfly.input.GameInput;
+import com.bmnb.fly_dragonfly.map.MapLoader;
+import com.bmnb.fly_dragonfly.map.Spawner;
 import com.bmnb.fly_dragonfly.objects.Bird;
 import com.bmnb.fly_dragonfly.objects.Enemy;
 import com.bmnb.fly_dragonfly.objects.Frog;
@@ -45,8 +47,9 @@ public class GameScreen implements Screen {
 	protected OrthographicCamera camera;
 	protected Player player;
 	protected ScrollingBackground scroller;
-	protected BoidsModel mosquitoes;
-
+	protected BoidsModel boidsmodel;
+	protected MapLoader map;
+	protected Spawner spawner;
 	/**
 	 * Static vars for static methods
 	 */
@@ -82,7 +85,7 @@ public class GameScreen implements Screen {
 		Gdx.input.setInputProcessor(new GameInput(width, height, player));
 
 		// debug
-		addObject(new Frog(new Vector2(width / 2, height / 2), 50, 50, 0,
+		/*addObject(new Frog(new Vector2(width / 2, height / 2), 50, 50, 0,
 				width, height, player));
 		addObject(new Frog(new Vector2(width / 2 - 50, height / 2), 50, 50, 0,
 				width, height, player));
@@ -97,24 +100,24 @@ public class GameScreen implements Screen {
 		addObject(new Bird(new Vector2(width, height), 50, 50,
 				scrollSpeed, width, height, player));
 		addObject(new Spider(new Vector2(width, height), 50, 50,
-				scrollSpeed, width, height, player));
+				scrollSpeed, width, height, player));*/
 		// Add the flocking models:
-		mosquitoes = new BoidsModel();
+		boidsmodel = new BoidsModel();
 
 		// huge debug
 		((GameInput) Gdx.input.getInputProcessor()).setGameScreen(this);
 		// Load map
 		try {
-			// MapLoader m = new MapLoader("data/TestMap.xml");
+			 this.map = new MapLoader("data/TestMap.xml");
+			 this.spawner = new Spawner(map, boidsmodel, this, scrollSpeed, player);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
 	}
 
-	// huge debug
-	public void spawnBoids() {
-		mosquitoes.spawnBoids(10, 10, width, height, 10, 600, 10);
+	public static ArrayList<GameObject> getEnemies() {
+		return enemies;
 	}
 
 	@Override
@@ -132,8 +135,8 @@ public class GameScreen implements Screen {
 		// draw objects
 		for (int i = 0; i < objects.size(); ++i)
 			objects.get(i).draw(batch, delta);
-		mosquitoes.update(delta);
-
+		boidsmodel.update(delta,this);
+		spawner.update(delta);
 		batch.end();
 
 		// do collision
@@ -142,6 +145,10 @@ public class GameScreen implements Screen {
 		// remove all dead opjects
 
 		removeDeadObjects();
+	}
+
+	public Player getPlayer() {
+		return player;
 	}
 
 	/**
