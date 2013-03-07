@@ -31,7 +31,7 @@ public class MapLoader {
 		spawners = new ArrayList<MoziSpawner>();
 		tutorialScreens = new ArrayList<TutorialScreenSpawner>();
 		rdr = new XmlReader();
-		FileHandle fh = Gdx.files.local(filename);
+		FileHandle fh = Gdx.files.internal(filename);
 		Element node = null;
 		try {
 			node = rdr.parse(fh);

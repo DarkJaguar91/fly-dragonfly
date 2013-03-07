@@ -131,16 +131,16 @@ public class GameScreen implements Screen {
 		batch.begin();
 
 		// draw background
-		//scroller.draw(batch, delta);
+		scroller.draw(batch, delta);
 
 		// draw objects
-		/*for (int i = 0; i < objects.size(); ++i)
+		for (int i = 0; i < objects.size(); ++i)
 			objects.get(i).draw(batch, delta);
 		boidsmodel.update(delta,this);
 		spawner.update(delta);
 		//draw tutorial screens
-		Texture tex = new Texture("tutorial_background.png");
-		batch.draw(tex, 10, 10, width-10, height-10, 0, 0, tex.getWidth(), tex.getHeight(), false, false);		
+		//Texture tex = new Texture("tutorial_background.png");
+		//batch.draw(tex, 10, 10, width-10, height-10, 0, 0, tex.getWidth(), tex.getHeight(), false, false);		
 		
 		
 		batch.end();
