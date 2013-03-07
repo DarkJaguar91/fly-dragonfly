@@ -74,10 +74,10 @@ public class GameInput implements InputProcessor {
 		screenY = (int) (height - screenY
 				* ((float) height / (float) Gdx.graphics.getHeight()));
 //	 	debug
-		if (screenX > width * 0.4f && screenX < width * 0.6f && screenY > height * 0.8f){
+		/*if (screenX > width * 0.4f && screenX < width * 0.6f && screenY > height * 0.8f){
 			screen.spawnBoids();
 			return true;
-		}
+		}*/
 //	 	debug
 		if (screenX < width * 0.2f && screenY > height * 0.8f){
 			player.convertWeaponFireflies();

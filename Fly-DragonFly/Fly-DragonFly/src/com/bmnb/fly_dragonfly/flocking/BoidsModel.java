@@ -2,6 +2,7 @@ package com.bmnb.fly_dragonfly.flocking;
 import java.util.Vector;
 
 import com.badlogic.gdx.math.Vector2;
+import com.bmnb.fly_dragonfly.objects.GameObject;
 import com.bmnb.fly_dragonfly.screens.GameScreen;
 
 /**
@@ -13,18 +14,19 @@ import com.bmnb.fly_dragonfly.screens.GameScreen;
  * Harry Brundage. Neat Algorithms - Flocking. Available at [http://harry.me/2011/02/17/neat-algorithms---flocking/]
  */
 public class BoidsModel {
-	private final float COHERE_RADIUS = 150;
-	private final float ALIGN_RADIUS = 140;
-	private final float SEPARATE_RADIUS = 60;
-	private final float SEPARATION_SCALE = 1800f;
-	private final float COHERE_SCALE = 1f;
-	private final float ALIGN_SCALE = 4.0f;	
-	private final float DRAW_TO_BOTTOM_SCALE = 0.002f;
-	private final float FLEE_SCALE = 0.63f;
-	private final float DESTRUCTION_BUFFER = 150;
-	private final float CREATION_BUFFER = 250;
-	public final int MAX_BOIDS = 50;
-	public Vector<Boid> elements;
+	private static final float COHERE_RADIUS = 150;
+	private static final float ALIGN_RADIUS = 140;
+	private static final float SEPARATE_RADIUS = 60;
+	private static final float SEPARATION_SCALE = 1800f;
+	private static final float COHERE_SCALE = 1f;
+	private static final float ALIGN_SCALE = 4.0f;	
+	private static final float DRAW_TO_BOTTOM_SCALE = 0.002f;
+	private static final float FLEE_SCALE = 0.63f;
+	private static final float DESTRUCTION_BUFFER = 150;
+	private static final float CREATION_BUFFER = 250;
+	public enum BoidsType {Mosquitoes,FireFlies}
+	public static final int MAX_BOIDS = 50;
+	private Vector<Boid> elements;
 	/**
 	 * Method to compute cohesion for each element (based on the cohesion radius)
 	 * The method works based on the mean of the position within radius.
@@ -108,19 +110,24 @@ public class BoidsModel {
 	 * @param pos
 	 * @param radius
 	 */
-	private void fleeFromObject(Vector2 pos, float radius){
-		double radSq = radius*radius;
+	private void fleeFromObject(Vector2 pos, float radSq){
 		for (Boid b: elements){
 			double dist = distSq(b.getPosition(),pos);
 			if (dist < radSq)
 				b.setVelocity(b.getVelocity().sub(pos.cpy().sub(b.getPosition()).mul(FLEE_SCALE)));
 		}
 	}
-	//TODO: STUB::: FIX THIS 
-	private void flee(){
-		//TODO: STUB Need the map HERE NOW!!@!!
-		fleeFromObject(new Vector2(GameScreen.width/2,GameScreen.height/2),150);
-		
+	
+	/**
+	 * Method to make the boids flee from all enemies on the game screen
+	 * @param gs
+	 */
+	private void flee(GameScreen gs){
+		for (GameObject o:gs.getEnemies()){
+			fleeFromObject(new Vector2(o.getX(),o.getY()),new Vector2(o.getWidth(),o.getHeight()).len2());
+		}
+		fleeFromObject(gs.getPlayer().getPosition(),
+				new Vector2(gs.getPlayer().getWidth(),gs.getPlayer().getHeight()).len2());
 	}
 	
 	/**
@@ -143,11 +150,12 @@ public class BoidsModel {
 	 * @param delta
 	 */
 	public void spawnBoids(float widthPerBoid,float heightPerBoid,float scWidth,float scHeight,
-			int numBoids,float spawnOrdinate, float spawnDeviation){
+			int numBoids,float spawnOrdinate, float spawnDeviation, BoidsType type){
 		for (int i = 0; i < numBoids && elements.size() < MAX_BOIDS; ++i){
 			Vector2 bPos = new Vector2(spawnOrdinate + (float)Math.random()*spawnDeviation -
 					(float)Math.random()*spawnDeviation,scHeight+(float)Math.random()*(0.7f*CREATION_BUFFER)+0.3f*CREATION_BUFFER);
-			Boid b = new Boid(bPos,new Vector2(0,-1),widthPerBoid,heightPerBoid,scWidth,scHeight);
+			Boid b = type == BoidsType.Mosquitoes ? new Mosquito(bPos,new Vector2(0,-1),widthPerBoid,heightPerBoid,scWidth,scHeight) :
+				new FireFly(bPos,new Vector2(0,-1),widthPerBoid,heightPerBoid,scWidth,scHeight);
 			elements.add(b);
 			GameScreen.addObject(b);
 		}
@@ -162,13 +170,13 @@ public class BoidsModel {
 	 * Update method. Invoke this method to update boid positions.
 	 * @param delta
 	 */
-	public void update(float delta){
+	public void update(float delta, GameScreen gs){
 		//boid ops
 		cohere();
 		align();
 		separate();
 		drawToBottom();
-		flee();
+		flee(gs);
 		//Now bound Boids to the viewport
 		removeBoidsOutsideBounds();
 	}
