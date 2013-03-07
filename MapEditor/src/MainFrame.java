@@ -73,6 +73,8 @@ public class MainFrame extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		
+		//initialize variables
+		Dimension mapSize = new Dimension(800,10000);		
 		shape = "selection";
 		object_selected = false;
 		
@@ -84,6 +86,7 @@ public class MainFrame extends JFrame{
 		exitOption = new JMenuItem("Exit");
 		exitOption.addActionListener(new MenuListener(this));
 		mainMenu.add(exitOption);
+		
 		menuBar = new JMenuBar();
 		menuBar.setAlignmentY(RIGHT_ALIGNMENT);
 		menuBar.add(mainMenu);
@@ -159,7 +162,6 @@ public class MainFrame extends JFrame{
 		drawInputEdits();
 		
 		//scroll pane to simulate mobile device and scrolling background
-		Dimension mapSize = new Dimension(800,10000);
 		int x = screenSize.width/3;
 		int y = 15;
 		mobileScreen = new MapOutline(this,mapSize.width,mapSize.height);
@@ -225,7 +227,12 @@ public class MainFrame extends JFrame{
 		if(filename != null){
 			try{
 				int pos = filename.indexOf(".");
-				String temp = filename.substring(pos+1);
+				String temp;
+				if(pos != -1)
+					temp = filename.substring(pos+1);
+				else
+					temp = filename;
+				
 				if(temp.equals("xml"))			
 					xmlWriter = new XmlWriter(new FileWriter(filename));
 				else
@@ -257,7 +264,6 @@ public class MainFrame extends JFrame{
 				writeToXML();
 			}
 			else if(command.equals("Exit")){
-				//int response = JOptionPane.showOptionDialog(parent, "Are you sure?","Confirmation",JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 				parent.dispose();
 				System.exit(1);
 			}
@@ -371,12 +377,19 @@ public class MainFrame extends JFrame{
 
 		@Override
 		//display an image of object that user has selected to place on map
-		public void mouseEntered(MouseEvent arg0) {	}
+		public void mouseEntered(MouseEvent arg0) {
+			if(parent.shape.equals("selection")){
+				mobileScreen.setToolTipText("Right click to delete object");
+			}
+		}
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {
 			show_image = false;	
 			map.stopDrawing();
+			if(parent.shape.equals("selection")){
+				mobileScreen.setToolTipText("");
+			}
 		}
 		
 		@Override

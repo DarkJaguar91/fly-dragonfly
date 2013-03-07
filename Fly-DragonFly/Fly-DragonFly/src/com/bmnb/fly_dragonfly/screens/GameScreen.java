@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -130,13 +131,18 @@ public class GameScreen implements Screen {
 		batch.begin();
 
 		// draw background
-		scroller.draw(batch, delta);
+		//scroller.draw(batch, delta);
 
 		// draw objects
-		for (int i = 0; i < objects.size(); ++i)
+		/*for (int i = 0; i < objects.size(); ++i)
 			objects.get(i).draw(batch, delta);
 		boidsmodel.update(delta,this);
 		spawner.update(delta);
+		//draw tutorial screens
+		Texture tex = new Texture("tutorial_background.png");
+		batch.draw(tex, 10, 10, width-10, height-10, 0, 0, tex.getWidth(), tex.getHeight(), false, false);		
+		
+		
 		batch.end();
 
 		// do collision
@@ -145,6 +151,10 @@ public class GameScreen implements Screen {
 		// remove all dead opjects
 
 		removeDeadObjects();
+	}
+	
+	public void showTutorialScreen(int y){
+		
 	}
 
 	public Player getPlayer() {
