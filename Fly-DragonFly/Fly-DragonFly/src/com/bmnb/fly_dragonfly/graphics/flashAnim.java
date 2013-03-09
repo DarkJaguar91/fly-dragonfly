@@ -12,7 +12,8 @@ public class flashAnim implements TweenAccessor<Sprite> {
     public int getValues(Sprite target, int tweenType, float[] returnValues) {
             switch(tweenType){
             case ALPHA: 
-                    returnValues[0] = target.getColor().a; 
+                    returnValues[0] = target.getColor().g;
+                    returnValues[1] = target.getColor().b;
                     return 1;
             default: return 0;
             }
@@ -22,7 +23,7 @@ public class flashAnim implements TweenAccessor<Sprite> {
     public void setValues(Sprite target, int tweenType, float[] newValues) {
             switch(tweenType){
             case ALPHA:
-                    target.setColor(1, 1, 1, newValues[0]);
+                    target.setColor(1, newValues[0], newValues[1], 1);
                     break;
             }
     }

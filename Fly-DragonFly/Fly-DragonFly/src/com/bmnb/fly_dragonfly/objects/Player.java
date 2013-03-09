@@ -47,6 +47,7 @@ public class Player extends GameObject {
 	protected float damage = flyDamage;
 	protected float mana = maxMana;
 	TweenManager tweenManager;
+	protected boolean canBeHit = true;
 
 	/**
 	 * Constructor
@@ -194,10 +195,12 @@ public class Player extends GameObject {
 		}
 		super.update(delta);
 	}
-
-	boolean once = false;
+	
+	/**
+	 * Starts a flashing animation
+	 */
 	public void playerHitAnimation(){		
-		if (!once){
+		if (canBeHit){
 			Tween.registerAccessor(Sprite.class, new flashAnim());
 			
 			TweenCallback cb = new TweenCallback() {
@@ -208,14 +211,17 @@ public class Player extends GameObject {
 				}
 			};
 			
-			Tween.to(this, flashAnim.ALPHA, 0.5f).target(0).repeatYoyo(10, 0f).ease(TweenEquations.easeInCirc).setCallback(cb).setCallbackTriggers(TweenCallback.COMPLETE).start(tweenManager);
-			once = true;
+			Tween.to(this, flashAnim.ALPHA, 0.7f).target(0,0).repeatYoyo(3, 0f).ease(TweenEquations.easeInCirc).setCallback(cb).setCallbackTriggers(TweenCallback.COMPLETE).start(tweenManager);
+			canBeHit = false;
 		}
 	}
 	
+	/**
+	 * Makes the player hitable again
+	 */
 	protected void resetHit(){
-		once = false;
-		setColor(1,1,1,1);
+		canBeHit = true;
+//		setColor(1,1,1,1);
 	}
 	
 	/**
