@@ -1,7 +1,11 @@
 package com.bmnb.fly_dragonfly.flocking;
 
 import com.badlogic.gdx.math.Vector2;
-
+/**
+ * Mosquito boid
+ * @author benjamin
+ *
+ */
 public class Mosquito extends Boid {
 
 	public Mosquito(Vector2 position, Vector2 direction, float width,
