@@ -40,7 +40,6 @@ public class GameInput implements InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 		if(keycode == 54){
-			System.out.println(screen);
 			screen.showTutorialScreen(0);
 			return true;
 		}

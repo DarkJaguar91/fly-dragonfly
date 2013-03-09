@@ -1,5 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -64,7 +63,6 @@ public class MainFrame extends JFrame{
 	public MainFrame(int screenWidth,int screenHeight){
 		super();
 		screenSize = new Dimension(screenWidth, screenHeight);
-		//setUndecorated(true);
 		setLayout(new BorderLayout());
 		
 		setSize(screenSize);
@@ -168,8 +166,7 @@ public class MainFrame extends JFrame{
 		mobileScreen.setPreferredSize(mapSize);
 		mobileScreen.addMouseListener(new MapListener(this, mobileScreen));
 		mobileScreen.addMouseMotionListener(new MapListener(this, mobileScreen));
-		mobileScreen.setBackground(Color.WHITE);		
-		
+				
 		scroller = new JScrollPane(mobileScreen);		
 		scroller.setBounds(x, y, screenSize.width-x-15, screenSize.height-60); 
 		scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

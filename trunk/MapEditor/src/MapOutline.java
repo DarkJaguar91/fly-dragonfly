@@ -5,42 +5,68 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.LayoutManager;
 import java.awt.geom.Point2D;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import com.badlogic.gdx.utils.XmlWriter;
 
 
-public class MapOutline extends JPanel {
+public class MapOutline extends JPanel implements ImageObserver{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-//	private Dimension mapSize;
+	private Dimension mapSize;
 	private String shape;
 	private Point2D.Float shapePosition;
 	private MainFrame parent;
 	private ArrayList<ShapeDimensions> gameObjects;
+	private Image source = null;
+	private ImageIcon background;
 	
-	public MapOutline(MainFrame p,int width,int height){
+	
+	public MapOutline(LayoutManager lm){
+		super(lm);
+	}
+	
+	public MapOutline(MainFrame p,int w, int h){
 		super();
 		
 		parent = p;
-//		mapSize = new Dimension(width,height);
+		mapSize = new Dimension(w,h);
 		shape = null;
 		shapePosition = null;
 		gameObjects = new ArrayList<ShapeDimensions>();
 		this.setBackground(Color.white);
 		this.updateUI();
+		
+		background = new ImageIcon("assets/downtown-dc.jpg");	
+		source = background.getImage();
 	}
 	
+	public void setImage(Image img){
+		source = img;
+		validate();
+		repaint();
+	}
+	public Image getImage(){
+		return source;
+	}
+		
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		int x = 0;
 		int y = 0;
+		
+		g.drawImage(source,0,0,mapSize.width,source.getHeight(this),0,0,
+				source.getWidth(this),source.getHeight(this),Color.white,this);
 				
 		if(shape != null){
 			x = (int)shapePosition.x-parent.getSelectedObjWidth()/2;
@@ -123,10 +149,6 @@ public class MapOutline extends JPanel {
 			}
 			else if(gameObjects.get(i).object.equals("tutorial")){
 				g.setColor(Color.black);
-				
-//				g.drawLine( gameObjects.get(i).X, gameObjects.get(i).Y, gameObjects.get(i).X+20, gameObjects.get(i).Y);
-//				g.drawLine( gameObjects.get(i).X+10, gameObjects.get(i).Y-10, gameObjects.get(i).X+10, gameObjects.get(i).Y+10);
-			
 				g.fillRect(gameObjects.get(i).X, gameObjects.get(i).Y, 25, 5);
 				g.fillRect(gameObjects.get(i).X+10, gameObjects.get(i).Y-10, 5, 25);
 			}
@@ -209,7 +231,7 @@ public class MapOutline extends JPanel {
 			if((x >= gameObjects.get(i).X) && (x <= gameObjects.get(i).X+gameObjects.get(i).shapeSize.width)){
 				if((y >= gameObjects.get(i).Y) && (y <= gameObjects.get(i).Y+gameObjects.get(i).shapeSize.height)){
 					ShapeDimensions temp = gameObjects.get(i);
-					System.out.println(x+":"+y+", "+gameObjects.get(i).X+":"+gameObjects.get(i).Y);
+					//System.out.println(x+":"+y+", "+gameObjects.get(i).X+":"+gameObjects.get(i).Y);
 					gameObjects.remove(i);
 					return temp;
 				}
@@ -223,7 +245,7 @@ public class MapOutline extends JPanel {
 		for(int i=0;i<gameObjects.size();i++){			
 			if((x >= gameObjects.get(i).X) && (x <= gameObjects.get(i).X+gameObjects.get(i).shapeSize.width)){
 				if((y >= gameObjects.get(i).Y) && (y <= gameObjects.get(i).Y+gameObjects.get(i).shapeSize.height)){
-					System.out.println(x+":"+y+", "+gameObjects.get(i).X+":"+gameObjects.get(i).Y);
+					//System.out.println(x+":"+y+", "+gameObjects.get(i).X+":"+gameObjects.get(i).Y);
 					gameObjects.remove(i);
 					repaint();
 				}

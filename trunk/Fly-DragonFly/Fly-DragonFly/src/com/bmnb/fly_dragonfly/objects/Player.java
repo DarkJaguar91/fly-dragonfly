@@ -108,8 +108,20 @@ public class Player extends GameObject {
 		return numPoints;
 	}
 	
-	public void increaseScoreBy(int p){
-		numPoints += p;
+	int counter= 0;;
+	public void increaseScoreBy(float p){
+		numPoints += Math.ceil(p);
+		counter += Math.ceil(p);
+		if(counter > 1000){
+			counter=0;
+			addLife();
+		}
+	}
+	
+	private void addLife(){
+		if(numLives < 6){
+			numLives++;
+		}
 	}
 	
 	/**
@@ -216,8 +228,12 @@ public class Player extends GameObject {
 	/**
 	 * Starts a flashing animation
 	 */
-	public void playerHitAnimation(){		
+	public void playerHitAnimation(){			
 		if (canBeHit){
+			numLives--;
+			if(numLives < 0)
+				numLives=3;
+			
 			Tween.registerAccessor(Sprite.class, new flashAnim());
 			
 			TweenCallback cb = new TweenCallback() {
@@ -230,6 +246,7 @@ public class Player extends GameObject {
 			
 			Tween.to(this, flashAnim.ALPHA, 0.7f).target(0,0).repeatYoyo(3, 0f).ease(TweenEquations.easeInCirc).setCallback(cb).setCallbackTriggers(TweenCallback.COMPLETE).start(tweenManager);
 			canBeHit = false;
+			
 		}
 	}
 	

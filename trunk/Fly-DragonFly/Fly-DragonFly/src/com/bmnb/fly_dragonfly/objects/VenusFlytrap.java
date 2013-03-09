@@ -19,7 +19,7 @@ public class VenusFlytrap extends StaticEnemy {
 
 	public VenusFlytrap(Vector2 position, float width, float height,
 			float speed, float scWidth, float scHeight, Player player) {
-		super(position, width, height, speed, scWidth, scHeight, player);
+		super(position, width, height, speed, scWidth, scHeight, player, 50);
 
 		sortVal = 2;
 
