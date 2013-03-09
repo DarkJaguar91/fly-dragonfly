@@ -10,6 +10,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -52,6 +53,7 @@ public class GameScreen implements Screen {
 	protected MapLoader map;
 	protected Spawner spawner;
 	protected Meter manaMeter;
+	protected BitmapFont font;
 	/**
 	 * Static vars for static methods
 	 */
@@ -102,6 +104,10 @@ public class GameScreen implements Screen {
 		//Init mana meter
 		manaMeter = new Meter(new Vector2(width/6,height-height/30), width/3, height/15, width, height, false, 
 				new Texture("data/mana_meter.png"), new Texture("data/mana_meter_grey.png"), 1);
+		
+		//Load font
+		font = new BitmapFont(Gdx.files.internal("data/font/commicsans.fnt"),
+		         Gdx.files.internal("data/font/commicsans.png"), false);
 	}
 
 	public static ArrayList<GameObject> getEnemies() {
@@ -131,6 +137,9 @@ public class GameScreen implements Screen {
 		
 		manaMeter.setProgress(player.getMana()/player.getMaxMana());
 		manaMeter.draw(batch,delta);
+		
+		CharSequence s = "Hello World";
+		font.draw(batch, s, 0, height - 450);
 		batch.end();
 
 		// do collision
