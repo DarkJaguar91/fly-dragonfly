@@ -217,11 +217,11 @@ public class GameScreen implements Screen {
 			if (! o.isDead()){
 				if (o instanceof Tongue){
 					if (((Tongue)o).checkCollision(player.getBoundingRectangle())){
-						
+//						Gdx.app.log("Collision", "Tongue");
 					}
 				}
 				else if (o.getBoundingRectangle().overlaps(player.getBoundingRectangle())){
-					// end game
+					player.playerHitAnimation();
 				}
 			}
 		}
