@@ -200,28 +200,33 @@ public class GameScreen implements Screen {
 					if (o.getBoundingRectangle().overlaps(particlesBox)) {
 						for (GameObject p : fireParticles) {
 							if (!p.isDead())
-								if (o instanceof Tongue){
-									if (((Tongue)o).checkCollision(p.getBoundingRectangle())){
+								if (p.getBoundingRectangle().overlaps(
+										o.getBoundingRectangle())) {
+									if (o instanceof Tongue){
+										if (((Tongue)o).checkCollision(p.getBoundingRectangle())){
+											((Particle) p).kill();
+											((Enemy) o).doDamage(player.getDamage());
+										}
+									}
+									else {
 										((Particle) p).kill();
 										((Enemy) o).doDamage(player.getDamage());
 									}
-								}
-								else if (p.getBoundingRectangle().overlaps(
-										o.getBoundingRectangle())) {
-									((Particle) p).kill();
-									((Enemy) o).doDamage(player.getDamage());
 								}
 						}
 					}
 			// do for player with checks
 			if (! o.isDead()){
-				if (o instanceof Tongue){
-					if (((Tongue)o).checkCollision(player.getBoundingRectangle())){
+				
+				if (o.getBoundingRectangle().overlaps(player.getBoundingRectangle())){
+					if (o instanceof Tongue){
+						if (((Tongue)o).checkCollision(player.getBoundingRectangle())){
+							player.playerHitAnimation();
+						}
+					}
+					else{
 						player.playerHitAnimation();
 					}
-				}
-				else if (o.getBoundingRectangle().overlaps(player.getBoundingRectangle())){
-					player.playerHitAnimation();
 				}
 			}
 		}
