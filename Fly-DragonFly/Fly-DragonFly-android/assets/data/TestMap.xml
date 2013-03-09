@@ -13,7 +13,14 @@
 	    <width>100</width>
 	    <height>100</height>
 	    <rotation>0</rotation>
-	</obj>    
+	</obj>
+	<obj type="bird">
+	    <x>50</x>
+	    <y>1700</y>
+	    <width>100</width>
+	    <height>100</height>
+	    <rotation>0</rotation>
+	</obj>       
 	<moziSpawner type="mosquitoes">
 	    <x>700</x>
 	    <y>1500</y>
