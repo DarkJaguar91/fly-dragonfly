@@ -17,7 +17,7 @@ public class Frog extends StaticEnemy{
 		
 		setTexture(new Texture("data/square.png"));
 	}
-
+	
 	@Override
 	public void update(float delta) {
 		
@@ -32,7 +32,4 @@ public class Frog extends StaticEnemy{
 		
 		super.update(delta);
 	}
-
-	
-	
 }

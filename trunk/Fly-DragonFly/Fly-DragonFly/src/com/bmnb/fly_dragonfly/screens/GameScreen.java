@@ -26,6 +26,7 @@ import com.bmnb.fly_dragonfly.map.Spawner;
 import com.bmnb.fly_dragonfly.objects.Enemy;
 import com.bmnb.fly_dragonfly.objects.GameObject;
 import com.bmnb.fly_dragonfly.objects.Player;
+import com.bmnb.fly_dragonfly.objects.Tongue;
 
 /**
  * Game screen controls the drawing update, everything for the game
@@ -190,7 +191,13 @@ public class GameScreen implements Screen {
 					if (o.getBoundingRectangle().overlaps(particlesBox)) {
 						for (GameObject p : fireParticles) {
 							if (!p.isDead())
-								if (p.getBoundingRectangle().overlaps(
+								if (o instanceof Tongue){
+									if (((Tongue)o).checkCollision(p.getBoundingRectangle())){
+										((Particle) p).kill();
+										((Enemy) o).doDamage(player.getDamage());
+									}
+								}
+								else if (p.getBoundingRectangle().overlaps(
 										o.getBoundingRectangle())) {
 									((Particle) p).kill();
 									((Enemy) o).doDamage(player.getDamage());
@@ -199,7 +206,12 @@ public class GameScreen implements Screen {
 					}
 			// do for player with checks
 			if (! o.isDead()){
-				if (o.getBoundingRectangle().overlaps(player.getBoundingRectangle())){
+				if (o instanceof Tongue){
+					if (((Tongue)o).checkCollision(player.getBoundingRectangle())){
+						
+					}
+				}
+				else if (o.getBoundingRectangle().overlaps(player.getBoundingRectangle())){
 					// end game
 				}
 			}

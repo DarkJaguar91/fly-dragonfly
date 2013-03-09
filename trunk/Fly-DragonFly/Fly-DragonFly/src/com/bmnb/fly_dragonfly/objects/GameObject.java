@@ -142,5 +142,5 @@ public abstract class GameObject extends Sprite implements Comparable<GameObject
 	@Override
 	public int compareTo(GameObject o) {
 		return this.sortVal < o.sortVal ? 1 : this.sortVal > o.sortVal ? -1 : 0;
-	}	
+	}
 }
