@@ -102,9 +102,7 @@ public class GameScreen implements Screen {
 				scrollSpeed, width, height, player));*/
 		// Add the flocking models:
 		boidsmodel = new BoidsModel();
-
-		// huge debug
-		((GameInput) Gdx.input.getInputProcessor()).setGameScreen(this);
+		
 		// Load map
 		try {
 			 this.map = new MapLoader("data/TestMap.xml");
@@ -247,9 +245,7 @@ public class GameScreen implements Screen {
 		} else {
 			if (o instanceof Enemy)
 				enemies.add(o);
-			
-			Gdx.app.log("Enemies:", "" + enemies.size());
-			
+				
 			if (o instanceof Boid)
 				boids.add(o);
 			

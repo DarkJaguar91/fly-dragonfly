@@ -18,6 +18,14 @@ public class Bird extends Enemy {
 		this.rotate(direction.angle());
 		setTexture(new Texture("data/square.png"));
 	}
+	
+	@Override
+	public void kill() {
+		removeable = true;
+		super.kill();
+	}
+
+
 
 	@Override
 	protected void move(float delta) {

@@ -23,7 +23,7 @@ public class Player extends GameObject {
 	 * Static set up vars
 	 */
 	protected static final float maxVertPath = 0.35f, upSpeedPercent = 0.8f,
-			downSpeedPercent = 1.2f, mosDamage = 0.25f, flyDamage = 1.0f;
+			downSpeedPercent = 1.2f, mosDamage = 0.25f, flyDamage = 1.0f, manaRegen = 1, manaUse = 5, maxMana = 50;
 	protected static final float[] mosColor = { 0.047058824f, 0.105882354f,
 			0.91764706f },
 			flyColor = { 0.91764706f, 0.105882354f, 0.047058824f },
@@ -37,6 +37,7 @@ public class Player extends GameObject {
 	protected Vector2 targetPosition;
 	protected GameParticleEmitter dragonBreath;
 	protected float damage = flyDamage;
+	protected float mana = maxMana;
 
 	/**
 	 * Constructor
@@ -59,6 +60,7 @@ public class Player extends GameObject {
 		super(position, width, height, speed, scWidth, scHeight);
 
 		sortVal = 0;
+		mana = maxMana;
 		
 		targetPosition = position;
 
@@ -163,6 +165,22 @@ public class Player extends GameObject {
 
 		super.draw(spriteBatch, delta);
 	}
+	
+	@Override
+	public void update(float delta) {
+		if (this.dragonBreath.isContinuous()){
+			mana = mana <= 0 ? 0 : mana - manaUse * delta;
+			
+//			Gdx.app.log("Mana:", mana + "");
+			
+			if (mana <= 0)
+				stopShooting();
+		}
+		else{
+			mana = mana == maxMana ? mana : mana + manaRegen * delta;
+		}
+		super.update(delta);
+	}
 
 	/**
 	 * Converts the gun into the firefly version by 1 step
@@ -217,5 +235,21 @@ public class Player extends GameObject {
 	 */
 	public float getDamage() {
 		return damage;
+	}
+	
+	/**
+	 * Returns the dragons flies current mana
+	 * @return The mana
+	 */
+	public float getMana(){
+		return mana;
+	}
+	
+	/**
+	 * Returns the dragon flies max mana
+	 * @return The max mana
+	 */
+	public float getMaxMana(){
+		return Player.maxMana;
 	}
 }

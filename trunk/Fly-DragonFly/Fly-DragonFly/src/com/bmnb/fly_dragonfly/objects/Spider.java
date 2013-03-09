@@ -16,6 +16,13 @@ public class Spider extends StaticEnemy {
 		
 		setTexture(new Texture("data/square.png"));
 	}
+	
+	@Override
+	public void kill(){
+		removeable = true;
+		super.kill();
+	}
+	
 	@Override
 	public void update(float delta){
 		super.update(delta);
