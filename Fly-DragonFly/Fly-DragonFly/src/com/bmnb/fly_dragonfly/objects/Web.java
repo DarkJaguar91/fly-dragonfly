@@ -18,6 +18,13 @@ public class Web extends StaticEnemy {
 		direction = (int)(Math.signum(player.getX() - this.getX())*direction);
 		setTexture(new Texture("data/square.png"));
 	}
+	
+	@Override
+	public void kill(){
+		removeable = true;
+		super.kill();
+	}
+	
 	@Override
 	public void update(float delta){
 		super.update(delta);
