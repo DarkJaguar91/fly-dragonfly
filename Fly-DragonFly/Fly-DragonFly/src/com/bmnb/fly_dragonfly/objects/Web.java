@@ -8,7 +8,7 @@ public class Web extends StaticEnemy {
 	private static final float WIDTH_EXPANSION_SPEED = 180;
 	private static final float HEIGHT_EXPANSION_SPEED = 80;
 	private static final float MAX_HEIGHT = 130; 
-	private static int direction = 1;
+	private int direction = 1;
 	public Web(Vector2 position, float width, float height, float speed,
 			float scWidth, float scHeight, Player player) {
 		super(position, width, height, speed, scWidth, scHeight, player);

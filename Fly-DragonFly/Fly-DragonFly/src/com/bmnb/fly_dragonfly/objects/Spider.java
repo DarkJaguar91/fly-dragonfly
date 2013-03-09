@@ -25,10 +25,11 @@ public class Spider extends StaticEnemy {
 	
 	@Override
 	public void update(float delta){
-		super.update(delta);
 		if (this.getY() - player.getY() < DIFF_Y_TRIGGER && !hasTriggered){
 			hasTriggered = true;
 			GameScreen.addObject(new Web(this.getPosition(),0,0,GameScreen.scrollSpeed,GameScreen.width,GameScreen.height,player));
 		}
+
+		super.update(delta);
 	}
 }
