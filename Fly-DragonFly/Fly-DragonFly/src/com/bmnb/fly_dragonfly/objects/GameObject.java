@@ -46,7 +46,7 @@ public abstract class GameObject extends Sprite implements Comparable<GameObject
 	@Override
 	public void draw(SpriteBatch spriteBatch, float delta) {
 		super.draw(spriteBatch);
-		update(delta);
+//		update(delta);
 	}
 
 	/**

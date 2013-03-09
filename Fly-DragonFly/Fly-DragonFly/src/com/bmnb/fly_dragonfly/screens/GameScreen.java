@@ -10,6 +10,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -54,6 +55,19 @@ public class GameScreen implements Screen {
 	protected Spawner spawner;
 	protected Meter manaMeter;
 	protected BitmapFont font;
+	
+	protected Texture tutorial_tex;
+	protected Texture okBtnTex;
+	protected Texture tutFrogTex;
+	protected Texture tutSpiderTex;
+	protected Texture tutFlytrapTex;
+	protected Texture tutbirdTex;
+	protected Texture tutFlameTex;
+	protected Texture tutFlyMoziTex;
+	protected Texture livesTex;
+	protected boolean draw_tutorial;
+	protected int tutID;
+	
 	/**
 	 * Static vars for static methods
 	 */
@@ -85,9 +99,27 @@ public class GameScreen implements Screen {
 		// init the scroller
 		scroller = new ScrollingBackground("data/space.jpg", width, height,
 				scrollSpeed);
-
+		
+		//init tutorial graphics
+		tutorial_tex = new Texture("data/tutorials/map.png");
+		tutorial_tex.setFilter(TextureFilter.Linear,TextureFilter.Linear);
+		okBtnTex = new Texture("data/tutorials/tutOkBtn2.png");
+		okBtnTex.setFilter(TextureFilter.Linear,TextureFilter.Linear);
+		
+		tutFrogTex = new Texture("data/tutorials/tutFrog.png");
+		tutSpiderTex = new Texture("data/tutorials/tutSpider.png");
+		tutFlytrapTex = new Texture("data/tutorials/tutFlyTrap.png");
+		tutbirdTex = new Texture("data/tutorials/tutBird.png");
+		tutFlameTex = new Texture("data/tutorials/tutFlame.png");
+		tutFlyMoziTex = new Texture("data/tutorials/tutFlyMozi.png");
+		
+		livesTex = new Texture("data/tutorials/lives.png");
+		draw_tutorial = false;
+		tutID = 0;
+		
 		// set the input processor
 		Gdx.input.setInputProcessor(new GameInput(width, height, player));
+		((GameInput)Gdx.input.getInputProcessor()).setGameScreen(this);//TODO
 
 		// Add the flocking models:
 		boidsmodel = new BoidsModel();
@@ -129,17 +161,37 @@ public class GameScreen implements Screen {
 		// draw objects
 		for (int i = 0; i < objects.size(); ++i)
 			objects.get(i).draw(batch, delta);
-		boidsmodel.update(delta,this);
-		spawner.update(delta);
-		//draw tutorial screens
-		//Texture tex = new Texture("tutorial_background.png");
-		//batch.draw(tex, 10, 10, width-10, height-10, 0, 0, tex.getWidth(), tex.getHeight(), false, false);		
+		
+		//draw score TODO
+		
+		//draw lives
+		for(int i=1;i<=player.getNumLives();i++){
+			batch.draw(livesTex,width-(livesTex.getWidth()-10)*i,height-livesTex.getHeight()-20,50,50,0,0,
+					livesTex.getWidth(),livesTex.getHeight(),false,false);
+		}
+		
+		
+		//draw tutorial screen
+		if(draw_tutorial){
+			drawTutorialScreen(batch);
+		}
+		else{
+			scroller.update(delta);
+			
+			//update objects
+			for (int i = 0; i < objects.size(); ++i)
+				objects.get(i).update(delta);
+			
+			boidsmodel.update(delta,this);
+			spawner.update(delta);
+			
+			CharSequence s = "Hello World";
+			font.draw(batch, s, 0, height - 450);
+		}	
 		
 		manaMeter.setProgress(player.getMana()/player.getMaxMana());
-		manaMeter.draw(batch,delta);
+		manaMeter.draw(batch,delta);	
 		
-		CharSequence s = "Hello World";
-		font.draw(batch, s, 0, height - 450);
 		batch.end();
 
 		// do collision
@@ -150,9 +202,74 @@ public class GameScreen implements Screen {
 		removeDeadObjects();
 	}
 	
-	public void showTutorialScreen(int y){
-		
+	//shows pop-up tutorial screen 
+	public void showTutorialScreen(int id){
+		if(draw_tutorial){
+			draw_tutorial = false;
+			tutID = 0;
+		}
+		else{
+			draw_tutorial = true;
+			tutID = id;
+		}
 	}
+
+	//draw tutorial screen
+	private void drawTutorialScreen(SpriteBatch spritebatch){
+		float tutScreenStartX = 30;
+		float tutScreenStartY = height/3;		
+		float tutScreenWidth = width-70;
+		float tutScreenHeight = 500;		
+
+		spritebatch.draw(tutorial_tex, tutScreenStartX, tutScreenStartY, tutScreenWidth, tutScreenHeight, 0, 0, 
+				tutorial_tex.getWidth(), tutorial_tex.getHeight(), false, false);
+
+		spritebatch.draw(okBtnTex, ((tutScreenStartX+tutScreenWidth)/2)-50, 
+				tutScreenStartY + 70, 100, 50, 0, 0, 
+				okBtnTex.getWidth(), okBtnTex.getHeight(), false, false);
+
+		switch(tutID){
+		case 0:
+			spritebatch.draw(tutFrogTex, tutScreenStartX+20, 
+					(tutScreenStartY+tutScreenHeight) - tutFrogTex.getHeight() - 20, 
+					tutFrogTex.getWidth(), 
+					tutFrogTex.getHeight(), 0, 0, 
+					tutFrogTex.getWidth(), tutFrogTex.getHeight(), false, false);
+			//				spritebatch.
+			break;
+		case 2:
+			spritebatch.draw(tutFlytrapTex, tutScreenStartX+20, 
+					(tutScreenStartY+tutScreenHeight) - tutFlytrapTex.getHeight() - 20, 
+					tutFlytrapTex.getWidth(), 
+					tutFlytrapTex.getHeight(), 0, 0, 
+					tutFlytrapTex.getWidth(), tutFlytrapTex.getHeight(), false, false);
+			break;
+		case 3:
+			spritebatch.draw(tutSpiderTex, tutScreenStartX+20, 
+					(tutScreenStartY+tutScreenHeight) - tutSpiderTex.getHeight() - 20, 
+					tutSpiderTex.getWidth(), 
+					tutSpiderTex.getHeight(), 0, 0, 
+					tutSpiderTex.getWidth(), tutSpiderTex.getHeight(), false, false);
+			break;
+		case 4:
+			spritebatch.draw(tutbirdTex, tutScreenStartX+20, 
+					(tutScreenStartY+tutScreenHeight) - tutbirdTex.getHeight() - 20, 
+					tutbirdTex.getWidth(), 
+					tutbirdTex.getHeight(), 0, 0, 
+					tutbirdTex.getWidth(), tutbirdTex.getHeight(), false, false);
+			break;
+		case 5:
+			spritebatch.draw(tutFlyMoziTex, tutScreenStartX+20, 
+					(tutScreenStartY+tutScreenHeight) - tutFlyMoziTex.getHeight() - 20, 
+					tutFlyMoziTex.getWidth(), 
+					tutFlyMoziTex.getHeight(), 0, 0, 
+					tutFlyMoziTex.getWidth(), tutFlyMoziTex.getHeight(), false, false);
+			break;
+		default:
+			//do nothing
+		}		
+	}
+
 
 	public Player getPlayer() {
 		return player;
@@ -330,5 +447,15 @@ public class GameScreen implements Screen {
 		enemies = new ArrayList<GameObject>();
 		rocks = new ArrayList<GameObject>();
 		boids = new ArrayList<GameObject>();
+		
+		tutbirdTex.dispose();
+		tutFrogTex.dispose();
+		tutSpiderTex.dispose();
+		tutFlyMoziTex.dispose();
+		tutFlytrapTex.dispose();
+		tutFlameTex.dispose();
+		livesTex.dispose();
+		tutbirdTex.dispose();
+		okBtnTex.dispose();
 	}
 }

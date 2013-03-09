@@ -46,6 +46,8 @@ public class Player extends GameObject {
 	protected GameParticleEmitter dragonBreath;
 	protected float damage = flyDamage;
 	protected float mana = maxMana;
+	protected int numLives;
+	protected int numPoints;
 	TweenManager tweenManager;
 	protected boolean canBeHit = true;
 
@@ -73,6 +75,9 @@ public class Player extends GameObject {
 		mana = maxMana;
 		
 		targetPosition = position;
+		
+		numLives = 3;
+		numPoints = 0;
 
 		tweenManager = new TweenManager();
 		
@@ -95,6 +100,18 @@ public class Player extends GameObject {
 		}
 	}
 
+	public int getNumLives(){
+		return numLives;
+	}
+	
+	public int getScore(){
+		return numPoints;
+	}
+	
+	public void increaseScoreBy(int p){
+		numPoints += p;
+	}
+	
 	/**
 	 * Sets the new position the player should move to
 	 * 
@@ -285,6 +302,14 @@ public class Player extends GameObject {
 	 */
 	public float getMana(){
 		return mana;
+	}
+	
+	//reduces number of player's lives before finally killing him
+	@Override
+	public void kill(){
+		numLives--;
+		if(numLives < 0)
+			super.kill();
 	}
 	
 	/**

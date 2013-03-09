@@ -39,6 +39,16 @@ public class GameInput implements InputProcessor {
 	 */
 	@Override
 	public boolean keyDown(int keycode) {
+		if(keycode == 54){
+			System.out.println(screen);
+			screen.showTutorialScreen(0);
+			return true;
+		}
+		else if(keycode == 52){
+			player.kill();
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -87,6 +97,21 @@ public class GameInput implements InputProcessor {
 		if (screenX > width * 0.8f && screenY > height * 0.8f){
 			player.convertWeaponMossies();
 			return true;
+		}
+
+		//player presses button area on to remove tutorial screen
+		if (screenX > ((30+(width-70))/2)-50 && screenY > ((height/3)+70) &&
+				screenX < ((30+(width-70))/2)-50+100 && screenY < ((height/3)+70)+50){
+			screen.showTutorialScreen(0);			
+			return true;
+		}
+
+		if (shootPointer == -1) {
+			if (screenX < width * 0.1f && screenY < width * 0.1f) {
+				player.startShooting();
+				shootPointer = pointer;
+				return true;
+			}
 		}
 		
 		if (shootPointer == -1) {
