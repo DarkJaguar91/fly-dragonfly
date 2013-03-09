@@ -3,12 +3,20 @@ package com.bmnb.fly_dragonfly.objects;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.ParticleType;
+import com.bmnb.fly_dragonfly.graphics.flashAnim;
 import com.bmnb.fly_dragonfly.tools.MathTools;
 
 /**
@@ -38,6 +46,7 @@ public class Player extends GameObject {
 	protected GameParticleEmitter dragonBreath;
 	protected float damage = flyDamage;
 	protected float mana = maxMana;
+	TweenManager tweenManager;
 
 	/**
 	 * Constructor
@@ -64,6 +73,8 @@ public class Player extends GameObject {
 		
 		targetPosition = position;
 
+		tweenManager = new TweenManager();
+		
 		// load textures (loading here for now, must create texture loader
 		// later)
 		this.setTexture(new Texture("data/square.png"));
@@ -168,6 +179,8 @@ public class Player extends GameObject {
 	
 	@Override
 	public void update(float delta) {
+		tweenManager.update(delta);
+		
 		if (this.dragonBreath.isContinuous()){
 			mana = mana <= 0 ? 0 : mana - manaUse * delta;
 			
@@ -182,6 +195,29 @@ public class Player extends GameObject {
 		super.update(delta);
 	}
 
+	boolean once = false;
+	public void playerHitAnimation(){		
+		if (!once){
+			Tween.registerAccessor(Sprite.class, new flashAnim());
+			
+			TweenCallback cb = new TweenCallback() {
+				
+				@Override
+				public void onEvent(int type, BaseTween<?> source) {
+					resetHit();
+				}
+			};
+			
+			Tween.to(this, flashAnim.ALPHA, 0.5f).target(0).repeatYoyo(10, 0f).ease(TweenEquations.easeInCirc).setCallback(cb).setCallbackTriggers(TweenCallback.COMPLETE).start(tweenManager);
+			once = true;
+		}
+	}
+	
+	protected void resetHit(){
+		once = false;
+		setColor(1,1,1,1);
+	}
+	
 	/**
 	 * Converts the gun into the firefly version by 1 step
 	 */

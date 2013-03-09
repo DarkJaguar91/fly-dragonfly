@@ -123,7 +123,7 @@ public class BoidsModel {
 	 * @param gs
 	 */
 	private void flee(GameScreen gs){
-		for (GameObject o:gs.getEnemies()){
+		for (GameObject o: GameScreen.getEnemies()){
 			fleeFromObject(new Vector2(o.getX(),o.getY()),new Vector2(o.getWidth(),o.getHeight()).len2());
 		}
 		fleeFromObject(gs.getPlayer().getPosition(),

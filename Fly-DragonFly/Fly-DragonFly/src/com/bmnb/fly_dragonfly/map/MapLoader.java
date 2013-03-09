@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 import com.bmnb.fly_dragonfly.map.MoziSpawner.SpawnerType;
 import com.bmnb.fly_dragonfly.map.ObjectSpawner.Type;
-import com.bmnb.fly_dragonfly.objects.GameObject;
 /**
  * Map loader class that parses Fly-Dragonfly XML maps
  * @author benjamin
