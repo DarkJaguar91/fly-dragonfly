@@ -3,6 +3,7 @@ package com.bmnb.fly_dragonfly.map;
 import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.flocking.BoidsModel;
 import com.bmnb.fly_dragonfly.objects.Bird;
+import com.bmnb.fly_dragonfly.objects.Frog;
 import com.bmnb.fly_dragonfly.objects.Player;
 import com.bmnb.fly_dragonfly.objects.Spider;
 import com.bmnb.fly_dragonfly.objects.VenusFlytrap;
@@ -35,6 +36,9 @@ public class Spawner {
 							_scrollSpeed, GameScreen.width, GameScreen.height,  _player));
 				else if (os.getType() == ObjectSpawner.Type.OS_VENUSFT) 
 					GameScreen.addObject(new VenusFlytrap(new Vector2(os.getX(),os.getY()), os.getWidth(), os.getHeight(), 
+						_scrollSpeed, GameScreen.width, GameScreen.height,  _player));
+				else if (os.getType() == ObjectSpawner.Type.OS_FROG) 
+					GameScreen.addObject(new Frog(new Vector2(os.getX(),os.getY()), os.getWidth(), os.getHeight(), 
 						_scrollSpeed, GameScreen.width, GameScreen.height,  _player));
 				_map.getGameObjects().remove(i--);
 			}	
