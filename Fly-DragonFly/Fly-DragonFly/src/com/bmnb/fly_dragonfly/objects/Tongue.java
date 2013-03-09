@@ -14,7 +14,7 @@ public class Tongue extends StaticEnemy {
 
 	public Tongue(Vector2 position, float width, float height, float speed,
 			float scWidth, float scHeight, Player player) {
-		super(position, width, height, speed, scWidth, scHeight, player);
+		super(position, width, height, speed, scWidth, scHeight, player,100);
 
 		sortVal = 3;
 

@@ -11,7 +11,7 @@ public class Web extends StaticEnemy {
 	private int direction = 1;
 	public Web(Vector2 position, float width, float height, float speed,
 			float scWidth, float scHeight, Player player) {
-		super(position, width, height, speed, scWidth, scHeight, player);
+		super(position, width, height, speed, scWidth, scHeight, player, 10);
 		
 		sortVal = 3;
 		

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -65,8 +66,11 @@ public class GameScreen implements Screen {
 	protected Texture tutFlameTex;
 	protected Texture tutFlyMoziTex;
 	protected Texture livesTex;
+	protected Texture tutTextTex;
 	protected boolean draw_tutorial;
 	protected int tutID;
+	protected CharSequence playerScore;
+	protected float survivalTime;
 	
 	/**
 	 * Static vars for static methods
@@ -112,10 +116,12 @@ public class GameScreen implements Screen {
 		tutbirdTex = new Texture("data/tutorials/tutBird.png");
 		tutFlameTex = new Texture("data/tutorials/tutFlame.png");
 		tutFlyMoziTex = new Texture("data/tutorials/tutFlyMozi.png");
+		tutTextTex = new Texture("data/tutorials/tut_ok_btn.png");
 		
 		livesTex = new Texture("data/tutorials/lives.png");
 		draw_tutorial = false;
 		tutID = 0;
+		survivalTime = 0;//TODO
 		
 		// set the input processor
 		Gdx.input.setInputProcessor(new GameInput(width, height, player));
@@ -162,14 +168,11 @@ public class GameScreen implements Screen {
 		for (int i = 0; i < objects.size(); ++i)
 			objects.get(i).draw(batch, delta);
 		
-		//draw score TODO
-		
 		//draw lives
 		for(int i=1;i<=player.getNumLives();i++){
 			batch.draw(livesTex,width-(livesTex.getWidth()-10)*i,height-livesTex.getHeight()-20,50,50,0,0,
 					livesTex.getWidth(),livesTex.getHeight(),false,false);
-		}
-		
+		}		
 		
 		//draw tutorial screen
 		if(draw_tutorial){
@@ -178,15 +181,17 @@ public class GameScreen implements Screen {
 		else{
 			scroller.update(delta);
 			
+			//draw score 
+			playerScore = ""+player.getScore();
+			font.draw(batch, playerScore, 10, height-livesTex.getHeight()-50);		
+			player.increaseScoreBy(delta);
+			
 			//update objects
 			for (int i = 0; i < objects.size(); ++i)
 				objects.get(i).update(delta);
 			
 			boidsmodel.update(delta,this);
 			spawner.update(delta);
-			
-			CharSequence s = "Hello World";
-			font.draw(batch, s, 0, height - 450);
 		}	
 		
 		manaMeter.setProgress(player.getMana()/player.getMaxMana());
@@ -197,8 +202,7 @@ public class GameScreen implements Screen {
 		// do collision
 		doCollisionDetection();
 
-		// remove all dead opjects
-
+		// remove all dead objects
 		removeDeadObjects();
 	}
 	
@@ -214,12 +218,13 @@ public class GameScreen implements Screen {
 		}
 	}
 
-	//draw tutorial screen
+	//draw tutorial screen TODO
 	private void drawTutorialScreen(SpriteBatch spritebatch){
 		float tutScreenStartX = 30;
 		float tutScreenStartY = height/3;		
 		float tutScreenWidth = width-70;
-		float tutScreenHeight = 500;		
+		float tutScreenHeight = 500;	
+		CharSequence msg = "";
 
 		spritebatch.draw(tutorial_tex, tutScreenStartX, tutScreenStartY, tutScreenWidth, tutScreenHeight, 0, 0, 
 				tutorial_tex.getWidth(), tutorial_tex.getHeight(), false, false);
@@ -227,29 +232,53 @@ public class GameScreen implements Screen {
 		spritebatch.draw(okBtnTex, ((tutScreenStartX+tutScreenWidth)/2)-50, 
 				tutScreenStartY + 70, 100, 50, 0, 0, 
 				okBtnTex.getWidth(), okBtnTex.getHeight(), false, false);
-
+		
+		spritebatch.draw(tutTextTex, tutScreenStartX+20+tutFrogTex.getWidth()+5, 
+				(tutScreenStartY+130), tutScreenWidth-tutFrogTex.getWidth()-50, 
+				tutScreenWidth-okBtnTex.getWidth()-130, 0, 0, 
+				tutTextTex.getWidth(), tutTextTex.getHeight(), false, false);
+		font.setScale(0.6f);	
+		font.setColor(Color.BLACK);
 		switch(tutID){
-		case 0:
+		case 0:			
 			spritebatch.draw(tutFrogTex, tutScreenStartX+20, 
 					(tutScreenStartY+tutScreenHeight) - tutFrogTex.getHeight() - 20, 
-					tutFrogTex.getWidth(), 
-					tutFrogTex.getHeight(), 0, 0, 
-					tutFrogTex.getWidth(), tutFrogTex.getHeight(), false, false);
-			//				spritebatch.
+					tutFrogTex.getWidth(), tutFrogTex.getHeight(), 0, 0, 
+					tutFrogTex.getWidth(), tutFrogTex.getHeight(), false, false);			
+									
+			msg = "Beware of his tongue! All frogs are stationary but they " +
+					"don't need to move to catch their prey...cause they have long, " +
+					"fast tongues. Try keep a good distance away from them.";			
+			font.drawWrapped(spritebatch, msg, tutScreenStartX+20+tutFrogTex.getWidth()+7,
+					(tutScreenStartY+tutScreenHeight) - 30,
+					tutScreenWidth-tutFrogTex.getWidth()-50);
+					
 			break;
 		case 2:
 			spritebatch.draw(tutFlytrapTex, tutScreenStartX+20, 
 					(tutScreenStartY+tutScreenHeight) - tutFlytrapTex.getHeight() - 20, 
 					tutFlytrapTex.getWidth(), 
 					tutFlytrapTex.getHeight(), 0, 0, 
-					tutFlytrapTex.getWidth(), tutFlytrapTex.getHeight(), false, false);
+					tutFlytrapTex.getWidth(), tutFlytrapTex.getHeight(), false, false);	
+			msg = "Watch out for the gas! FlyTraps are stationary but they secrete " +
+					"gas which draws you towards them. And if you get too close, " +
+					"then you will die.";			
+			font.drawWrapped(spritebatch, msg, tutScreenStartX+20+tutFrogTex.getWidth()+7,
+					(tutScreenStartY+tutScreenHeight) - 30,
+					tutScreenWidth-tutFrogTex.getWidth()-50);
 			break;
 		case 3:
 			spritebatch.draw(tutSpiderTex, tutScreenStartX+20, 
 					(tutScreenStartY+tutScreenHeight) - tutSpiderTex.getHeight() - 20, 
 					tutSpiderTex.getWidth(), 
 					tutSpiderTex.getHeight(), 0, 0, 
-					tutSpiderTex.getWidth(), tutSpiderTex.getHeight(), false, false);
+					tutSpiderTex.getWidth(), tutSpiderTex.getHeight(), false, false);	
+			msg = "Beware their webs, if you get caught they can come and eat " +
+					"you unless you manage to break free in time! " +
+					"So try and save some fire-breath to escape!";			
+			font.drawWrapped(spritebatch, msg, tutScreenStartX+20+tutFrogTex.getWidth()+7,
+					(tutScreenStartY+tutScreenHeight) - 30,
+					tutScreenWidth-tutFrogTex.getWidth()-50);
 			break;
 		case 4:
 			spritebatch.draw(tutbirdTex, tutScreenStartX+20, 
@@ -257,17 +286,35 @@ public class GameScreen implements Screen {
 					tutbirdTex.getWidth(), 
 					tutbirdTex.getHeight(), 0, 0, 
 					tutbirdTex.getWidth(), tutbirdTex.getHeight(), false, false);
+			msg = "Birds are fast and accurate. If you are not ready for them they will catch you. " +
+					"They are waiting for you to pass by, " +
+					"at which point they will swoop down and try eat you! " +
+					"If you don't fly away, they will kill you.";			
+			font.drawWrapped(spritebatch, msg, tutScreenStartX+20+tutFrogTex.getWidth()+7,
+					(tutScreenStartY+tutScreenHeight) - 30,
+					tutScreenWidth-tutFrogTex.getWidth()-50);
 			break;
 		case 5:
 			spritebatch.draw(tutFlyMoziTex, tutScreenStartX+20, 
 					(tutScreenStartY+tutScreenHeight) - tutFlyMoziTex.getHeight() - 20, 
 					tutFlyMoziTex.getWidth(), 
 					tutFlyMoziTex.getHeight(), 0, 0, 
-					tutFlyMoziTex.getWidth(), tutFlyMoziTex.getHeight(), false, false);
+					tutFlyMoziTex.getWidth(), tutFlyMoziTex.getHeight(), false, false);	
+			msg = "On the way, you will come across Mosquitoes and flies."+ 
+					"You can eat these to change how your fire-breath behaves."+
+					"Eating Mosquitoes will increase how broad you breath fire and how much damage it causes."+ 
+					"But you will also sacrifice range at the same time."+
+					"Eating Flies will increase how far you breath fire but decrease the damage done"+ 
+					"and how broad your flame is.";			
+			font.drawWrapped(spritebatch, msg, tutScreenStartX+20+tutFrogTex.getWidth()+7,
+					(tutScreenStartY+tutScreenHeight) - 30,
+					tutScreenWidth-tutFrogTex.getWidth()-50);
 			break;
 		default:
 			//do nothing
 		}		
+		font.setColor(Color.WHITE);
+		font.setScale(1f);
 	}
 
 
@@ -327,7 +374,7 @@ public class GameScreen implements Screen {
 									}
 									else {
 										((Particle) p).kill();
-										((Enemy) o).doDamage(player.getDamage());
+										((Enemy) o).doDamage(player.getDamage());										
 									}
 								}
 						}
@@ -353,6 +400,7 @@ public class GameScreen implements Screen {
 			if (! o.isDead()){
 				if (o.getBoundingRectangle().overlaps(player.getBoundingRectangle())){
 					o.kill();
+					player.increaseScoreBy(10);
 					if (o instanceof FireFly)
 						player.convertWeaponFireflies();
 					else
@@ -439,6 +487,7 @@ public class GameScreen implements Screen {
 	public void resume() {
 	}
 
+	//TODO
 	@Override
 	public void dispose() {
 		batch.dispose();
@@ -457,5 +506,6 @@ public class GameScreen implements Screen {
 		livesTex.dispose();
 		tutbirdTex.dispose();
 		okBtnTex.dispose();
+		tutTextTex.dispose();
 	}
 }

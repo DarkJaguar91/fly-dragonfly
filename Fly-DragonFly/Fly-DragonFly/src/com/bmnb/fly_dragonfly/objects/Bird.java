@@ -13,7 +13,7 @@ public class Bird extends Enemy {
 	private boolean shouldCalculate = true; 
 	public Bird(Vector2 position, float width, float height, float speed,
 			float scWidth, float scHeight, Player player) {
-		super(position, width, height, speed, scWidth, scHeight, player);
+		super(position, width, height, speed, scWidth, scHeight, player,200);
 		countdown = (float)Math.random()*RANDOM_COUNTDOWN;
 		sortVal = 1;
 		setTexture(new Texture("data/square.png"));
