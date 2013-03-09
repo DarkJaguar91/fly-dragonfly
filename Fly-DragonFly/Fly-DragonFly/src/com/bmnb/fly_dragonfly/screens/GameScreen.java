@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -17,6 +18,7 @@ import com.bmnb.fly_dragonfly.flocking.BoidsModel;
 import com.bmnb.fly_dragonfly.flocking.FireFly;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.Particle;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.ParticleType;
+import com.bmnb.fly_dragonfly.graphics.Meter;
 import com.bmnb.fly_dragonfly.graphics.ScrollingBackground;
 import com.bmnb.fly_dragonfly.input.GameInput;
 import com.bmnb.fly_dragonfly.map.MapLoader;
@@ -48,6 +50,7 @@ public class GameScreen implements Screen {
 	protected BoidsModel boidsmodel;
 	protected MapLoader map;
 	protected Spawner spawner;
+	protected Meter manaMeter;
 	/**
 	 * Static vars for static methods
 	 */
@@ -83,23 +86,6 @@ public class GameScreen implements Screen {
 		// set the input processor
 		Gdx.input.setInputProcessor(new GameInput(width, height, player));
 
-		// debug
-		/*addObject(new Frog(new Vector2(width / 2, height / 2), 50, 50, 0,
-				width, height, player));
-		addObject(new Frog(new Vector2(width / 2 - 50, height / 2), 50, 50, 0,
-				width, height, player));
-		addObject(new Frog(new Vector2(width / 2 + 50, height / 2), 50, 50, 0,
-				width, height, player));
-		addObject(new Frog(new Vector2(width / 2 - 100, height / 2), 50, 50, 0,
-				width, height, player));
-		addObject(new Frog(new Vector2(width / 2 + 100, height / 2), 50, 50, 0,
-				width, height, player));
-		addObject(new VenusFlytrap(new Vector2(width / 4, height / 4 * 3), 50,
-				50, scrollSpeed, width, height, player));
-		addObject(new Bird(new Vector2(width, height), 50, 50,
-				scrollSpeed, width, height, player));
-		addObject(new Spider(new Vector2(width, height), 50, 50,
-				scrollSpeed, width, height, player));*/
 		// Add the flocking models:
 		boidsmodel = new BoidsModel();
 		
@@ -111,6 +97,10 @@ public class GameScreen implements Screen {
 			e.printStackTrace();
 			System.exit(1);
 		}
+		
+		//Init mana meter
+		manaMeter = new Meter(new Vector2(width/6,height-height/30), width/3, height/15, width, height, false, 
+				new Texture("data/mana_meter.png"), new Texture("data/mana_meter_grey.png"), 1);
 	}
 
 	public static ArrayList<GameObject> getEnemies() {
@@ -138,7 +128,8 @@ public class GameScreen implements Screen {
 		//Texture tex = new Texture("tutorial_background.png");
 		//batch.draw(tex, 10, 10, width-10, height-10, 0, 0, tex.getWidth(), tex.getHeight(), false, false);		
 		
-		
+		manaMeter.setProgress(player.getMana()/player.getMaxMana());
+		manaMeter.draw(batch,delta);
 		batch.end();
 
 		// do collision

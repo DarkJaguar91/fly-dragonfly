@@ -22,7 +22,7 @@ public class Tongue extends StaticEnemy{
 		target = player.getPosition().cpy().add(player.direction.cpy().mul(player.speed * (1 / growRate))); // calculate pos further away
 		
 		length = target.cpy().sub(this.getPosition()).len();
-		
+
 		float angle = (target.cpy().sub(this.getPosition().cpy())).angle();
 		
 		//this.setRotation(angle);
