@@ -6,7 +6,7 @@ import com.bmnb.fly_dragonfly.screens.GameScreen;
 
 public class Frog extends StaticEnemy{
 
-	private static final float DIFF_Y_TRIGGER = 900;
+	private static final float DIFF_Y_TRIGGER = 400;
 	private boolean hasTriggered = false;
 	
 	public Frog(Vector2 position, float width, float height, float speed,
@@ -26,7 +26,8 @@ public class Frog extends StaticEnemy{
 		
 		if (this.getY() - player.getY() < DIFF_Y_TRIGGER && !hasTriggered){
 			hasTriggered = true;
-			GameScreen.addObject(new Tongue(this.getPosition(),0,0,GameScreen.scrollSpeed,this.getWidth(),100,player));
+			GameScreen.addObject(new Tongue(new Vector2(this.getX(), this.getY()), this.getWidth(), 0, this.speed,
+					screenWidth, screenHeight, player));
 		}
 		
 		super.update(delta);

@@ -8,7 +8,7 @@
 	    <rotation>0</rotation>
 	</obj>
 	<obj type="frog">
-	    <x>100</x>
+	    <x>150</x>
 	    <y>2000</y>
 	    <width>100</width>
 	    <height>100</height>
