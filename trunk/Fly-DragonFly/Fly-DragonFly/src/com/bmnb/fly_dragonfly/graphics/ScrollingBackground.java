@@ -43,6 +43,18 @@ public class ScrollingBackground {
 			yPositions[i] = i * height;
 	}
 	
+	public void update(float delta){
+		for(int i = 0;i<yPositions.length;++i){
+			// scroll the positions
+			yPositions[i] -= delta * speed;
+
+			// move the tex above when it leaves the screen
+			if (yPositions[i] + height < 0){
+				yPositions[i] += height * yPositions.length;
+			}
+		}
+	}
+	
 	/**
 	 * Draws the background
 	 * @param batch Sprite batch to draw with
@@ -51,15 +63,7 @@ public class ScrollingBackground {
 	public void draw(SpriteBatch batch, float delta){
 		for (int i = 0; i < yPositions.length; ++i){
 			// draw
-			batch.draw(tex, 0, yPositions[i], width, height);
-			
-			// scroll the positions
-			yPositions[i] -= delta * speed;
-			
-			// move the tex above when it leaves the screen
-			if (yPositions[i] + height < 0){
-				yPositions[i] += height * yPositions.length;
-			}
+			batch.draw(tex, 0, yPositions[i], width, height);			
 		}
 	}
 }
