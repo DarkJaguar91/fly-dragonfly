@@ -8,7 +8,11 @@ import com.bmnb.fly_dragonfly.objects.Player;
 import com.bmnb.fly_dragonfly.objects.Spider;
 import com.bmnb.fly_dragonfly.objects.VenusFlytrap;
 import com.bmnb.fly_dragonfly.screens.GameScreen;
-
+/**
+ * Spawner class. Takes a map object and spawns the contents at the correct time
+ * @author benjamin
+ *
+ */
 public class Spawner {
 	MapLoader _map;
 	GameScreen _gs;
@@ -16,6 +20,14 @@ public class Spawner {
 	float _scrollSpeed;
 	Player _player;
 	BoidsModel _bm;
+	/**
+	 * Default constructor
+	 * @param map a map object
+	 * @param boidsModel handle to the boids model
+	 * @param gs handle to the game screen
+	 * @param speed scroll speed
+	 * @param player handle to the player
+	 */
 	public Spawner(MapLoader map, BoidsModel boidsModel, GameScreen gs, float speed, Player player){
 		_map = map;
 		_gs = gs;
@@ -23,8 +35,14 @@ public class Spawner {
 		_bm = boidsModel;
 		_player = player;
 	}
+	/**
+	 * Update method
+	 * @param delta
+	 */
 	public void update(float delta){
+		//scroll
 		_y += _scrollSpeed * delta;
+		//spawn objects:
 		for (int i = 0; i < _map.getGameObjects().size(); ++i){
 			ObjectSpawner os = _map.getGameObjects().get(i);
 			if (os.getY() < _y + GameScreen.height){
@@ -43,6 +61,7 @@ public class Spawner {
 				_map.getGameObjects().remove(i--);
 			}	
 		}
+		//spawn boids spawnpoint
 		for (int i = 0; i < _map.getSpawners().size(); ++i){
 			MoziSpawner ms = _map.getSpawners().get(i);
 			if (ms.getPos().y < _y + GameScreen.height){
