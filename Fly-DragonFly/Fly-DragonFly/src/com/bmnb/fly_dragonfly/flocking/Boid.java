@@ -15,7 +15,20 @@ public class Boid extends GameObject{
 		super(position,width,height,(float)Math.random()*MAX_SPEED,scWidth,scHeight);
 		this.direction = direction; 
 		setTexture(new Texture("data/boid.png"));
+		
+		sortVal = 1;
 	}
+	
+	
+	
+	@Override
+	public void kill() {
+		this.removeable = true;
+		super.kill();
+	}
+
+
+
 	public void setSpeed(float i){
 		assert(i >= 0);
 		this.speed = i;

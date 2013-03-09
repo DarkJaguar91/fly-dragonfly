@@ -9,24 +9,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.bmnb.fly_dragonfly.flocking.Boid;
 import com.bmnb.fly_dragonfly.flocking.BoidsModel;
+import com.bmnb.fly_dragonfly.flocking.FireFly;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.Particle;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.ParticleType;
 import com.bmnb.fly_dragonfly.graphics.ScrollingBackground;
 import com.bmnb.fly_dragonfly.input.GameInput;
 import com.bmnb.fly_dragonfly.map.MapLoader;
 import com.bmnb.fly_dragonfly.map.Spawner;
-import com.bmnb.fly_dragonfly.objects.Bird;
 import com.bmnb.fly_dragonfly.objects.Enemy;
-import com.bmnb.fly_dragonfly.objects.Frog;
 import com.bmnb.fly_dragonfly.objects.GameObject;
 import com.bmnb.fly_dragonfly.objects.Player;
-import com.bmnb.fly_dragonfly.objects.Spider;
-import com.bmnb.fly_dragonfly.objects.VenusFlytrap;
 
 /**
  * Game screen controls the drawing update, everything for the game
@@ -55,7 +52,7 @@ public class GameScreen implements Screen {
 	 * Static vars for static methods
 	 */
 	protected static ArrayList<GameObject> objects, fireParticles,
-			poisonParticles, enemies, rocks;
+			poisonParticles, enemies, rocks, boids;
 
 	@Override
 	public void show() {
@@ -73,6 +70,7 @@ public class GameScreen implements Screen {
 		poisonParticles = new ArrayList<GameObject>();
 		enemies = new ArrayList<GameObject>();
 		rocks = new ArrayList<GameObject>();
+		boids = new ArrayList<GameObject>();
 
 		// init player
 		addObject(player = new Player(new Vector2(width / 2f, 50), 100, 100,
@@ -170,6 +168,10 @@ public class GameScreen implements Screen {
 				// enemies
 				if (objects.get(i) instanceof Enemy)
 					enemies.remove(objects.get(i));
+				
+				//boids
+				if (objects.get(i) instanceof Boid)
+					boids.remove(objects.get(i));
 				// objects
 				objects.remove(i);
 				--i;
@@ -206,12 +208,26 @@ public class GameScreen implements Screen {
 								}
 						}
 					}
-
 			// do for player with checks
+			if (! o.isDead()){
+				if (o.getBoundingRectangle().overlaps(player.getBoundingRectangle())){
+					// end game
+				}
+			}
 		}
 
 		// add player check with boids
-
+		for (GameObject o : boids){
+			if (! o.isDead()){
+				if (o.getBoundingRectangle().overlaps(player.getBoundingRectangle())){
+					o.kill();
+					if (o instanceof FireFly)
+						player.convertWeaponFireflies();
+					else
+						player.convertWeaponMossies();
+				}
+			}
+		}
 	}
 
 	/**
@@ -231,6 +247,11 @@ public class GameScreen implements Screen {
 		} else {
 			if (o instanceof Enemy)
 				enemies.add(o);
+			
+			Gdx.app.log("Enemies:", "" + enemies.size());
+			
+			if (o instanceof Boid)
+				boids.add(o);
 			
 			if (objects.size() == 0)
 				objects.add(o);
@@ -295,5 +316,6 @@ public class GameScreen implements Screen {
 		fireParticles = new ArrayList<GameObject>();
 		enemies = new ArrayList<GameObject>();
 		rocks = new ArrayList<GameObject>();
+		boids = new ArrayList<GameObject>();
 	}
 }

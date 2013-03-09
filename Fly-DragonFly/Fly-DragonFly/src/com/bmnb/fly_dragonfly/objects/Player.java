@@ -23,7 +23,7 @@ public class Player extends GameObject {
 	 * Static set up vars
 	 */
 	protected static final float maxVertPath = 0.35f, upSpeedPercent = 0.8f,
-			downSpeedPercent = 1.2f, mosDamage = 0.5f, flyDamage = 1.5f;
+			downSpeedPercent = 1.2f, mosDamage = 0.25f, flyDamage = 1.0f;
 	protected static final float[] mosColor = { 0.047058824f, 0.105882354f,
 			0.91764706f },
 			flyColor = { 0.91764706f, 0.105882354f, 0.047058824f },
@@ -170,20 +170,20 @@ public class Player extends GameObject {
 	public void convertWeaponFireflies() {
 		dragonBreath.getTint().setColors(
 				MathTools.interp(dragonBreath.getTint().getColors(), flyColor,
-						mosColor, 1));
+						mosColor, 5));
 		dragonBreath.getAngle().setScaling(
 				MathTools.interp(dragonBreath.getAngle().getScaling(),
-						flyAngle, mosAngle, 1));
+						flyAngle, mosAngle, 5));
 		dragonBreath.getVelocity().setScaling(
 				MathTools.interp(dragonBreath.getVelocity().getScaling(),
-						flyVel3, mosVel3, 1));
+						flyVel3, mosVel3, 5));
 		float vel[] = new float[2];
 		vel[0] = dragonBreath.getVelocity().getHighMin();
 		vel[1] = dragonBreath.getVelocity().getHighMax();
-		vel = MathTools.interp(vel, flyVel2, mosVel2, 1);
+		vel = MathTools.interp(vel, flyVel2, mosVel2, 5);
 		dragonBreath.getVelocity().setHigh(vel[0], vel[1]);
 
-		damage = damage + Math.abs(flyDamage - mosDamage) * 0.01f;
+		damage = damage + Math.abs(flyDamage - mosDamage) * 0.05f;
 		damage = damage > flyDamage ? flyDamage : damage;
 	}
 
@@ -193,20 +193,20 @@ public class Player extends GameObject {
 	public void convertWeaponMossies() {
 		dragonBreath.getTint().setColors(
 				MathTools.interp(dragonBreath.getTint().getColors(), mosColor,
-						flyColor, 1));
+						flyColor, 5));
 		dragonBreath.getAngle().setScaling(
 				MathTools.interp(dragonBreath.getAngle().getScaling(),
-						mosAngle, flyAngle, 1));
+						mosAngle, flyAngle, 5));
 		dragonBreath.getVelocity().setScaling(
 				MathTools.interp(dragonBreath.getVelocity().getScaling(),
-						mosVel3, flyVel3, 1));
+						mosVel3, flyVel3, 5));
 		float vel[] = new float[2];
 		vel[0] = dragonBreath.getVelocity().getHighMin();
 		vel[1] = dragonBreath.getVelocity().getHighMax();
-		vel = MathTools.interp(vel, mosVel2, flyVel2, 1);
+		vel = MathTools.interp(vel, mosVel2, flyVel2, 5);
 		dragonBreath.getVelocity().setHigh(vel[0], vel[1]);
 
-		damage = damage - Math.abs(flyDamage - mosDamage) * 0.01f;
+		damage = damage - Math.abs(flyDamage - mosDamage) * 0.05f;
 		damage = damage < mosDamage ? mosDamage : damage;
 	}
 
