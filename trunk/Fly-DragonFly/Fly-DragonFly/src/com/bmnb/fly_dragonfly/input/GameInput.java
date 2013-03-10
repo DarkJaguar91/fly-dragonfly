@@ -100,7 +100,7 @@ public class GameInput implements InputProcessor {
 
 		//player presses button area on to remove tutorial screen
 		if (screenX > ((30+(width-70))/2)-50 && screenY > ((height/3)+70) &&
-				screenX < ((30+(width-70))/2)-50+100 && screenY < ((height/3)+70)+50){
+				screenX < ((30+(width-70))/2)-50+100 && screenY < ((height/3)+70)+50 && screen.isShowingTutorialScreen()){
 			screen.showTutorialScreen(0);			
 			return true;
 		}

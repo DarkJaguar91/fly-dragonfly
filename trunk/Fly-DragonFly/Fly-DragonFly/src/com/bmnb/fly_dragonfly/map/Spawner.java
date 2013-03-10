@@ -72,5 +72,13 @@ public class Spawner {
 			_map.getSpawners().remove(i--);
 			}
 		}
+		//spawn tutorial screens
+		for (int i = 0; i < _map.getTutorialScreens().size(); ++i){
+			TutorialScreenSpawner ts = _map.getTutorialScreens().get(i);
+			if (ts.getY() < _y + GameScreen.height){				
+				_gs.showTutorialScreen(ts.getId());
+				_map.getTutorialScreens().remove(i--);
+			}
+		}
 	}
 }

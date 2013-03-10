@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter;
 
 public class VenusFlytrap extends StaticEnemy {
-	private static final float VACUUM_RADIUS = 200;
+	private static final float VACUUM_RADIUS = 1.5f;
 	private static final float MAX_PULL_SPEED = 200;
 	private static final float ALPHA = 0.000002f;
 	private static final float COUNT_DOWN_MAX = 20;
@@ -53,7 +53,7 @@ public class VenusFlytrap extends StaticEnemy {
 
 		if (!isDead()) {
 			Vector2 v = (this.getPosition().sub(player.getPosition()));
-			float radSq = VACUUM_RADIUS * VACUUM_RADIUS;
+			float radSq = VACUUM_RADIUS * VACUUM_RADIUS * (new Vector2(this.getWidth()/2,this.getHeight()/2)).len2();
 			if (v.len2() < radSq) {
 				player.setPosition(player
 						.getPosition()
