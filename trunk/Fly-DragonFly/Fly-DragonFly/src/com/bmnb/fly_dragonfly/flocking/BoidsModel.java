@@ -125,8 +125,9 @@ public class BoidsModel {
 	 */
 	private void flee(GameScreen gs){
 		for (GameObject o: GameScreen.getEnemies()){
-			if (! (o instanceof Frog))
-				fleeFromObject(new Vector2(o.getX(),o.getY()),new Vector2(o.getWidth(),o.getHeight()).len2());
+			if (! (o.isDead() && o.isRemovable()))
+				if (! (o instanceof Frog))
+					fleeFromObject(new Vector2(o.getX(),o.getY()),new Vector2(o.getWidth()/2,o.getHeight()/2).len2());
 		}
 		fleeFromObject(gs.getPlayer().getPosition(),
 				new Vector2(gs.getPlayer().getWidth(),gs.getPlayer().getHeight()).len2());
@@ -148,8 +149,8 @@ public class BoidsModel {
 		}
 	}
 	/**
-	 * Method to add boids to the system on a timed interval 
-	 * @param delta
+	 * Method to add boids to the system
+	 * 
 	 */
 	public void spawnBoids(float widthPerBoid,float heightPerBoid,float scWidth,float scHeight,
 			int numBoids,float spawnOrdinate, float spawnDeviation, BoidsType type){
