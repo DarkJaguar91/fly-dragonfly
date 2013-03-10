@@ -1,6 +1,7 @@
 package com.bmnb.fly_dragonfly.graphics;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
@@ -16,8 +17,7 @@ public class ScrollingBackground {
 	/**
 	 * Globals
 	 */
-	protected Texture tex;
-	protected float [] yPositions;
+	protected Sprite[] sprites;
 	protected float width, height, speed;
 	
 	/**
@@ -27,32 +27,28 @@ public class ScrollingBackground {
 	 * @param scheight The screen height
 	 * @param speed The speed for the scrolling
 	 */
-	public ScrollingBackground (String texture, float scwidth, float scheight, float speed){
-		tex = new Texture(texture);		
+	public ScrollingBackground (String[] textures, float scwidth, float scheight, float speed){
+		sprites = new Sprite[textures.length];
+		width = scwidth;
+		
+		for (int i = 0; i < textures.length; ++i){
+			Texture t = new Texture(textures[i]);
+			height = width / t.getWidth() * t.getHeight();
+			sprites[i] = new Sprite(t);
+			sprites[i].setSize(width, height);
+			sprites[i].setPosition(0, i * height);
+		}
 		
 		this.speed = speed;
-		
-		width = scwidth;
-		height = width / tex.getWidth() * tex.getHeight();
-		
-		int num = (int)(scheight * 1.5f / height) + 1;
-		
-		num = Math.max(2, num);
-		
-		yPositions = new float[num];
-		
-		for (int i = 0; i < num; ++i)
-			yPositions[i] = i * height;
 	}
 	
 	public void update(float delta){
-		for(int i = 0;i<yPositions.length;++i){
-			// scroll the positions
-			yPositions[i] -= delta * speed;
-
+		for(int i = 0;i<sprites.length;++i){
+			sprites[i].translateY(-speed * delta);
+			
 			// move the tex above when it leaves the screen
-			if (yPositions[i] + height < 0){
-				yPositions[i] += height * yPositions.length;
+			if (sprites[i].getY() + height <= 0){
+				sprites[i].translateY(height * sprites.length);
 			}
 		}
 	}
@@ -63,11 +59,9 @@ public class ScrollingBackground {
 	 * @param delta The delta time for the game
 	 */
 	public void draw(SpriteBatch batch, float delta){
-		for (int i = 0; i < yPositions.length; ++i){
-			// draw
-			batch.setColor(0.5f,0.5f,0.5f,1);
-			batch.draw(tex, 0, yPositions[i], width, height);
-			batch.setColor(1f,1f,1f,1);
-		}
+		batch.setColor(0.6f,0.6f,0.6f,1);
+		for (Sprite s : sprites)
+			s.draw(batch);
+		batch.setColor(1,1,1,1);
 	}
 }

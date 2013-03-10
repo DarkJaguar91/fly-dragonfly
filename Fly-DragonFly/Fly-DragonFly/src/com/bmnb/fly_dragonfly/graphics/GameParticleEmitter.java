@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -255,10 +256,13 @@ public class GameParticleEmitter {
 			draw(spriteBatch);
 			return;
 		}
+		
+//		com.badlogic.gdx.graphics.g2d.ParticleEmitter
+		
 		int deltaMillis = (int)accumulator;
 		accumulator -= deltaMillis;
 
-		if (additive) spriteBatch.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
+		if (additive) spriteBatch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		Particle[] particles = this.particles;
 		boolean[] active = this.active;
