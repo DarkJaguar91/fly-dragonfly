@@ -6,7 +6,7 @@ import com.bmnb.fly_dragonfly.screens.GameScreen;
 
 public class Frog extends StaticEnemy {
 
-	private static final float DIFF_Y_TRIGGER = 400;
+	private static final float DIFF_Y_TRIGGER = 500;
 	private boolean hasTriggered = false;
 
 	public Frog(Vector2 position, float width, float height, float speed,

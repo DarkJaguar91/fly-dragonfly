@@ -228,7 +228,7 @@ public class Player extends GameObject {
 	/**
 	 * Starts a flashing animation
 	 */
-	public void playerHitAnimation(){			
+	public boolean playerHitAnimation(){			
 		if (canBeHit){
 			numLives--;
 			if(numLives < 0)
@@ -248,6 +248,7 @@ public class Player extends GameObject {
 			canBeHit = false;
 			
 		}
+		return numLives > 0;
 	}
 	
 	/**

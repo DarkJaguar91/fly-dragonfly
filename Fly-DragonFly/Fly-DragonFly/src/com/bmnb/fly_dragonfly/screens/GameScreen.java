@@ -30,6 +30,7 @@ import com.bmnb.fly_dragonfly.objects.Enemy;
 import com.bmnb.fly_dragonfly.objects.GameObject;
 import com.bmnb.fly_dragonfly.objects.Player;
 import com.bmnb.fly_dragonfly.objects.Tongue;
+import com.bmnb.fly_dragonfly.objects.Web;
 
 /**
  * Game screen controls the drawing update, everything for the game
@@ -98,7 +99,7 @@ public class GameScreen implements Screen {
 
 		// init player
 		addObject(player = new Player(new Vector2(width / 2f, 50), 150, 150,
-				300, width, height));
+				500, width, height));
 
 		// init the scroller
 		scroller = new ScrollingBackground(new String[]{"data/backgrounds/bg_final_flat_1.png", "data/backgrounds/bg_final_flat_2.png", "data/backgrounds/bg_final_flat_3.png"}, width, height,
@@ -372,9 +373,16 @@ public class GameScreen implements Screen {
 											((Enemy) o).doDamage(player.getDamage());
 										}
 									}
-									else {
+									if (o instanceof Web){
 										((Particle) p).kill();
-										((Enemy) o).doDamage(player.getDamage());										
+										((Enemy) o).doDamage(player.getDamage());
+									}
+									else {
+										if (o.circularCollsion(p)){
+//											Gdx.app.log("Coll - ", "true");
+											((Particle) p).kill();
+											((Enemy) o).doDamage(player.getDamage());
+										}
 									}
 								}
 						}
@@ -388,8 +396,13 @@ public class GameScreen implements Screen {
 							player.playerHitAnimation();
 						}
 					}
+					if (o instanceof Web){
+						if (player.playerHitAnimation())
+							o.kill();
+					}
 					else{
-						player.playerHitAnimation();
+						if (player.circularCollsion(o))
+							player.playerHitAnimation();
 					}
 				}
 			}

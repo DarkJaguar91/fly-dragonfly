@@ -13,8 +13,10 @@ public class Spider extends StaticEnemy {
 		super(position, width, height, speed, scWidth, scHeight, player,100);
 		
 		sortVal = 2;
-		
-		setTexture(new Texture("data/square.png"));
+		if (this.getPosition().x < screenWidth / 2f)
+			setTexture(new Texture("data/textures/spider_withnet2.png"));
+		else
+			setTexture(new Texture("data/textures/spider_withnet.png"));
 	}
 	
 	@Override
