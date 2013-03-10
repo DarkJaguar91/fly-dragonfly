@@ -65,7 +65,9 @@ public class ScrollingBackground {
 	public void draw(SpriteBatch batch, float delta){
 		for (int i = 0; i < yPositions.length; ++i){
 			// draw
-			batch.draw(tex, 0, yPositions[i], width, height);			
+			batch.setColor(0.5f,0.5f,0.5f,1);
+			batch.draw(tex, 0, yPositions[i], width, height);
+			batch.setColor(1f,1f,1f,1);
 		}
 	}
 }

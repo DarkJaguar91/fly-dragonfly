@@ -116,7 +116,7 @@ public class GameScreen implements Screen {
 		tutbirdTex = new Texture("data/tutorials/tutBird.png");
 		tutFlameTex = new Texture("data/tutorials/tutFlame.png");
 		tutFlyMoziTex = new Texture("data/tutorials/tutFlyMozi.png");
-		tutTextTex = new Texture("data/tutorials/tut_ok_btn.png");
+		tutTextTex = new Texture("data/tutorials/tutOkBtn2.png");
 		
 		livesTex = new Texture("data/tutorials/lives.png");
 		draw_tutorial = false;
