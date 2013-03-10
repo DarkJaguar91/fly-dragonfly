@@ -11,18 +11,21 @@ public class Tongue extends StaticEnemy {
 	protected float length;
 	protected Vector2 target;
 	protected boolean grow = true;
+	protected Vector2 frogMouthPos;
 
 	public Tongue(Vector2 position, float width, float height, float speed,
 			float scWidth, float scHeight, Player player) {
 		super(position, width, height, speed, scWidth, scHeight, player, 100);
 
+		frogMouthPos = position.cpy();
+		
 		sortVal = 3;
 
 		target = player.getPosition().cpy();
 
 		target.add((new Vector2(0, 1)).mul(this.speed / growRate));
 
-		length = target.cpy().sub(this.getPosition().cpy()).len() * 1.5f;
+		length = target.cpy().sub(this.getPosition().cpy()).len() * 2f;
 
 		// this.setSize(100, 0);
 
@@ -31,17 +34,6 @@ public class Tongue extends StaticEnemy {
 		this.setRotation(angle - 90);
 
 		this.setTexture(new Texture("data/tongue.png"));
-	}
-
-	public void setPosition(Vector2 pos) {
-		this.setX(pos.x);
-		this.setY(pos.y);
-	}
-
-	@Override
-	public void setTexture(Texture texture) {
-		super.setTexture(texture);
-		setOrigin(0, 0);
 	}
 
 	/*
@@ -60,7 +52,6 @@ public class Tongue extends StaticEnemy {
 		this.setSize(this.getWidth(), this.getHeight()
 				+ (grow ? length * delta * growRate : -growRate * length
 						* delta));
-		// Gdx.app.log("FrogTongue", "Growing - " + this.getHeight());
 
 		super.update(delta);
 	}
@@ -78,12 +69,10 @@ public class Tongue extends StaticEnemy {
 
 	@Override
 	public void draw(SpriteBatch spriteBatch) {
-		spriteBatch.draw(this.getTexture(), this.getX() - this.getWidth() / 2,
-				this.getY(), this.getWidth() / 2f, 0, this.getWidth(), this
-						.getHeight(), 1, 1, this.getRotation(), 0, 0, this
-						.getTexture().getWidth(),
-				this.getTexture().getHeight(), false, false);
-		// super.draw(spriteBatch);
+		spriteBatch.draw(this.getTexture(), frogMouthPos.x - this.getWidth()/2f,
+				frogMouthPos.y, this.getWidth()/2f, 0, this.getWidth(), this.getHeight(), 1, 1, this.getRotation(), 0, 0,
+				this.getTexture().getWidth(), this.getTexture().getHeight(), false, false);
+		//super.draw(spriteBatch);
 	}
 
 	@Override
