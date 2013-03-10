@@ -2,7 +2,7 @@
 <map>
 	<obj type="spider">
 	    <x>100</x>
-	    <y>1550</y>
+	    <y>1100</y>
 	    <width>200</width>
 	    <height>200</height>
 	    <rotation>0</rotation>

@@ -31,7 +31,8 @@ public class Player extends GameObject {
 	 * Static set up vars
 	 */
 	protected static final float maxVertPath = 0.35f, upSpeedPercent = 0.8f,
-			downSpeedPercent = 1.2f, mosDamage = 0.25f, flyDamage = 1.0f, manaRegen = 1, manaUse = 5, maxMana = 50;
+			downSpeedPercent = 1.2f, mosDamage = 0.25f, flyDamage = 1.0f,
+			manaRegen = 1, manaUse = 5, maxMana = 50;
 	protected static final float[] mosColor = { 0.047058824f, 0.105882354f,
 			0.91764706f },
 			flyColor = { 0.91764706f, 0.105882354f, 0.047058824f },
@@ -50,6 +51,7 @@ public class Player extends GameObject {
 	protected int numPoints;
 	TweenManager tweenManager;
 	protected boolean canBeHit = true;
+	protected Texture btnTxt;
 
 	/**
 	 * Constructor
@@ -73,26 +75,24 @@ public class Player extends GameObject {
 
 		sortVal = 0;
 		mana = maxMana;
-		
+
 		targetPosition = position;
-		
+
 		numLives = 3;
 		numPoints = 0;
 
 		tweenManager = new TweenManager();
-		
+
 		// load textures (loading here for now, must create texture loader
 		// later)
 		this.setTexture(new Texture("data/textures/dragonfly.png"));
-		// animator = new SpriteAnimator(new TextureAtlas(
-		// Gdx.files.internal("data/dragon.pack")), "dragon", 15, this);
-		//animator = new SpriteAnimator(new Texture("data/dragon2.png"), 10, 10,
-		//		"dragon", 15, this);		
+		btnTxt = new Texture("data/textures/flamesButton.png");
 		try {
 			dragonBreath = new GameParticleEmitter(new BufferedReader(
 					new InputStreamReader(Gdx.files.internal(
-							"data/particleEffects/dragonflyBreath").read()), 512), new Texture(
-					"data/particleEffects/particle.png"), ParticleType.fire);
+							"data/particleEffects/dragonflyBreath").read()),
+					512), new Texture("data/particleEffects/particle.png"),
+					ParticleType.fire);
 
 			dragonBreath.setContinuous(false);
 		} catch (Exception e) {
@@ -100,30 +100,31 @@ public class Player extends GameObject {
 		}
 	}
 
-	public int getNumLives(){
+	public int getNumLives() {
 		return numLives;
 	}
-	
-	public int getScore(){
+
+	public int getScore() {
 		return numPoints;
 	}
-	
-	int counter= 0;;
-	public void increaseScoreBy(float p){
+
+	int counter = 0;;
+
+	public void increaseScoreBy(float p) {
 		numPoints += Math.ceil(p);
 		counter += Math.ceil(p);
-		if(counter > 1000){
-			counter=0;
+		if (counter > 1000) {
+			counter = 0;
 			addLife();
 		}
 	}
-	
-	private void addLife(){
-		if(numLives < 4){
+
+	private void addLife() {
+		if (numLives < 4) {
 			numLives++;
 		}
 	}
-	
+
 	/**
 	 * Sets the new position the player should move to
 	 * 
@@ -204,61 +205,66 @@ public class Player extends GameObject {
 
 		dragonBreath.draw(spriteBatch, delta);
 
+		spriteBatch.draw(btnTxt, 0, 0, screenWidth * 0.1f, screenWidth * 0.1f);
+
 		super.draw(spriteBatch, delta);
 	}
-	
+
 	@Override
 	public void update(float delta) {
 		tweenManager.update(delta);
-		
-		if (this.dragonBreath.isContinuous()){
+
+		if (this.dragonBreath.isContinuous()) {
 			mana = mana <= 0 ? 0 : mana - manaUse * delta;
-			
-//			Gdx.app.log("Mana:", mana + "");
-			
+
+			// Gdx.app.log("Mana:", mana + "");
+
 			if (mana <= 0)
 				stopShooting();
-		}
-		else{
+		} else {
 			mana = mana == maxMana ? mana : mana + manaRegen * delta;
 		}
 		super.update(delta);
 	}
-	
+
 	/**
 	 * Starts a flashing animation
 	 */
-	public boolean playerHitAnimation(){			
-		if (canBeHit){
+	public boolean playerHitAnimation() {
+		if (canBeHit) {
 			numLives--;
-			if(numLives < 0)
-				numLives=3;
-			
+			if (numLives < 0)
+				numLives = 3;
+
 			Tween.registerAccessor(Sprite.class, new flashAnim());
-			
+
 			TweenCallback cb = new TweenCallback() {
-				
+
 				@Override
 				public void onEvent(int type, BaseTween<?> source) {
 					resetHit();
 				}
 			};
-			
-			Tween.to(this, flashAnim.ALPHA, 0.7f).target(0,0).repeatYoyo(3, 0f).ease(TweenEquations.easeInCirc).setCallback(cb).setCallbackTriggers(TweenCallback.COMPLETE).start(tweenManager);
+
+			Tween.to(this, flashAnim.ALPHA, 0.7f).target(0, 0)
+					.repeatYoyo(3, 0f).ease(TweenEquations.easeInCirc)
+					.setCallback(cb)
+					.setCallbackTriggers(TweenCallback.COMPLETE)
+					.start(tweenManager);
 			canBeHit = false;
-			
+
 		}
 		return numLives > 0;
 	}
-	
+
 	/**
 	 * Makes the player hitable again
 	 */
-	protected void resetHit(){
+	protected void resetHit() {
 		canBeHit = true;
-//		setColor(1,1,1,1);
+		// setColor(1,1,1,1);
 	}
-	
+
 	/**
 	 * Converts the gun into the firefly version by 1 step
 	 */
@@ -313,28 +319,30 @@ public class Player extends GameObject {
 	public float getDamage() {
 		return damage;
 	}
-	
+
 	/**
 	 * Returns the dragons flies current mana
+	 * 
 	 * @return The mana
 	 */
-	public float getMana(){
+	public float getMana() {
 		return mana;
 	}
-	
-	//reduces number of player's lives before finally killing him
+
+	// reduces number of player's lives before finally killing him
 	@Override
-	public void kill(){
+	public void kill() {
 		numLives--;
-		if(numLives < 0)
+		if (numLives < 0)
 			super.kill();
 	}
-	
+
 	/**
 	 * Returns the dragon flies max mana
+	 * 
 	 * @return The max mana
 	 */
-	public float getMaxMana(){
+	public float getMaxMana() {
 		return Player.maxMana;
 	}
 }
