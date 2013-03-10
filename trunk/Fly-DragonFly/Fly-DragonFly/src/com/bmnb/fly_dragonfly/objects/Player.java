@@ -83,7 +83,7 @@ public class Player extends GameObject {
 		
 		// load textures (loading here for now, must create texture loader
 		// later)
-		this.setTexture(new Texture("data/square.png"));
+		this.setTexture(new Texture("data/dragonfly.png"));
 		// animator = new SpriteAnimator(new TextureAtlas(
 		// Gdx.files.internal("data/dragon.pack")), "dragon", 15, this);
 		//animator = new SpriteAnimator(new Texture("data/dragon2.png"), 10, 10,
