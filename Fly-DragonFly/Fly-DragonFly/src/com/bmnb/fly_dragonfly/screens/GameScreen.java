@@ -218,7 +218,9 @@ public class GameScreen implements Screen {
 			tutID = id;
 		}
 	}
-
+	public boolean isShowingTutorialScreen(){
+		return draw_tutorial;
+	}
 	//draw tutorial screen TODO
 	private void drawTutorialScreen(SpriteBatch spritebatch){
 		float tutScreenStartX = 30;
