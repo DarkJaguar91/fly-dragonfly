@@ -7,20 +7,20 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Tongue extends StaticEnemy {
 
-	public static final float growRate = 0.7f;// percentage
+	public static final float growRate = 1.2f;// percentage
 	protected float length;
 	protected Vector2 target;
 	protected boolean grow = true;
 
 	public Tongue(Vector2 position, float width, float height, float speed,
 			float scWidth, float scHeight, Player player) {
-		super(position, width, height, speed, scWidth, scHeight, player,100);
+		super(position, width, height, speed, scWidth, scHeight, player, 100);
 
 		sortVal = 3;
 
 		target = player.getPosition().cpy();
 
-		target.add((new Vector2(0, 1)).mul(this.speed * 1.5f));
+		target.add((new Vector2(0, 1)).mul(this.speed / growRate));
 
 		length = target.cpy().sub(this.getPosition().cpy()).len() * 1.5f;
 
@@ -31,6 +31,17 @@ public class Tongue extends StaticEnemy {
 		this.setRotation(angle - 90);
 
 		this.setTexture(new Texture("data/tongue.png"));
+	}
+
+	public void setPosition(Vector2 pos) {
+		this.setX(pos.x);
+		this.setY(pos.y);
+	}
+
+	@Override
+	public void setTexture(Texture texture) {
+		super.setTexture(texture);
+		setOrigin(0, 0);
 	}
 
 	/*
@@ -68,10 +79,10 @@ public class Tongue extends StaticEnemy {
 	@Override
 	public void draw(SpriteBatch spriteBatch) {
 		spriteBatch.draw(this.getTexture(), this.getX() - this.getWidth() / 2,
-				this.getY(), this.getWidth() / 2, -this.getHeight(),
-				this.getWidth(), this.getHeight(), 1, 1, this.getRotation(), 0,
-				0, this.getTexture().getWidth(), this.getTexture().getHeight(),
-				false, false);
+				this.getY(), this.getWidth() / 2f, 0, this.getWidth(), this
+						.getHeight(), 1, 1, this.getRotation(), 0, 0, this
+						.getTexture().getWidth(),
+				this.getTexture().getHeight(), false, false);
 		// super.draw(spriteBatch);
 	}
 

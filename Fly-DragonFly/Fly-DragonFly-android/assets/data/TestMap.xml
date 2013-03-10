@@ -8,18 +8,25 @@
 	    <rotation>0</rotation>
 	</obj>
 	<obj type="frog">
-	    <x>150</x>
+	    <x>600</x>
 	    <y>2000</y>
-	    <width>100</width>
-	    <height>100</height>
+	    <width>150</width>
+	    <height>150</height>
+	    <rotation>0</rotation>
+	</obj>
+	<obj type="frog">
+	    <x>0</x>
+	    <y>2000</y>
+	    <width>150</width>
+	    <height>150</height>
 	    <rotation>0</rotation>
 	</obj>
 	<obj type="bird">
 	    <x>50</x>
 	    <y>1700</y>
-	    <width>100</width>
-	    <height>100</height>
-	    <rotation>0</rotation>
+	    <width>200</width>
+	    <height>200</height>
+	    <rotation>-125</rotation>
 	</obj>       
 	<moziSpawner type="mosquitoes">
 	    <x>700</x>
