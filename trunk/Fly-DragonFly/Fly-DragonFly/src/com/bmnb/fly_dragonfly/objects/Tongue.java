@@ -25,7 +25,7 @@ public class Tongue extends StaticEnemy {
 
 		target.add((new Vector2(0, 1)).mul(this.speed / growRate));
 
-		length = target.cpy().sub(this.getPosition().cpy()).len() * 2f;
+		length = target.cpy().sub(frogMouthPos.cpy()).len() * 2f;
 
 		// this.setSize(100, 0);
 

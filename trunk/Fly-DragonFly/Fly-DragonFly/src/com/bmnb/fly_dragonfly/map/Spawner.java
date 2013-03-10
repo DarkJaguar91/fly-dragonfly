@@ -65,7 +65,7 @@ public class Spawner {
 		for (int i = 0; i < _map.getSpawners().size(); ++i){
 			MoziSpawner ms = _map.getSpawners().get(i);
 			if (ms.getPos().y < _y + GameScreen.height){
-				_bm.spawnBoids(16, 16, GameScreen.width, GameScreen.height, ms.numberOfBoids, ms.getPos().x, 
+				_bm.spawnBoids(50, 50, GameScreen.width, GameScreen.height, ms.numberOfBoids, ms.getPos().x, 
 						ms.getDeviation(), 
 						ms.getType() == MoziSpawner.SpawnerType.mosquitoes ? 
 								BoidsModel.BoidsType.Mosquitoes : BoidsModel.BoidsType.FireFlies);

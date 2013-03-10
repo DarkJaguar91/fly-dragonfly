@@ -3,10 +3,12 @@
  */
 package com.bmnb.fly_dragonfly.objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.Particle;
 import com.bmnb.fly_dragonfly.tools.SpriteAnimator;
 
 /**
@@ -129,7 +131,19 @@ public abstract class GameObject extends Sprite implements Comparable<GameObject
 	public boolean isRemovable() {
 		return removeable;
 	}
-
+	
+	public boolean circularCollsion(GameObject other){
+		float radthis = this.getWidth();
+		float radOther = other.getWidth();
+		
+		float dist = this.getPosition().cpy().sub(other.getPosition().cpy()).len();
+		
+//		if (other instanceof Particle)
+//			Gdx.app.log("Coll - ", "dist = " + dist + "  -> add = " + (radOther + radthis));
+		
+		return (radthis + radOther) > dist;
+	}
+	
 	@Override
 	public void setTexture(Texture texture) {
 		super.setTexture(texture);
