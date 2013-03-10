@@ -119,7 +119,7 @@ public class Player extends GameObject {
 	}
 	
 	private void addLife(){
-		if(numLives < 6){
+		if(numLives < 4){
 			numLives++;
 		}
 	}
