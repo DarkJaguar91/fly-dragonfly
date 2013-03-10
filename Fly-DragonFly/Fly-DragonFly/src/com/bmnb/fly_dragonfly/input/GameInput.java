@@ -39,14 +39,14 @@ public class GameInput implements InputProcessor {
 	 */
 	@Override
 	public boolean keyDown(int keycode) {
-		if(keycode == 54){
+		/*if(keycode == 54){
 			screen.showTutorialScreen(0);
 			return true;
 		}
 		else if(keycode == 52){
 			player.kill();
 			return true;
-		}
+		}*/
 		
 		return false;
 	}
