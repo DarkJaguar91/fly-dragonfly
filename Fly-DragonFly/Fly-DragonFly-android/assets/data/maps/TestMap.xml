@@ -20,7 +20,14 @@
 	    <width>200</width>
 	    <height>200</height>
 	    <rotation>-125</rotation>
-	</obj>       
+	</obj>
+	<obj type="flytrap">
+	    <x>100</x>
+	    <y>3000</y>
+	    <width>200</width>
+	    <height>200</height>
+	    <rotation>-125</rotation>
+	</obj>
 	<moziSpawner type="fireflies">
 	    <x>700</x>
 	    <y>1500</y>

@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Tongue extends StaticEnemy {
 
-	public static final float growRate = 1.2f;// percentage
+	public static final float growRate = 2f;// percentage
 	protected float length;
 	protected Vector2 target;
 	protected boolean grow = true;
@@ -25,7 +25,7 @@ public class Tongue extends StaticEnemy {
 
 		target.add((new Vector2(0, 1)).mul(this.speed / growRate));
 
-		length = target.cpy().sub(frogMouthPos.cpy()).len() * 2f;
+		length = target.cpy().sub(frogMouthPos.cpy()).len() * 1.5f;
 
 		// this.setSize(100, 0);
 
