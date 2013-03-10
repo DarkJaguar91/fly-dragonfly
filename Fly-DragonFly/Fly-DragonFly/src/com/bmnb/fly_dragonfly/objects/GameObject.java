@@ -46,7 +46,7 @@ public abstract class GameObject extends Sprite implements Comparable<GameObject
 	@Override
 	public void draw(SpriteBatch spriteBatch, float delta) {
 		super.draw(spriteBatch);
-//		update(delta);
+		update(delta);
 	}
 
 	/**
@@ -134,6 +134,7 @@ public abstract class GameObject extends Sprite implements Comparable<GameObject
 	public void setTexture(Texture texture) {
 		super.setTexture(texture);
 		setRegion(0, 0, texture.getWidth(), texture.getHeight());
+//		setColor(1, 1, 1, 1);
 		setSize(Math.abs(getWidth()), Math.abs(getHeight()));
 		setOrigin(getWidth() / 2, getHeight() / 2);
 	}
@@ -141,5 +142,5 @@ public abstract class GameObject extends Sprite implements Comparable<GameObject
 	@Override
 	public int compareTo(GameObject o) {
 		return this.sortVal < o.sortVal ? 1 : this.sortVal > o.sortVal ? -1 : 0;
-	}
+	}	
 }
