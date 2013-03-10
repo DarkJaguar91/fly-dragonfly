@@ -26,7 +26,7 @@ public class Frog extends StaticEnemy{
 		
 		if (this.getY() - player.getY() < DIFF_Y_TRIGGER && !hasTriggered){
 			hasTriggered = true;
-			GameScreen.addObject(new Tongue(new Vector2(this.getX(), this.getY()), this.getWidth(), 0, this.speed,
+			GameScreen.addObject(new Tongue(new Vector2(this.getX(), this.getY()), this.getWidth(), this.getHeight(), this.speed,
 					screenWidth, screenHeight, player));
 		}
 		

@@ -43,6 +43,8 @@ public class Tongue extends StaticEnemy {
 		if (this.getHeight() >= length) {
 			grow = false;
 		}
+		if (this.getHeight() <= 0)
+			kill();
 
 		this.setSize(this.getWidth(), this.getHeight()
 				+ (grow ? length * delta * growRate : -growRate * length
