@@ -37,6 +37,7 @@ public class ScrollingBackground {
 			sprites[i] = new Sprite(t);
 			sprites[i].setSize(width, height);
 			sprites[i].setPosition(0, i * height);
+			sprites[i].setColor(0.6f,0.6f,0.6f,1);
 		}
 		
 		this.speed = speed;
@@ -59,9 +60,7 @@ public class ScrollingBackground {
 	 * @param delta The delta time for the game
 	 */
 	public void draw(SpriteBatch batch, float delta){
-		batch.setColor(0.6f,0.6f,0.6f,1);
 		for (Sprite s : sprites)
 			s.draw(batch);
-		batch.setColor(1,1,1,1);
 	}
 }
