@@ -83,7 +83,7 @@ public class Player extends GameObject {
 		
 		// load textures (loading here for now, must create texture loader
 		// later)
-		this.setTexture(new Texture("data/dragonfly.png"));
+		this.setTexture(new Texture("data/textures/dragonfly.png"));
 		// animator = new SpriteAnimator(new TextureAtlas(
 		// Gdx.files.internal("data/dragon.pack")), "dragon", 15, this);
 		//animator = new SpriteAnimator(new Texture("data/dragon2.png"), 10, 10,
@@ -91,8 +91,8 @@ public class Player extends GameObject {
 		try {
 			dragonBreath = new GameParticleEmitter(new BufferedReader(
 					new InputStreamReader(Gdx.files.internal(
-							"data/dragonflyBreath").read()), 512), new Texture(
-					"data/particle.png"), ParticleType.fire);
+							"data/particleEffects/dragonflyBreath").read()), 512), new Texture(
+					"data/particleEffects/particle.png"), ParticleType.fire);
 
 			dragonBreath.setContinuous(false);
 		} catch (Exception e) {

@@ -33,7 +33,7 @@ public class Tongue extends StaticEnemy {
 
 		this.setRotation(angle - 90);
 
-		this.setTexture(new Texture("data/tongue.png"));
+		this.setTexture(new Texture("data/textures/tongue.png"));
 	}
 
 	/*

@@ -15,7 +15,7 @@ public class Frog extends StaticEnemy {
 
 		sortVal = 2;
 
-		setTexture(new Texture("data/frog1.png"));
+		setTexture(new Texture("data/textures/frog1.png"));
 	}
 
 	@Override

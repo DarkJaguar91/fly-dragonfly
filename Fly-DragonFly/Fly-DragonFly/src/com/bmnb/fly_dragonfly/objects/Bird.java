@@ -16,7 +16,7 @@ public class Bird extends Enemy {
 		super(position, width, height, speed, scWidth, scHeight, player,200);
 		countdown = (float)Math.random()*RANDOM_COUNTDOWN;
 		sortVal = 1;
-		setTexture(new Texture("data/bird1.png"));
+		setTexture(new Texture("data/textures/bird1.png"));
 	}
 	
 	@Override
