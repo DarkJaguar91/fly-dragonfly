@@ -16,7 +16,7 @@ public class Bird extends Enemy {
 		super(position, width, height, speed, scWidth, scHeight, player,200);
 		countdown = (float)Math.random()*RANDOM_COUNTDOWN;
 		sortVal = 1;
-		setTexture(new Texture("data/square.png"));
+		setTexture(new Texture("data/bird1.png"));
 	}
 	
 	@Override
@@ -32,7 +32,7 @@ public class Bird extends Enemy {
 		if (countdown <= 0 ){
 			if (shouldCalculate){
 				direction = player.getPosition().sub(this.getPosition()).nor();
-				this.rotate(direction.angle());
+				this.rotate(direction.angle() - 90);
 				shouldCalculate = false;
 			}
 			this.setPosition(this.getPosition().add(direction.cpy().mul(SPEED*delta)));
