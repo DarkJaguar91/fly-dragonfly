@@ -37,6 +37,8 @@ public class ScrollingBackground {
 		
 		int num = (int)(scheight * 1.5f / height) + 1;
 		
+		num = Math.max(2, num);
+		
 		yPositions = new float[num];
 		
 		for (int i = 0; i < num; ++i)

@@ -101,7 +101,7 @@ public class GameScreen implements Screen {
 				300, width, height));
 
 		// init the scroller
-		scroller = new ScrollingBackground("data/space.jpg", width, height,
+		scroller = new ScrollingBackground("data/bg_final_flat.png", width, height,
 				scrollSpeed);
 		
 		//init tutorial graphics
