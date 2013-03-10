@@ -16,7 +16,7 @@
 	</obj>
 	<obj type="bird">
 	    <x>50</x>
-	    <y>1700</y>
+	    <y>3100</y>
 	    <width>200</width>
 	    <height>200</height>
 	    <rotation>-125</rotation>
