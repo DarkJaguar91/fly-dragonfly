@@ -2,6 +2,7 @@ package com.bmnb.fly_dragonfly.flocking;
 import java.util.Vector;
 
 import com.badlogic.gdx.math.Vector2;
+import com.bmnb.fly_dragonfly.objects.Frog;
 import com.bmnb.fly_dragonfly.objects.GameObject;
 import com.bmnb.fly_dragonfly.screens.GameScreen;
 
@@ -124,7 +125,8 @@ public class BoidsModel {
 	 */
 	private void flee(GameScreen gs){
 		for (GameObject o: GameScreen.getEnemies()){
-			fleeFromObject(new Vector2(o.getX(),o.getY()),new Vector2(o.getWidth(),o.getHeight()).len2());
+			if (! (o instanceof Frog))
+				fleeFromObject(new Vector2(o.getX(),o.getY()),new Vector2(o.getWidth(),o.getHeight()).len2());
 		}
 		fleeFromObject(gs.getPlayer().getPosition(),
 				new Vector2(gs.getPlayer().getWidth(),gs.getPlayer().getHeight()).len2());

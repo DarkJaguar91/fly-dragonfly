@@ -88,15 +88,15 @@ public class GameInput implements InputProcessor {
 			return true;
 		}*/
 //	 	debug
-		if (screenX < width * 0.2f && screenY > height * 0.8f){
-			player.convertWeaponFireflies();
-			return true;
-		}
-//	 	debug
-		if (screenX > width * 0.8f && screenY > height * 0.8f){
-			player.convertWeaponMossies();
-			return true;
-		}
+//		if (screenX < width * 0.2f && screenY > height * 0.8f){
+//			player.convertWeaponFireflies();
+//			return true;
+//		}
+////	 	debug
+//		if (screenX > width * 0.8f && screenY > height * 0.8f){
+//			player.convertWeaponMossies();
+//			return true;
+//		}
 
 		//player presses button area on to remove tutorial screen
 		if (screenX > ((30+(width-70))/2)-50 && screenY > ((height/3)+70) &&
