@@ -97,7 +97,7 @@ public class GameScreen implements Screen {
 		boids = new ArrayList<GameObject>();
 
 		// init player
-		addObject(player = new Player(new Vector2(width / 2f, 50), 100, 100,
+		addObject(player = new Player(new Vector2(width / 2f, 50), 150, 150,
 				300, width, height));
 
 		// init the scroller
@@ -132,7 +132,7 @@ public class GameScreen implements Screen {
 		
 		// Load map
 		try {
-			 this.map = new MapLoader("data/TestMap.xml");
+			 this.map = new MapLoader("data/maps/TestMap.xml");
 			 this.spawner = new Spawner(map, boidsmodel, this, scrollSpeed, player);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -141,7 +141,7 @@ public class GameScreen implements Screen {
 		
 		//Init mana meter
 		manaMeter = new Meter(new Vector2(width/6,height-height/30), width/3, height/15, width, height, false, 
-				new Texture("data/mana_meter.png"), new Texture("data/mana_meter_grey.png"), 1);
+				new Texture("data/textures/mana_meter.png"), new Texture("data/textures/mana_meter_grey.png"), 1);
 		
 		//Load font
 		font = new BitmapFont(Gdx.files.internal("data/font/commicsans.fnt"),

@@ -23,12 +23,15 @@ public class VenusFlytrap extends StaticEnemy {
 
 		sortVal = 2;
 
-		setTexture(new Texture("data/square.png"));
+		if (this.getPosition().x < screenWidth/2f)
+			setTexture(new Texture("data/textures/flytrap_left.png"));
+		else
+			setTexture(new Texture("data/textures/flytrap_right.png"));
 		try {
 			poisonGas = new GameParticleEmitter(new BufferedReader(
 					new InputStreamReader(Gdx.files
-							.internal("data/flytrapSpit").read()), 512),
-					new Texture("data/particle.png"),
+							.internal("data/particleEffects/flytrapSpit").read()), 512),
+					new Texture("data/particleEffects/particle.png"),
 					GameParticleEmitter.ParticleType.spit);
 
 			poisonGas.setContinuous(false);
@@ -71,6 +74,7 @@ public class VenusFlytrap extends StaticEnemy {
 	@Override
 	public void draw(SpriteBatch spriteBatch, float delta) {
 		super.draw(spriteBatch, delta);
+		
 		poisonGas.draw(spriteBatch, delta);
 	}
 }
