@@ -10,8 +10,8 @@ import com.bmnb.fly_dragonfly.objects.GameObject;
  *
  */
 public class Boid extends GameObject{
-	private static final float MAX_SPEED = 160f;
-	private static final float MIN_SPEED = 150f;
+	private static final float MAX_SPEED = 90f;
+	private static final float MIN_SPEED = 80f;
 	
 	private Vector2 oldPosition;
 	/**
