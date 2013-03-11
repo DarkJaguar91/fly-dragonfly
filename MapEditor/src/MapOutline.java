@@ -47,7 +47,7 @@ public class MapOutline extends JPanel implements ImageObserver{
 		this.setBackground(Color.white);
 		this.updateUI();
 		
-		background = new ImageIcon("assets/downtown-dc.jpg");	
+		background = new ImageIcon("bg_final_flat.png");	
 		source = background.getImage();
 	}
 	
@@ -67,7 +67,10 @@ public class MapOutline extends JPanel implements ImageObserver{
 		
 		g.drawImage(source,0,0,mapSize.width,source.getHeight(this),0,0,
 				source.getWidth(this),source.getHeight(this),Color.white,this);
-				
+		g.drawImage(source,0,source.getHeight(this),mapSize.width,source.getHeight(this)*2,0,0,
+				source.getWidth(this),source.getHeight(this),Color.white,this);
+		
+		
 		if(shape != null){
 			x = (int)shapePosition.x-parent.getSelectedObjWidth()/2;
 			y = (int)shapePosition.y-parent.getSelectedObjHeight()/2;			
