@@ -190,7 +190,7 @@ public class Player extends GameObject {
 
 		// move the particle engine position for the fire breath
 		dragonBreath.setPosition(this.getX(), this.getY() + this.getHeight()
-				/ 2f);
+				/ 3f);
 	}
 
 	/*
