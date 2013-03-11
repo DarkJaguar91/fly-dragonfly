@@ -43,7 +43,7 @@ public class ScrollingBackground {
 			sprites[i] = new Sprite(t);
 			sprites[i].setSize(width, height);
 			sprites[i].setPosition(0, i * height);
-			sprites[i].setColor(0.5f, 0.5f, 0.5f, 1);
+			sprites[i].setColor(1.0f, 1.0f, 1.0f, 1);
 		}
 
 		this.speed = speed;

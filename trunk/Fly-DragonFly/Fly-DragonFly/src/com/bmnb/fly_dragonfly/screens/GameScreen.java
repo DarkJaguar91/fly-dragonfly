@@ -10,10 +10,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.flocking.Boid;
@@ -73,6 +76,8 @@ public class GameScreen implements Screen {
 	protected CharSequence playerScore;
 	protected float survivalTime;
 	
+	private FrameBuffer m_fbo = null;
+	private TextureRegion m_fboRegion = null;
 	/**
 	 * Static vars for static methods
 	 */
@@ -157,14 +162,21 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		// clear the screen
 		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);                  
+		if(m_fbo == null)
+		{
+			// m_fboScaler increase or decrease the antialiasing quality
+
+			m_fbo = new FrameBuffer(Format.RGBA4444, (int)(width), (int)(height), false);
+			m_fboRegion = new TextureRegion(m_fbo.getColorBufferTexture());
+			m_fboRegion.flip(false, true);
+		}
+
+	    m_fbo.begin();
+	    Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		// draw everything
+	    // draw everything
 		batch.begin();
-
-		// draw background
-		scroller.draw(batch, delta);
-
 		// draw objects
 		for (int i = 0; i < objects.size(); ++i)
 			objects.get(i).draw(batch, delta);
@@ -199,7 +211,13 @@ public class GameScreen implements Screen {
 		manaMeter.draw(batch,delta);	
 		
 		batch.end();
-
+		m_fbo.end();
+		
+		batch.begin();
+		// draw background
+		scroller.draw(batch, delta);
+		batch.draw(m_fboRegion,0,0,width,height);
+		batch.end();
 		// do collision
 		doCollisionDetection();
 
