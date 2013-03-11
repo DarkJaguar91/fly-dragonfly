@@ -164,7 +164,7 @@ public class GameScreen implements Screen {
 
 		// draw background
 		scroller.draw(batch, delta);
-		
+
 		// draw objects
 		for (int i = 0; i < objects.size(); ++i)
 			objects.get(i).draw(batch, delta);
