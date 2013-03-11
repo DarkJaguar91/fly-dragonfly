@@ -246,7 +246,7 @@ public class Player extends GameObject {
 				}
 			};
 
-			Tween.to(this, flashAnim.ALPHA, 0.7f).target(0, 0)
+			Tween.to(this, flashAnim.ALPHA, 0.7f).target(0)
 					.repeatYoyo(3, 0f).ease(TweenEquations.easeInCirc)
 					.setCallback(cb)
 					.setCallbackTriggers(TweenCallback.COMPLETE)
