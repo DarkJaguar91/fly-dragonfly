@@ -178,8 +178,7 @@ public class GameScreen implements Screen {
 	    // draw everything
 		batch.begin();
 		// draw objects
-		for (int i = 0; i < objects.size(); ++i)
-			objects.get(i).draw(batch, delta);
+		player.draw(batch,delta);
 		
 		//draw lives
 		for(int i=1;i<=player.getNumLives();i++){
@@ -217,6 +216,9 @@ public class GameScreen implements Screen {
 		// draw background
 		scroller.draw(batch, delta);
 		batch.draw(m_fboRegion,0,0,width,height);
+		for (int i = 0; i < objects.size(); ++i)
+			if (objects.get(i) != player)
+				objects.get(i).draw(batch, delta);
 		batch.end();
 		// do collision
 		doCollisionDetection();
