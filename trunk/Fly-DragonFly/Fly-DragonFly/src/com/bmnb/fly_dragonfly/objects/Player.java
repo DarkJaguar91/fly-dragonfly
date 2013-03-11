@@ -30,7 +30,7 @@ public class Player extends GameObject {
 	/**
 	 * Static set up vars
 	 */
-	protected static final float maxVertPath = 0.35f, upSpeedPercent = 0.8f,
+	protected static final float maxVertPath = 1.0f, upSpeedPercent = 0.8f,
 			downSpeedPercent = 1.2f, mosDamage = 0.25f, flyDamage = 1.0f,
 			manaRegen = 1, manaUse = 5, maxMana = 50;
 	protected static final float[] mosColor = { 0.047058824f, 0.105882354f,
