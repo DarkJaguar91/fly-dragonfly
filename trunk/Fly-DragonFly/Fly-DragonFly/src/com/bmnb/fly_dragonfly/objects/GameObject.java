@@ -4,6 +4,7 @@
 package com.bmnb.fly_dragonfly.objects;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -144,6 +145,7 @@ public abstract class GameObject extends Sprite implements Comparable<GameObject
 	
 	@Override
 	public void setTexture(Texture texture) {
+		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		super.setTexture(texture);
 		setRegion(0, 0, texture.getWidth(), texture.getHeight());
 //		setColor(1, 1, 1, 1);
