@@ -261,8 +261,9 @@ public class GameScreen implements Screen {
 		font.setScale(0.6f);	
 		font.setColor(Color.BLACK);
 		switch(tutID){
-		case 0:			
+		case 1:			
 			spritebatch.draw(tutFrogTex, tutScreenStartX+20, 
+		
 					(tutScreenStartY+tutScreenHeight) - tutFrogTex.getHeight() - 20, 
 					tutFrogTex.getWidth(), tutFrogTex.getHeight(), 0, 0, 
 					tutFrogTex.getWidth(), tutFrogTex.getHeight(), false, false);			
@@ -321,18 +322,38 @@ public class GameScreen implements Screen {
 					tutFlyMoziTex.getWidth(), 
 					tutFlyMoziTex.getHeight(), 0, 0, 
 					tutFlyMoziTex.getWidth(), tutFlyMoziTex.getHeight(), false, false);	
-			msg = "On the way, you will come across Mosquitoes and flies."+ 
-					"You can eat these to change how your fire-breath behaves."+
-					"Eating Mosquitoes will increase how broad you breath fire and how much damage it causes."+ 
-					"But you will also sacrifice range at the same time."+
-					"Eating Flies will increase how far you breath fire but decrease the damage done"+ 
-					"and how broad your flame is.";			
+			msg = "You can eat Mosquitoes and flies to change your fire-breath and get points."+
+					"Mosquitoes will increase your flame's breadth and how much damage it causes."+ 
+					"Flies will increase your flame's range but decrease the damage done";		
 			font.drawWrapped(spritebatch, msg, tutScreenStartX+20+tutFrogTex.getWidth()+7,
 					(tutScreenStartY+tutScreenHeight) - 30,
 					tutScreenWidth-tutFrogTex.getWidth()-50);
 			break;
-		default:
-			//do nothing
+		case 6:
+			spritebatch.draw(tutFlameTex, tutScreenStartX+20, 
+					(tutScreenStartY+tutScreenHeight) - tutFlameTex.getHeight() - 20, 
+					tutFlameTex.getWidth(), 
+					tutFlameTex.getHeight(), 0, 0, 
+					tutFlameTex.getWidth(), tutFlameTex.getHeight(), false, false);	
+			msg = "You can use your flame to kill enemies and traps which are trying to kill you." +
+					"Tap/Press in the bottom right hand corner of the screen to breath your flame." +
+					"But you have give yourself time to catch your breath, so plan ahead!";			
+			font.drawWrapped(spritebatch, msg, tutScreenStartX+20+tutFrogTex.getWidth()+7,
+					(tutScreenStartY+tutScreenHeight) - 30,
+					tutScreenWidth-tutFrogTex.getWidth()-50);
+			break;
+		case 0:
+			//win condition
+			spritebatch.draw(livesTex, tutScreenStartX+20, 
+					(tutScreenStartY+tutScreenHeight) - livesTex.getHeight() - 20, 
+					livesTex.getWidth(), 
+					livesTex.getHeight(), 0, 0, 
+					livesTex.getWidth(), livesTex.getHeight(), false, false);	
+			msg = "Well done! You have survived the Jungle.";		
+			font.drawWrapped(spritebatch, msg, tutScreenStartX+20+tutFrogTex.getWidth()+7,
+					(tutScreenStartY+tutScreenHeight) - 30,
+					tutScreenWidth-tutFrogTex.getWidth()-50);
+			break;
 		}		
 		font.setColor(Color.WHITE);
 		font.setScale(1f);
