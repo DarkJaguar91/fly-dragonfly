@@ -11,34 +11,27 @@ public class Tongue extends StaticEnemy {
 	protected float length;
 	protected Vector2 target;
 	protected boolean grow = true;
-	protected Vector2 frogMouthPos;
+	protected Vector2 directionVec;
 
 	public Tongue(Vector2 position, float width, float height, float speed,
 			float scWidth, float scHeight, Player player) {
 		super(position, width, height, speed, scWidth, scHeight, player, 100);
 
-		frogMouthPos = position.cpy();
-
 		sortVal = 3;
 
 		target = player.getPosition().cpy();
 
-//		target.add(0, player.speed * player.direction.y);
-
-		length = target.cpy().sub(frogMouthPos.cpy()).len()* 1f;
-
-		float angle = (target.cpy().sub(this.getPosition().cpy())).angle();
+		directionVec = target.cpy().sub(position);
+		
+		length = directionVec.len();
+		
+		float angle = directionVec.angle();
 
 		this.setRotation(angle - 90);
 
-//		Vector2 other = this.getPosition().cpy();
-//		Vector2 adder = new Vector2((float) (length * Math.sin(Math
-//				.toRadians(this.getRotation() + 180))),
-//				(float) (length * Math.cos(Math.toRadians(this.getRotation()))));
-//		other.add(adder);
-//
-//		System.out.println(target.toString() + " <> " + other.toString());
-
+		directionVec.nor();
+		target = this.getPosition().cpy().add(directionVec.mul(this.getHeight()));
+		
 		this.setTexture(new Texture("data/textures/tongue.png"));
 	}
 
@@ -60,13 +53,7 @@ public class Tongue extends StaticEnemy {
 		this.setSize(this.getWidth(), this.getHeight()
 				+ (grow ? delta * growRate : -growRate * delta));
 		
-		target = this.getPosition().cpy();
-		Vector2 adder = new Vector2((float) (this.getHeight() * Math.sin(Math
-				.toRadians(this.getRotation() + 180))),
-				(float) (this.getHeight() * Math.cos(Math.toRadians(this.getRotation()))));
-		target.add(adder);
-
-		 System.out.println(player.getPosition().toString() + " <> " + target.toString() + " <> " + this.getPosition().toString());
+		target.add(this.directionVec.mul((grow ? 1 : -1) * this.getHeight()));
 	}
 
 	/*
@@ -76,13 +63,14 @@ public class Tongue extends StaticEnemy {
 	 */
 	@Override
 	protected void move(float delta) {
+		target.sub(0, -delta + speed);
 		super.move(delta);
 	}
 
 	@Override
 	public void draw(SpriteBatch spriteBatch) {
-		spriteBatch.draw(this.getTexture(), frogMouthPos.x - this.getWidth()
-				/ 2f, frogMouthPos.y, this.getWidth() / 2f, 0, this.getWidth(),
+		spriteBatch.draw(this.getTexture(), this.getPosition().x - this.getWidth()
+				/ 2f, this.getPosition().y, this.getWidth() / 2f, 0, this.getWidth(),
 				this.getHeight(), 1, 1, this.getRotation(), 0, 0, this
 						.getTexture().getWidth(),
 				this.getTexture().getHeight(), false, false);
