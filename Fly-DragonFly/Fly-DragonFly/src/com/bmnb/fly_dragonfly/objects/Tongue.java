@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Tongue extends StaticEnemy {
 
-	public static final float growRate = 2f;// percentage
+	public static final float growRate = 800f;// percentage
 	protected float length;
 	protected Vector2 target;
 	protected boolean grow = true;
@@ -23,9 +23,9 @@ public class Tongue extends StaticEnemy {
 
 		target = player.getPosition().cpy();
 
-		target.add((new Vector2(0, 1)).mul(this.speed / growRate));
+//		target.add(0, player.speed * player.direction.y);
 
-		length = target.cpy().sub(frogMouthPos.cpy()).len() * 1.5f;
+		length = target.cpy().sub(frogMouthPos.cpy()).len()* 1f;
 
 		float angle = (target.cpy().sub(this.getPosition().cpy())).angle();
 
@@ -49,26 +49,24 @@ public class Tongue extends StaticEnemy {
 	 */
 	@Override
 	public void update(float delta) {
+		super.update(delta);
+		
 		if (this.getHeight() >= length) {
 			grow = false;
 		}
 		if (this.getHeight() <= 0)
 			kill();
 
+		this.setSize(this.getWidth(), this.getHeight()
+				+ (grow ? delta * growRate : -growRate * delta));
+		
 		target = this.getPosition().cpy();
 		Vector2 adder = new Vector2((float) (this.getHeight() * Math.sin(Math
 				.toRadians(this.getRotation() + 180))),
 				(float) (this.getHeight() * Math.cos(Math.toRadians(this.getRotation()))));
 		target.add(adder);
 
-		// System.out.println(this.getHeight() + " - " + adder.len());
-		 System.out.println(player.getPosition().toString() + " <> " + target.toString());
-
-		this.setSize(this.getWidth(), this.getHeight()
-				+ (grow ? length * delta * growRate : -growRate * length
-						* delta));
-
-		super.update(delta);
+		 System.out.println(player.getPosition().toString() + " <> " + target.toString() + " <> " + this.getPosition().toString());
 	}
 
 	/*
@@ -78,7 +76,6 @@ public class Tongue extends StaticEnemy {
 	 */
 	@Override
 	protected void move(float delta) {
-		this.target = target.cpy().sub(new Vector2(0, delta * speed));
 		super.move(delta);
 	}
 
