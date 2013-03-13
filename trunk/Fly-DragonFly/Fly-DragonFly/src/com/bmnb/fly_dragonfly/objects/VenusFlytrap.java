@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter;
 
 public class VenusFlytrap extends StaticEnemy {
-	private static final float VACUUM_RADIUS = 1.5f;
+	private static final float VACUUM_RADIUS = 2.5f;
 	private static final float MAX_PULL_SPEED = 200;
 	private static final float ALPHA = 0.000002f;
 	private static final float COUNT_DOWN_MAX = 20;

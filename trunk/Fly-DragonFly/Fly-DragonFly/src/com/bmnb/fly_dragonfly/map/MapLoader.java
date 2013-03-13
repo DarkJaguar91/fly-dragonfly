@@ -83,7 +83,7 @@ public class MapLoader {
 			subChild = child.getChildByName("numberOfBoids");
 			assert(subChild != null);
 			int numBoids = Integer.parseInt(subChild.getText());
-			subChild = child.getChildByName("deviation");
+			subChild = child.getChildByName("dispersion");
 			assert(subChild != null);
 			float deviation = Float.parseFloat(subChild.getText());
 			//Gdx.app.log("ML:", type + " " + x + " " + y + " " + numBoids + " " + deviation);
