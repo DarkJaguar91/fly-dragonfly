@@ -435,6 +435,7 @@ public class GameScreen implements Screen {
 					if (o instanceof Tongue){
 						if (((Tongue)o).checkCollision(player.getBoundingRectangle())){
 							player.playerHitAnimation();
+							((Tongue)o).stopGrowing();
 						}
 					}
 					if (o instanceof Web){

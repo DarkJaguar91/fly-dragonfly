@@ -21,9 +21,11 @@ public class Tongue extends StaticEnemy {
 
 		target = player.getPosition().cpy();
 
+		target.add(0, this.speed);
+		
 		directionVec = target.cpy().sub(position);
 		
-		length = directionVec.len();
+		length = directionVec.len() * 1.3f;
 		
 		float angle = directionVec.angle();
 
@@ -65,6 +67,13 @@ public class Tongue extends StaticEnemy {
 	protected void move(float delta) {
 		target.sub(0, -delta + speed);
 		super.move(delta);
+	}
+	
+	/**
+	 * When it collides, this should be called to stop it from growing
+	 */
+	public void stopGrowing(){
+		this.grow = false;
 	}
 
 	@Override
