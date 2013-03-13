@@ -55,7 +55,7 @@ public class Tongue extends StaticEnemy {
 		this.setSize(this.getWidth(), this.getHeight()
 				+ (grow ? delta * growRate : -growRate * delta));
 		
-		target.add(this.directionVec.mul((grow ? 1 : -1) * this.getHeight()));
+		target.add(this.directionVec.mul((grow ? 1 : -1) * growRate * delta));
 	}
 
 	/*
