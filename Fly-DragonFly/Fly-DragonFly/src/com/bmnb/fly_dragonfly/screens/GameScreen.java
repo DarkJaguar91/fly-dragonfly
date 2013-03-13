@@ -147,7 +147,7 @@ public class GameScreen implements Screen {
 		
 		//Init mana meter
 		manaMeter = new Meter(new Vector2(width/6,height-height/30), width/3, height/15, width, height, false, 
-				new Texture("data/textures/mana_meter.png"), new Texture("data/textures/mana_meter_grey.png"), 1);
+				new Texture("data/textures/mana_meter.png"), new Texture("data/textures/mana_meter_grey.png"), 1, player);
 		
 		//Load font
 		font = new BitmapFont(Gdx.files.internal("data/font/commicsans.fnt"),
@@ -206,7 +206,7 @@ public class GameScreen implements Screen {
 			boidsmodel.update(delta,this);
 			spawner.update(delta);
 		}	
-		
+
 		manaMeter.setProgress(player.getMana()/player.getMaxMana());
 		manaMeter.draw(batch,delta);	
 		
