@@ -205,8 +205,12 @@ public class Player extends GameObject {
 
 		dragonBreath.draw(spriteBatch, delta);
 
-		spriteBatch.draw(btnTxt, 0, 0, screenWidth * 0.1f, screenWidth * 0.1f);
+		float [] col = this.getFireColour();
+		spriteBatch.setColor(col[0], col[1], col[2], 1);
+		spriteBatch.draw(btnTxt, 0, screenHeight * 0.35f - screenWidth * 0.075f, screenWidth * 0.15f, screenWidth * 0.15f);
+		spriteBatch.setColor(1, 1, 1, 1);
 
+		
 		super.draw(spriteBatch, delta);
 	}
 
@@ -344,5 +348,9 @@ public class Player extends GameObject {
 	 */
 	public float getMaxMana() {
 		return Player.maxMana;
+	}
+	
+	public float [] getFireColour(){
+		return dragonBreath.getTint().getColors();
 	}
 }

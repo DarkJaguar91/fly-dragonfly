@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.bmnb.fly_dragonfly.objects.Player;
 
 /**
  * Fancy image-based progress bar class (supports vertical and horizontal
@@ -19,6 +20,7 @@ public class Meter extends Sprite {
 	protected boolean vertProgress;
 	protected Texture bg, fg;
 	protected TweenManager manager;
+	protected Player player;
 
 	/**
 	 * Default constructor
@@ -44,8 +46,9 @@ public class Meter extends Sprite {
 	 */
 	public Meter(Vector2 position, float width, float height, float scWidth,
 			float scHeight, boolean vertProgress, Texture texFG, Texture texBG,
-			float progress) {
+			float progress, Player player) {
 		super();
+		this.player = player;
 		setSize(width, height);
 		setPosition(position);
 		this.progress = progress;
@@ -105,6 +108,8 @@ public class Meter extends Sprite {
 		super.draw(spriteBatch);
 		// then draw portion of the foreground texture
 		this.setTexture(fg);
+		float[] col = player.getFireColour();
+		spriteBatch.setColor(col[0], col[1], col[2], 1);
 		float oldWidth = this.getWidth(), oldHeight = this.getHeight();
 		if (this.vertProgress) {
 			setRegion(0,
@@ -118,6 +123,8 @@ public class Meter extends Sprite {
 			setOrigin(getWidth() / 2, getHeight() / 2);
 		}
 		super.draw(spriteBatch);
+		spriteBatch.setColor(1, 1, 1, 1);
+
 		// restore size
 		this.setSize(oldWidth, oldHeight);
 	}

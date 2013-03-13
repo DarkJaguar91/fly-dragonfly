@@ -106,15 +106,7 @@ public class GameInput implements InputProcessor {
 		}
 
 		if (shootPointer == -1) {
-			if (screenX < width * 0.1f && screenY < width * 0.1f) {
-				player.startShooting();
-				shootPointer = pointer;
-				return true;
-			}
-		}
-		
-		if (shootPointer == -1) {
-			if (screenX < width * 0.1f && screenY < width * 0.1f) {
+			if (screenX < width * 0.1f && screenY < height * 0.35f + width * 0.075f && screenY > height * 0.35f - width * 0.075f) {
 				player.startShooting();
 				shootPointer = pointer;
 				return true;
