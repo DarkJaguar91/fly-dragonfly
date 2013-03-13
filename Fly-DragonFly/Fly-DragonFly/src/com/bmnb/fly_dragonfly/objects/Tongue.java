@@ -18,7 +18,7 @@ public class Tongue extends StaticEnemy {
 		super(position, width, height, speed, scWidth, scHeight, player, 100);
 
 		frogMouthPos = position.cpy();
-		
+
 		sortVal = 3;
 
 		target = player.getPosition().cpy();
@@ -27,11 +27,17 @@ public class Tongue extends StaticEnemy {
 
 		length = target.cpy().sub(frogMouthPos.cpy()).len() * 1.5f;
 
-		// this.setSize(100, 0);
-
 		float angle = (target.cpy().sub(this.getPosition().cpy())).angle();
 
 		this.setRotation(angle - 90);
+
+//		Vector2 other = this.getPosition().cpy();
+//		Vector2 adder = new Vector2((float) (length * Math.sin(Math
+//				.toRadians(this.getRotation() + 180))),
+//				(float) (length * Math.cos(Math.toRadians(this.getRotation()))));
+//		other.add(adder);
+//
+//		System.out.println(target.toString() + " <> " + other.toString());
 
 		this.setTexture(new Texture("data/textures/tongue.png"));
 	}
@@ -48,6 +54,15 @@ public class Tongue extends StaticEnemy {
 		}
 		if (this.getHeight() <= 0)
 			kill();
+
+		target = this.getPosition().cpy();
+		Vector2 adder = new Vector2((float) (this.getHeight() * Math.sin(Math
+				.toRadians(this.getRotation() + 180))),
+				(float) (this.getHeight() * Math.cos(Math.toRadians(this.getRotation()))));
+		target.add(adder);
+
+		// System.out.println(this.getHeight() + " - " + adder.len());
+		 System.out.println(player.getPosition().toString() + " <> " + target.toString());
 
 		this.setSize(this.getWidth(), this.getHeight()
 				+ (grow ? length * delta * growRate : -growRate * length
@@ -69,10 +84,12 @@ public class Tongue extends StaticEnemy {
 
 	@Override
 	public void draw(SpriteBatch spriteBatch) {
-		spriteBatch.draw(this.getTexture(), frogMouthPos.x - this.getWidth()/2f,
-				frogMouthPos.y, this.getWidth()/2f, 0, this.getWidth(), this.getHeight(), 1, 1, this.getRotation(), 0, 0,
-				this.getTexture().getWidth(), this.getTexture().getHeight(), false, false);
-		//super.draw(spriteBatch);
+		spriteBatch.draw(this.getTexture(), frogMouthPos.x - this.getWidth()
+				/ 2f, frogMouthPos.y, this.getWidth() / 2f, 0, this.getWidth(),
+				this.getHeight(), 1, 1, this.getRotation(), 0, 0, this
+						.getTexture().getWidth(),
+				this.getTexture().getHeight(), false, false);
+		// super.draw(spriteBatch);
 	}
 
 	@Override
