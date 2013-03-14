@@ -47,7 +47,7 @@ public class MapOutline extends JPanel implements ImageObserver{
 		this.setBackground(Color.white);
 		this.updateUI();
 		
-		background = new ImageIcon("bg_final_flat.png");	
+		background = new ImageIcon("assets/bg_final_flat.png");	
 		source = background.getImage();
 	}
 	
