@@ -124,12 +124,12 @@ public class MainFrame extends JFrame{
 				
 		objWidth = new JLabel("Width:");
 		objDetails.add(objWidth);
-		numberModel = new SpinnerNumberModel(50,0,1000,1);
+		numberModel = new SpinnerNumberModel(150,0,1000,1);
 		widthInput = new JSpinner(numberModel);
 		objDetails.add(widthInput);
 		objHeight = new JLabel("Height:");
 		objDetails.add(objHeight);
-		numberModel = new SpinnerNumberModel(50,0,1000,1);
+		numberModel = new SpinnerNumberModel(150,0,1000,1);
 		heightInput = new JSpinner(numberModel);
 		objDetails.add(heightInput);
 		objRotate = new JLabel("Rotation:");
@@ -139,11 +139,12 @@ public class MainFrame extends JFrame{
 		objDetails.add(rotateInput);
 		dispersionlbl = new JLabel("Dispersion:");
 		objDetails.add(dispersionlbl);
+		numberModel = new SpinnerNumberModel(100,0,1000,1);
 		dispInput = new JSpinner(numberModel);
 		objDetails.add(dispInput);
 		obj_idlbl = new JLabel("ID:");
 		objDetails.add(obj_idlbl);
-		numberModel = new SpinnerNumberModel(100,0,1000,1);
+		numberModel = new SpinnerNumberModel(1,0,100,1);
 		idInput = new JSpinner(numberModel);
 		objDetails.add(idInput);
 		numberBoids = new JLabel("# of Flies:");
@@ -338,6 +339,7 @@ public class MainFrame extends JFrame{
 			int height = (Integer) heightInput.getValue();
 			float rotation = (Integer) rotateInput.getValue();
 			int dispersion = (Integer) dispInput.getValue();
+			int numBoids = (Integer) numBoidsInput.getValue();
 			int obj_id = (Integer) idInput.getValue();
 			int x = e.getX()-width/2;
 			int y = e.getY()-height/2;
@@ -364,7 +366,7 @@ public class MainFrame extends JFrame{
 				map.addObjectToMap("triangle",rotation,0,0,0,new Dimension(width,height),x,y);
 			}
 			else if(parent.shape.equals("bench")){	
-				map.addObjectToMap("bench",0,dispersion,0,0,new Dimension(width+dispersion,30),x-dispersion/2,y+20);
+				map.addObjectToMap("bench",0,dispersion,0,numBoids,new Dimension(width+dispersion,30),x-dispersion/2,y+20);
 			}
 			else if(parent.shape.equals("star")){	
 				map.addObjectToMap("star",0,0,obj_id,0,new Dimension(25,25),x+10,y+20);
