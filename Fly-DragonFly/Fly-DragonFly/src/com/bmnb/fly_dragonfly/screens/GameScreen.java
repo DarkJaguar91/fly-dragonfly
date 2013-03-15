@@ -34,6 +34,7 @@ import com.bmnb.fly_dragonfly.objects.GameObject;
 import com.bmnb.fly_dragonfly.objects.Player;
 import com.bmnb.fly_dragonfly.objects.Tongue;
 import com.bmnb.fly_dragonfly.objects.Web;
+import com.bmnb.fly_dragonfly.sound.MediaPlayer;
 
 /**
  * Game screen controls the drawing update, everything for the game
@@ -152,6 +153,10 @@ public class GameScreen implements Screen {
 		//Load font
 		font = new BitmapFont(Gdx.files.internal("data/font/commicsans.fnt"),
 		         Gdx.files.internal("data/font/commicsans.png"), false);
+		
+		MediaPlayer.loadMusic("data/sound/background.mp3");
+		MediaPlayer.playMusic("data/sound/background.mp3",true);
+		MediaPlayer.setMusicVolume("data/sound/background.mp3", 0.02f);
 	}
 
 	public static ArrayList<GameObject> getEnemies() {
