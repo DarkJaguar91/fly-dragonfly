@@ -17,6 +17,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.ParticleType;
 import com.bmnb.fly_dragonfly.graphics.flashAnim;
+import com.bmnb.fly_dragonfly.screens.GameScreen;
 import com.bmnb.fly_dragonfly.tools.MathTools;
 
 /**
@@ -87,6 +88,8 @@ public class Player extends GameObject {
 		// later)
 		this.setTexture(new Texture("data/textures/dragonfly.png"));
 		btnTxt = new Texture("data/textures/flamesButton.png");
+		
+		// load the flames emitter settings
 		try {
 			dragonBreath = new GameParticleEmitter(new BufferedReader(
 					new InputStreamReader(Gdx.files.internal(
@@ -240,6 +243,8 @@ public class Player extends GameObject {
 			if (numLives < 0)
 				numLives = 3;
 
+			GameScreen.flash();
+			
 			Tween.registerAccessor(Sprite.class, new flashAnim());
 
 			TweenCallback cb = new TweenCallback() {
@@ -351,6 +356,7 @@ public class Player extends GameObject {
 	}
 	
 	public float [] getFireColour(){
-		return dragonBreath.getTint().getColors();
+		float f [] = dragonBreath.getTint().getColors().clone();
+		return f;
 	}
 }

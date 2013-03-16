@@ -5,6 +5,10 @@ package com.bmnb.fly_dragonfly.screens;
 
 import java.util.ArrayList;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -14,6 +18,7 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -26,6 +31,7 @@ import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.Particle;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.ParticleType;
 import com.bmnb.fly_dragonfly.graphics.Meter;
 import com.bmnb.fly_dragonfly.graphics.ScrollingBackground;
+import com.bmnb.fly_dragonfly.graphics.flashAnim;
 import com.bmnb.fly_dragonfly.input.GameInput;
 import com.bmnb.fly_dragonfly.map.MapLoader;
 import com.bmnb.fly_dragonfly.map.Spawner;
@@ -77,6 +83,9 @@ public class GameScreen implements Screen {
 	protected CharSequence playerScore;
 	protected float survivalTime;
 	
+	protected static Sprite flashSprite;
+	protected static TweenManager flashman;
+	
 	private FrameBuffer m_fbo = null;
 	private TextureRegion m_fboRegion = null;
 	/**
@@ -103,6 +112,13 @@ public class GameScreen implements Screen {
 		rocks = new ArrayList<GameObject>();
 		boids = new ArrayList<GameObject>();
 
+		// init flash sprite
+		flashSprite = new Sprite(new Texture("data/textures/flash.png"));
+		flashSprite.setPosition(0, 0);
+		flashSprite.setSize(width, height);
+		flashSprite.setColor(1,1,1,0);
+		flashman = new TweenManager();
+		
 		// init player
 		addObject(player = new Player(new Vector2(width / 2f, 50), 150, 150,
 				500, width, height));
@@ -159,10 +175,25 @@ public class GameScreen implements Screen {
 		MediaPlayer.setMusicVolume("data/sound/background.mp3", 0.02f);
 	}
 
+	/**
+	 * Returns the enemies array
+	 * @return The array of enemies
+	 */
 	public static ArrayList<GameObject> getEnemies() {
 		return enemies;
 	}
 
+	/**
+	 * Flashes the screen.
+	 */
+	public static void flash(){
+		Tween.registerAccessor(Sprite.class, new flashAnim());
+
+		Tween.to(flashSprite, flashAnim.ALPHA, 0.7f).target(1)
+				.repeatYoyo(3, 0f).ease(TweenEquations.easeInCirc)
+				.start(flashman);
+	}
+	
 	@Override
 	public void render(float delta) {
 		// clear the screen
@@ -210,6 +241,7 @@ public class GameScreen implements Screen {
 			
 			boidsmodel.update(delta,this);
 			spawner.update(delta);
+			flashman.update(delta);
 		}	
 
 		manaMeter.setProgress(player.getMana()/player.getMaxMana());
@@ -222,6 +254,7 @@ public class GameScreen implements Screen {
 		// draw background
 		scroller.draw(batch, delta);
 		batch.draw(m_fboRegion,0,0,width,height);
+		flashSprite.draw(batch);
 		batch.end();
 		// do collision
 		doCollisionDetection();
