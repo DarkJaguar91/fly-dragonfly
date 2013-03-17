@@ -169,8 +169,8 @@ public class GameScreen implements Screen {
 		// Init mana meter
 		manaMeter = new Meter(new Vector2(width / 6, height - height / 30),
 				width / 3, height / 15, width, height, false, new Texture(
-						"data/textures/mana_meter.png"), new Texture(
-						"data/textures/mana_meter_grey.png"), 1, player);
+						"data/textures/flametop.png"), new Texture(
+						"data/textures/flamebot.png"), 1, player);
 
 		// Load font
 		font = new BitmapFont(Gdx.files.internal("data/font/commicsans.fnt"),

@@ -102,14 +102,15 @@ public class Meter extends Sprite {
 
 	@Override
 	public void draw(SpriteBatch spriteBatch, float delta) {
+
+		float[] col = player.getFireColour();
 		// Gdx.app.log("Alpha", this.getColor().a + "");
 		// First draw full background texture
 		this.setTexture(bg);
 		super.draw(spriteBatch);
 		// then draw portion of the foreground texture
 		this.setTexture(fg);
-		float[] col = player.getFireColour();
-		spriteBatch.setColor(col[0], col[1], col[2], 1);
+		this.setColor(col[0], col[1], col[2], 1);
 		float oldWidth = this.getWidth(), oldHeight = this.getHeight();
 		if (this.vertProgress) {
 			setRegion(0,
@@ -123,10 +124,10 @@ public class Meter extends Sprite {
 			setOrigin(getWidth() / 2, getHeight() / 2);
 		}
 		super.draw(spriteBatch);
-		spriteBatch.setColor(1, 1, 1, 1);
 
 		// restore size
 		this.setSize(oldWidth, oldHeight);
+		this.setColor(1, 1, 1, 1);
 	}
 
 	/**
