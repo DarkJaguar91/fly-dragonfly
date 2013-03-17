@@ -55,14 +55,13 @@ public class MediaPlayer {
 	}
 	/**
 	 * Plays preloaded sound fx (if the sound is not on or the file has not been loaded the call is ignored)
-	 * @param filename
-	 * @param loop
+	 * @param filename 
 	 * @return handle to the instance of the sound fx. -1 if the call did not complete
 	 */
-	public static long playSound(String filename, boolean loop){
+	public static long playSound(String filename){
 		if (allSound.containsKey(filename)){
-			long hnd = allSound.get(filename).play();
-			allSound.get(filename).setLooping(hnd, loop);
+			long hnd = 0;
+			hnd = allSound.get(filename).play(1.0f);
 			allSndInstances.get(allSound.get(filename)).add(new Pair<Long,Float>(hnd,1.0f));
 			if (!soundOn) setSoundVolume(filename, 0, hnd);
 			return hnd;
