@@ -1,6 +1,7 @@
 package com.bmnb.fly_dragonfly.objects;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.screens.GameScreen;
 import com.bmnb.fly_dragonfly.sound.MediaPlayer;
@@ -21,6 +22,19 @@ public class Frog extends StaticEnemy {
 		frogSndHnd = MediaPlayer.playSound("data/sound/toad.mp3", true);
 		MediaPlayer.setSoundVolume("data/sound/toad.mp3",1.0f,frogSndHnd);
 	}
+	
+	@Override
+	public Rectangle getBoundingRectangle() {
+		Rectangle r =  super.getBoundingRectangle();
+		
+		//r.x += this.getWidth() * 0.38f;
+		r.width -= this.getWidth() * 0.17f;
+		
+		r.height -= this.getHeight() * 0.1f;
+		
+		return r;
+	}	
+	
 	@Override
 	public void kill(){
 		super.kill();

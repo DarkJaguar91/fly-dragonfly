@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter;
 
@@ -38,6 +39,16 @@ public class VenusFlytrap extends StaticEnemy {
 		} catch (Exception e) {
 			Gdx.app.log("error", e.getMessage());
 		}
+	}
+	
+	@Override
+	public Rectangle getBoundingRectangle() {
+		Rectangle r =  super.getBoundingRectangle();
+		
+		//r.x += this.getWidth() * 0.38f;
+		r.width -= this.getWidth() * 0.2f;
+		r.height -= this.getHeight() * 0.2f;
+		return r;
 	}
 
 	@Override
