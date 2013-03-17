@@ -89,7 +89,7 @@ public class Player extends GameObject {
 		// load textures (loading here for now, must create texture loader
 		// later)
 //		this.setTexture(new Texture("data/textures/dragonfly.png"));
-		animator = new SpriteAnimator(new Texture("data/textures/dragonfly.png"), 2, 2, "dragon", 65, this);
+		animator = new SpriteAnimator(new Texture("data/textures/dragonfly.png"), 2, 2, "dragon", 50, this);
 		btnTxt = new Texture("data/textures/button.png");
 		
 		// load the flames emitter settings
