@@ -34,7 +34,7 @@ public class Player extends GameObject {
 	 */
 	protected static final float maxVertPath = 1.0f, upSpeedPercent = 0.8f,
 			downSpeedPercent = 1.2f, mosDamage = 0.25f, flyDamage = 1.0f,
-			manaRegen = 1, manaUse = 5, maxMana = 50;
+			manaRegen = 0.5f, manaUse = 5, maxMana = 20;
 	protected static final float[] mosColor = { 0.047058824f, 0.105882354f,
 			0.91764706f },
 			flyColor = { 0.91764706f, 0.105882354f, 0.047058824f },
