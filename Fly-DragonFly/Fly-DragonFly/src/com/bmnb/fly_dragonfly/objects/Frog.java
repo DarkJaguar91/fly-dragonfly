@@ -18,9 +18,9 @@ public class Frog extends StaticEnemy {
 		sortVal = 2;
 
 		setTexture(new Texture("data/textures/frog1.png"));
-		MediaPlayer.loadSound("data/sound/toad.mp3");
-		frogSndHnd = MediaPlayer.playSound("data/sound/toad.mp3", true);
-		MediaPlayer.setSoundVolume("data/sound/toad.mp3",1.0f,frogSndHnd);
+		MediaPlayer.loadSound("data/sound/toad.wav");
+		frogSndHnd = MediaPlayer.playSound("data/sound/toad.wav", true);
+		MediaPlayer.setSoundVolume("data/sound/toad.wav",1.0f,frogSndHnd);
 	}
 	
 	@Override
@@ -38,7 +38,7 @@ public class Frog extends StaticEnemy {
 	@Override
 	public void kill(){
 		super.kill();
-		MediaPlayer.stopSound("data/sound/toad.mp3",frogSndHnd);
+		MediaPlayer.stopSound("data/sound/toad.wav",frogSndHnd);
 	}
 	@Override
 	public void update(float delta) {
