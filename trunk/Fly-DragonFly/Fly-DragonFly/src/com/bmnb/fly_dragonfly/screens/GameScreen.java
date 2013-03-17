@@ -77,6 +77,7 @@ public class GameScreen implements Screen {
 	protected Texture tutFlameTex;
 	protected Texture tutFlyMoziTex;
 	protected Texture livesTex;
+	protected Texture livesTexBack;
 	protected Texture tutTextTex;
 	protected boolean draw_tutorial;
 	protected int tutID;
@@ -144,7 +145,8 @@ public class GameScreen implements Screen {
 		tutFlyMoziTex = new Texture("data/tutorials/tutFlyMozi.png");
 		tutTextTex = new Texture("data/tutorials/tutOkBtn2.png");
 
-		livesTex = new Texture("data/tutorials/lives.png");
+		livesTex = new Texture("data/textures/health_bar_dragonfly.png");
+		livesTexBack = new Texture("data/textures/health_bar_dragonfly_grey.png");
 		draw_tutorial = false;
 		tutID = 0;
 		survivalTime = 0;// TODO
@@ -225,9 +227,14 @@ public class GameScreen implements Screen {
 			objects.get(i).draw(batch, delta);
 
 		// draw lives
+		for (int i = 1; i <= 4; i++) {
+			batch.draw(livesTexBack, width - (110) * i, height
+					- 120, 100, 100, 0, 0,
+					livesTexBack.getWidth(), livesTexBack.getHeight(), false, false);
+		}
 		for (int i = 1; i <= player.getNumLives(); i++) {
-			batch.draw(livesTex, width - (livesTex.getWidth() - 10) * i, height
-					- livesTex.getHeight() - 20, 50, 50, 0, 0,
+			batch.draw(livesTex, width - (110) * i, height
+					- 120, 100, 100, 0, 0,
 					livesTex.getWidth(), livesTex.getHeight(), false, false);
 		}
 
