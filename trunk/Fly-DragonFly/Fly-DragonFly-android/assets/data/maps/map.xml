@@ -20,18 +20,6 @@
 		<numberOfBoids>50</numberOfBoids>
 		<dispersion>100</dispersion>
 	</moziSpawner>
-	<tutorialScreen>
-		<id>100</id>
-		<y>271</y>
-	</tutorialScreen>
-	<tutorialScreen>
-		<id>5</id>
-		<y>340</y>
-	</tutorialScreen>
-	<tutorialScreen>
-		<id>5</id>
-		<y>78</y>
-	</tutorialScreen>
 	<obj type="spider">
 		<x>69</x>
 		<y>1581</y>
@@ -39,10 +27,6 @@
 		<height>200</height>
 		<rotation>0.0</rotation>
 	</obj>
-	<tutorialScreen>
-		<id>6</id>
-		<y>1250</y>
-	</tutorialScreen>
 	<moziSpawner type="fireflies">
 		<x>577</x>
 		<y>2167</y>
@@ -56,10 +40,6 @@
 		<height>200</height>
 		<rotation>10.0</rotation>
 	</obj>
-	<tutorialScreen>
-		<id>1</id>
-		<y>2032</y>
-	</tutorialScreen>
 	<obj type="flytrap">
 		<x>48</x>
 		<y>3243</y>
@@ -74,10 +54,6 @@
 		<height>200</height>
 		<rotation>10.0</rotation>
 	</obj>
-	<tutorialScreen>
-		<id>4</id>
-		<y>3136</y>
-	</tutorialScreen>
 	<obj type="bird">
 		<x>39</x>
 		<y>4643</y>
