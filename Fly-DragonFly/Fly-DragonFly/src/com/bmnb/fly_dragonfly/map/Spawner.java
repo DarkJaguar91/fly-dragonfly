@@ -45,18 +45,18 @@ public class Spawner {
 		//spawn objects:
 		for (int i = 0; i < _map.getGameObjects().size(); ++i){
 			ObjectSpawner os = _map.getGameObjects().get(i);
-			if (os.getY() < _y + GameScreen.height){
+			if (os.getY() <= _y + GameScreen.height + os.getHeight()/2f){
 				if (os.getType() == ObjectSpawner.Type.OS_SPIDER)
-					GameScreen.addObject(new Spider(new Vector2(os.getX(),os.getY()), os.getWidth(), os.getHeight(), 
+					GameScreen.addObject(new Spider(new Vector2(os.getX(),GameScreen.height + os.getHeight()/2f), os.getWidth(), os.getHeight(), 
 							_scrollSpeed, GameScreen.width, GameScreen.height,  _player));
 				else if (os.getType() == ObjectSpawner.Type.OS_BIRD)
-					GameScreen.addObject(new Bird(new Vector2(os.getX(),os.getY()), os.getWidth(), os.getHeight(), 
+					GameScreen.addObject(new Bird(new Vector2(os.getX(),GameScreen.height + os.getHeight()/2f), os.getWidth(), os.getHeight(), 
 							_scrollSpeed, GameScreen.width, GameScreen.height,  _player));
 				else if (os.getType() == ObjectSpawner.Type.OS_VENUSFT) 
-					GameScreen.addObject(new VenusFlytrap(new Vector2(os.getX(),os.getY()), os.getWidth(), os.getHeight(), 
+					GameScreen.addObject(new VenusFlytrap(new Vector2(os.getX(),GameScreen.height + os.getHeight()/2f), os.getWidth(), os.getHeight(), 
 						_scrollSpeed, GameScreen.width, GameScreen.height,  _player));
 				else if (os.getType() == ObjectSpawner.Type.OS_FROG) 
-					GameScreen.addObject(new Frog(new Vector2(os.getX(),os.getY()), os.getWidth(), os.getHeight(), 
+					GameScreen.addObject(new Frog(new Vector2(os.getX(),GameScreen.height + os.getHeight()/2f), os.getWidth(), os.getHeight(), 
 						_scrollSpeed, GameScreen.width, GameScreen.height,  _player));
 				_map.getGameObjects().remove(i--);
 			}	
