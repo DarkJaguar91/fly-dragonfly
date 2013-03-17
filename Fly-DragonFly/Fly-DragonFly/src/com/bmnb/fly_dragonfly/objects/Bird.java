@@ -2,6 +2,7 @@ package com.bmnb.fly_dragonfly.objects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.objects.Enemy;
 
@@ -25,7 +26,17 @@ public class Bird extends Enemy {
 		super.kill();
 	}
 
-
+	@Override
+	public Rectangle getBoundingRectangle() {
+		Rectangle r =  super.getBoundingRectangle();
+		
+		//r.x += this.getWidth() * 0.38f;
+		r.width -= this.getWidth() * 0.2f;
+		r.height -= this.getHeight() * 0.2f;
+		
+		
+		return r;
+	}
 
 	@Override
 	protected void move(float delta) {

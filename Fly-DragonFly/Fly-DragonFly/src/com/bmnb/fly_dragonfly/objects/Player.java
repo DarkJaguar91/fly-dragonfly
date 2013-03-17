@@ -13,6 +13,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.ParticleType;
@@ -196,6 +197,18 @@ public class Player extends GameObject {
 				/ 3f);
 	}
 
+	
+	
+	@Override
+	public Rectangle getBoundingRectangle() {
+		Rectangle r =  super.getBoundingRectangle();
+		
+		r.x += this.getWidth() * 0.38f;
+		r.width -= this.getWidth() * 0.38f * 2;
+		
+		return r;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -233,7 +246,7 @@ public class Player extends GameObject {
 		}
 		super.update(delta);
 	}
-
+	
 	/**
 	 * Starts a flashing animation
 	 */
