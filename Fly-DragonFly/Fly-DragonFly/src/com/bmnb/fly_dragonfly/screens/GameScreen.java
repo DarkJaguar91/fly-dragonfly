@@ -175,11 +175,12 @@ public class GameScreen implements Screen {
 						"data/textures/flamebot.png"), 1, player);
 
 		// Load font
+		MediaPlayer.loadSound("data/sound/toad.wav");
+		MediaPlayer.loadSound("data/sound/eagle.wav");
 		font = new BitmapFont(Gdx.files.internal("data/font/commicsans.fnt"),
 				Gdx.files.internal("data/font/commicsans.png"), false);
-
-		MediaPlayer.loadMusic("data/sound/background.mp3");
-		MediaPlayer.playMusic("data/sound/background.mp3", true);
+		MediaPlayer.loadMusic("data/sound/flydragonfly_bg_music.mp3");
+		MediaPlayer.playMusic("data/sound/flydragonfly_bg_music.mp3", true);
 		MediaPlayer.setMusicVolume("data/sound/background.mp3", 0.02f);
 	}
 
