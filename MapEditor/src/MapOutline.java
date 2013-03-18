@@ -65,12 +65,13 @@ public class MapOutline extends JPanel implements ImageObserver{
 		int x = 0;
 		int y = 0;
 		
-		g.drawImage(source,0,0,mapSize.width,source.getHeight(this),0,0,
-				source.getWidth(this),source.getHeight(this),Color.white,this);
-		g.drawImage(source,0,source.getHeight(this),mapSize.width,source.getHeight(this)*2,0,0,
-				source.getWidth(this),source.getHeight(this),Color.white,this);
-		
-		
+		int mapHeight = (mapSize.height/10000)+(int)Math.round((mapSize.height/10000)*0.5);
+		System.out.println(mapHeight);
+		for(int i=0;i<=mapHeight;i++){
+			g.drawImage(source,0,source.getHeight(this)*i,mapSize.width,source.getHeight(this)*(i+1),0,0,
+					source.getWidth(this),source.getHeight(this),Color.white,this);
+		}
+				
 		if(shape != null){
 			x = (int)shapePosition.x-parent.getSelectedObjWidth()/2;
 			y = (int)shapePosition.y-parent.getSelectedObjHeight()/2;			
@@ -204,7 +205,7 @@ public class MapOutline extends JPanel implements ImageObserver{
 					.pop();
 				}
 				else if(gameObjects.get(i).object.equals("mosquitoes") 
-						|| gameObjects.get(i).object.equals("flies")){
+						|| gameObjects.get(i).object.equals("fireflies")){
 					xmlBuilder.element("moziSpawner")
 						.attribute("type",gameObjects.get(i).object)
 						.element("x")

@@ -72,7 +72,7 @@ public class MainFrame extends JFrame{
 		this.setResizable(false);
 		
 		//initialize variables
-		Dimension mapSize = new Dimension(800,10000);		
+		Dimension mapSize = new Dimension(800,30000);		
 		shape = "selection";
 		object_selected = false;
 		
@@ -173,6 +173,7 @@ public class MainFrame extends JFrame{
 				
 		scroller = new JScrollPane(mobileScreen);		
 		scroller.setBounds(x, y, screenSize.width-x-15, screenSize.height-60); 
+//		scroller.setPreferredSize(new Dimension(screenSize.width-x-15,screenSize.height-60));
 		scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scroller.setVisible(true);
