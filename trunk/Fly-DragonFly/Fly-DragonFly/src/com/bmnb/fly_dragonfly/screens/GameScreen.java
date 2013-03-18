@@ -136,7 +136,7 @@ public class GameScreen implements Screen {
 		survivalTime = 0;		
 
 		// set the input processor
-		Gdx.input.setInputProcessor(new GameInput(width, height, player,game));
+		Gdx.input.setInputProcessor(new GameInput(width, height, player,game,this));
 		((GameInput) Gdx.input.getInputProcessor()).setGameScreen(this);
 
 		// Add the flocking models:
@@ -168,7 +168,7 @@ public class GameScreen implements Screen {
 		MediaPlayer.setMusicVolume("data/sound/background.mp3", 0.02f);
 		
 		//initialise tut screen manager
-		tutScreen = new TutorialScreens(font,game);
+		tutScreen = new TutorialScreens(font,game,this);
 	}
 
 	/**
@@ -227,7 +227,7 @@ public class GameScreen implements Screen {
 
 		// draw tutorial screen
 		if (tutScreen.draw_tutorial) {
-			tutScreen.drawTutorialScreen(batch);
+			tutScreen.drawTutorialScreen(batch,delta);
 		} else {
 			scroller.update(delta);
 

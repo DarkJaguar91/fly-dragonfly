@@ -33,8 +33,6 @@ public class Spawner {
 		_map = map;
 		_gs = gs;
 		_scrollSpeed = speed;
-		Gdx.app.log("SP ", ""+speed);
-		Gdx.app.log("SP ", ""+gs.height);
 		_bm = boidsModel;
 		_player = player;
 		_y = 0;
@@ -81,8 +79,9 @@ public class Spawner {
 		for (int i = 0; i < _map.getTutorialScreens().size(); ++i){
 			TutorialScreenSpawner ts = _map.getTutorialScreens().get(i);
 			if (ts.getY() < _y + GameScreen.height){	
-				_gs.tutScreen.showTutorialScreen(ts.getId());
+				_gs.tutScreen.showTutorialScreen(ts.id);
 				_map.getTutorialScreens().remove(i--);
+				break;
 			}
 		}
 	}

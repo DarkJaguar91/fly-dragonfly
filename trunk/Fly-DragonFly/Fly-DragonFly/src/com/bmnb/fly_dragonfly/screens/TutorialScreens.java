@@ -3,6 +3,7 @@
 
 package com.bmnb.fly_dragonfly.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.bmnb.fly_dragonfly.Fly_DragonFly;
 
 public class TutorialScreens {
+	private static final float SCORE_INCREASE_RATE = 550.0f;
 	protected Texture tutorial_tex;
 	protected Texture okBtnTex;
 	protected Texture okBtnTex_clicked;
@@ -24,13 +26,15 @@ public class TutorialScreens {
 	protected Texture tutFlyMoziTex;
 	protected Texture tutTextTex;
 	protected Texture tutWinTex;
+	protected Texture star;
+	protected Texture starDark;
 	protected BitmapFont font;
+	protected int fancyScoreCounter; 
 	protected Fly_DragonFly game;
-
 	protected int tutID;
 	public boolean draw_tutorial = false;
-
-	public TutorialScreens(BitmapFont f, Fly_DragonFly g){
+	protected GameScreen gs;
+	public TutorialScreens(BitmapFont f, Fly_DragonFly g, GameScreen gs){
 		//init tutorial graphics
 		tutorial_tex = new Texture("data/tutorials/tutorial_bg.png");
 		tutorial_tex.setFilter(TextureFilter.Linear,TextureFilter.Linear);
@@ -44,10 +48,16 @@ public class TutorialScreens {
 		tutFlyMoziTex = new Texture("data/tutorials/firefly.png");
 		tutFlameTex = new Texture("data/tutorials/flamesButton.png");
 		tutWinTex = new Texture("data/tutorials/dragonfly.png");
-
+		star = new Texture("data/tutorials/star.png");
+		starDark = new Texture("data/tutorials/star_dark.png");
 		font = f;
 		tutID = 0;
+		this.gs = gs;
 		game = g;
+	}
+
+	public int getTutID() {
+		return tutID;
 	}
 
 	int play_counter = 0;
@@ -73,13 +83,14 @@ public class TutorialScreens {
 		else{
 			draw_tutorial = true;
 			tutID = id;
+			fancyScoreCounter = 0;
 		}
 	}
 	public boolean isShowingTutorialScreen(){
 		return draw_tutorial;
 	}
 	//draw tutorial screen
-	public void drawTutorialScreen(SpriteBatch spritebatch){
+	public void drawTutorialScreen(SpriteBatch spritebatch, float delta){
 		float tutScreenStartX = 30;
 		float tutScreenStartY = GameScreen.height/3;		
 		float tutScreenWidth = GameScreen.width-70;
@@ -188,16 +199,40 @@ public class TutorialScreens {
 			break;
 		case 0:
 			//win condition
-			spritebatch.draw(tutWinTex, tutScreenStartX+20, 
-					(tutScreenStartY+tutScreenHeight) - tutWinTex.getHeight() - 20, 
-					tutWinTex.getWidth(), 
-					tutWinTex.getHeight(), 0, 0, 
-					tutWinTex.getWidth(), tutWinTex.getHeight(), false, false);	
-			msg = "Well done! You have survived the Jungle.";
+			msg = "You've survived!";
 			font.setScale(1f);
-			font.drawWrapped(spritebatch, msg, tutScreenStartX+20+tutWinTex.getWidth()+7,
+			font.drawWrapped(spritebatch, msg, tutScreenStartX+tutWinTex.getWidth()/2+20,
 					(tutScreenStartY+tutScreenHeight) - 30,
 					tutScreenWidth-tutWinTex.getWidth()-50);
+			
+			if (fancyScoreCounter < gs.getPlayer().getScore())
+				fancyScoreCounter += Math.min(gs.getPlayer().getScore(),Math.round(SCORE_INCREASE_RATE*delta));
+			msg = "Score: "+String.valueOf(fancyScoreCounter);
+			font.setScale(1.3f);
+			font.drawWrapped(spritebatch, msg, tutScreenStartX+tutWinTex.getWidth()/2+20,
+					(tutScreenStartY+tutScreenHeight) - 105,
+					tutScreenWidth-tutWinTex.getWidth()-50);
+			
+			int starCount = 0;
+			int numGoldStars = 0;
+			if (fancyScoreCounter < 1000)
+				numGoldStars = 1;
+			else if (fancyScoreCounter < 1500)
+				numGoldStars = 2;
+			else if (fancyScoreCounter < 2000)
+				numGoldStars = 3;
+			else if (fancyScoreCounter < 2500)
+				numGoldStars = 4;
+			else
+				numGoldStars = 5;
+			for (int i = 0; i < 4*star.getWidth()/2; i += star.getWidth()/2, ++starCount){
+				Texture starToUse = starCount < numGoldStars ? star : starDark;
+				spritebatch.draw(starToUse, tutScreenStartX+40+i, 
+					(tutScreenStartY+tutScreenHeight/2) - starToUse.getHeight()/4, 
+					starToUse.getWidth()/2, 
+					starToUse.getHeight()/2, 0, 0, 
+					starToUse.getWidth(), starToUse.getHeight(), false, false);
+			}
 			break;
 		}		
 		font.setColor(Color.WHITE);
