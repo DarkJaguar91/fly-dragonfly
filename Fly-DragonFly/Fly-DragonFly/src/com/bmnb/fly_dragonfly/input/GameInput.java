@@ -8,8 +8,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.Fly_DragonFly;
+import com.bmnb.fly_dragonfly.map.TutorialScreenSpawner;
 import com.bmnb.fly_dragonfly.objects.Player;
 import com.bmnb.fly_dragonfly.screens.GameScreen;
+import com.bmnb.fly_dragonfly.screens.TutorialScreens;
 
 /**
  * @author Brandon
@@ -21,15 +23,16 @@ public class GameInput implements InputProcessor {
 	protected Player player;
 	protected int movePointer = -1, shootPointer = -1;
 	protected Fly_DragonFly our_game;
-
+	protected GameScreen gs;
 	// debug
 	protected GameScreen screen;
 	
-	public GameInput(float width, float height, Player player, Fly_DragonFly g) {
+	public GameInput(float width, float height, Player player, Fly_DragonFly g, GameScreen gs) {
 		this.width = width;
 		this.height = height;
 		this.player = player;
 		our_game = g;
+		this.gs = gs;
 	}
 
 	public void setGameScreen(GameScreen in){
@@ -105,7 +108,7 @@ public class GameInput implements InputProcessor {
 		//player presses button area on to remove tutorial screen
 		if (screenX > ((30+(width-70))/2)-50 && screenY > ((height/3)+70) &&
 				screenX < ((30+(width-70))/2)-50+100 && screenY < ((height/3)+70)+50 && screen.tutScreen.isShowingTutorialScreen()){
-			screen.tutScreen.okBtnClicked();				
+			screen.tutScreen.okBtnClicked();
 			return true;
 		}
 
@@ -141,7 +144,10 @@ public class GameInput implements InputProcessor {
 		//player presses button area on to remove tutorial screen
 		if (screenX > ((30+(width-70))/2)-50 && screenY > ((height/3)+70) &&
 				screenX < ((30+(width-70))/2)-50+100 && screenY < ((height/3)+70)+50 && screen.tutScreen.isShowingTutorialScreen()){
-			screen.tutScreen.okBtnReleased();			
+			screen.tutScreen.okBtnReleased();	
+			if (gs.tutScreen.getTutID() == 0){
+				our_game.returnToMenu();
+			}
 			return true;
 		}
 		

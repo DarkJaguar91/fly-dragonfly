@@ -105,7 +105,6 @@ public class MapLoader {
 			subChild = child.getChildByName("y");
 			assert(subChild != null);
 			float y = Float.parseFloat(subChild.getText());
-			//Gdx.app.log("ML:", id + " " + y);
 			tutorialScreens.add(new TutorialScreenSpawner(id, y));
 		}
 	}
