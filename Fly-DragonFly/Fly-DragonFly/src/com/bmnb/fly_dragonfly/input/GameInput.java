@@ -4,8 +4,10 @@
 package com.bmnb.fly_dragonfly.input;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.bmnb.fly_dragonfly.Fly_DragonFly;
 import com.bmnb.fly_dragonfly.objects.Player;
 import com.bmnb.fly_dragonfly.screens.GameScreen;
 
@@ -18,14 +20,16 @@ public class GameInput implements InputProcessor {
 	protected float width, height;
 	protected Player player;
 	protected int movePointer = -1, shootPointer = -1;
+	protected Fly_DragonFly our_game;
 
 	// debug
 	protected GameScreen screen;
 	
-	public GameInput(float width, float height, Player player) {
+	public GameInput(float width, float height, Player player, Fly_DragonFly g) {
 		this.width = width;
 		this.height = height;
 		this.player = player;
+		our_game = g;
 	}
 
 	public void setGameScreen(GameScreen in){
@@ -39,12 +43,12 @@ public class GameInput implements InputProcessor {
 	 */
 	@Override
 	public boolean keyDown(int keycode) {
-		/*if(keycode == 54){
-			screen.showTutorialScreen(0);
+		if(keycode == Input.Keys.BACK){
+			our_game.returnToMenu();
 			return true;
 		}
-		else if(keycode == 52){
-			player.kill();
+		/*else if(keycode == Input.Keys.X){
+			screen.tutScreen.showTutorialScreen(1);
 			return true;
 		}*/
 		
