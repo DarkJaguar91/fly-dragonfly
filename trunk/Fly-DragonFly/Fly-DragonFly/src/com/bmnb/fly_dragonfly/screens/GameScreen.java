@@ -70,8 +70,6 @@ public class GameScreen implements Screen {
 
 	protected Texture livesTex;
 	protected Texture livesTexBack;
-	protected boolean draw_tutorial;
-	protected int tutID;
 	protected CharSequence playerScore;
 	protected float survivalTime;
 	protected Fly_DragonFly game;
@@ -135,13 +133,10 @@ public class GameScreen implements Screen {
 		livesTex = new Texture("data/textures/health_bar_dragonfly.png");
 		livesTexBack = new Texture(
 				"data/textures/health_bar_dragonfly_grey.png");
-		draw_tutorial = false;
-		tutID = 0;
-		survivalTime = 0;
-		tutScreen = new TutorialScreens(font);
+		survivalTime = 0;		
 
 		// set the input processor
-		Gdx.input.setInputProcessor(new GameInput(width, height, player));
+		Gdx.input.setInputProcessor(new GameInput(width, height, player,game));
 		((GameInput) Gdx.input.getInputProcessor()).setGameScreen(this);
 
 		// Add the flocking models:
@@ -171,6 +166,9 @@ public class GameScreen implements Screen {
 		MediaPlayer.loadMusic("data/sound/flydragonfly_bg_music.mp3");
 		MediaPlayer.playMusic("data/sound/flydragonfly_bg_music.mp3", true);
 		MediaPlayer.setMusicVolume("data/sound/background.mp3", 0.02f);
+		
+		//initialise tut screen manager
+		tutScreen = new TutorialScreens(font);
 	}
 
 	/**
@@ -228,7 +226,7 @@ public class GameScreen implements Screen {
 		}
 
 		// draw tutorial screen
-		if (draw_tutorial) {
+		if (tutScreen.draw_tutorial) {
 			tutScreen.drawTutorialScreen(batch);
 		} else {
 			scroller.update(delta);
@@ -240,7 +238,13 @@ public class GameScreen implements Screen {
 			player.increaseScoreBy(delta);
 			
 			//draw recent points scored by player
-			for(int i=0;i<recentPoints.size();i++){
+			int temp = 0;
+			if(recentPoints.size() > 5)
+				temp = 5;
+			else
+				temp = recentPoints.size();
+
+			for(int i=0;i<temp;i++){
 				font.setColor(Color.RED);
 				playerScore = "+"+recentPoints.get(i);
 				font.draw(batch, playerScore, width-110, height/2 - 50*i);	

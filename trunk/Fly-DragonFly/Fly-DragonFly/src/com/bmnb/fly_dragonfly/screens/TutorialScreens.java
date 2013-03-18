@@ -23,7 +23,7 @@ public class TutorialScreens {
 	protected BitmapFont font;
 
 	protected static int tutID;
-	public static boolean draw_tutorial;
+	public boolean draw_tutorial;
 
 	public TutorialScreens(BitmapFont f){
 		//init tutorial graphics
