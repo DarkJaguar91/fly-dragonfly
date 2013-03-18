@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.bmnb.fly_dragonfly.tools.SpriteAnimator;
 
 public class Tongue extends StaticEnemy {
 
@@ -13,7 +12,6 @@ public class Tongue extends StaticEnemy {
 	protected Vector2 target;
 	protected boolean grow = true;
 	protected Vector2 directionVec;
-	private Texture deathTex = null;
 
 	public Tongue(Vector2 position, float width, float height, float speed,
 			float scWidth, float scHeight, Player player) {
@@ -24,22 +22,19 @@ public class Tongue extends StaticEnemy {
 		target = player.getPosition().cpy();
 
 		target.add(0, this.speed);
-
+		
 		directionVec = target.cpy().sub(position);
-
+		
 		length = directionVec.len() * 1.3f;
-
+		
 		float angle = directionVec.angle();
 
 		this.setRotation(angle - 90);
 
 		directionVec.nor();
-		target = this.getPosition().cpy()
-				.add(directionVec.mul(this.getHeight()));
-
+		target = this.getPosition().cpy().add(directionVec.mul(this.getHeight()));
+		
 		this.setTexture(new Texture("data/textures/tongue.png"));
-		if (deathTex == null)
-			deathTex = new Texture("data/textures/tongue_death.png");
 	}
 
 	/*
@@ -50,22 +45,17 @@ public class Tongue extends StaticEnemy {
 	@Override
 	public void update(float delta) {
 		super.update(delta);
-		if (!dead) {
-			if (this.getHeight() >= length) {
-				grow = false;
-			}
-			if (this.getHeight() <= 0)
-				kill();
-
-			this.setSize(this.getWidth(), this.getHeight()
-					+ (grow ? delta * growRate : -growRate * delta));
-
-			target.add(this.directionVec
-					.mul((grow ? 1 : -1) * growRate * delta));
-		} else {
-			if (animator == null)
-				animator = new SpriteAnimator(deathTex, 11, 11, "tongue", 22, this, true);
+		
+		if (this.getHeight() >= length) {
+			grow = false;
 		}
+		if (this.getHeight() <= 0)
+			kill();
+
+		this.setSize(this.getWidth(), this.getHeight()
+				+ (grow ? delta * growRate : -growRate * delta));
+		
+		target.add(this.directionVec.mul((grow ? 1 : -1) * growRate * delta));
 	}
 
 	/*
@@ -78,19 +68,18 @@ public class Tongue extends StaticEnemy {
 		target.sub(0, -delta + speed);
 		super.move(delta);
 	}
-
+	
 	/**
 	 * When it collides, this should be called to stop it from growing
 	 */
-	public void stopGrowing() {
+	public void stopGrowing(){
 		this.grow = false;
 	}
 
 	@Override
 	public void draw(SpriteBatch spriteBatch) {
-		spriteBatch.draw(this.getTexture(),
-				this.getPosition().x - this.getWidth() / 2f,
-				this.getPosition().y, this.getWidth() / 2f, 0, this.getWidth(),
+		spriteBatch.draw(this.getTexture(), this.getPosition().x - this.getWidth()
+				/ 2f, this.getPosition().y, this.getWidth() / 2f, 0, this.getWidth(),
 				this.getHeight(), 1, 1, this.getRotation(), 0, 0, this
 						.getTexture().getWidth(),
 				this.getTexture().getHeight(), false, false);
@@ -99,6 +88,7 @@ public class Tongue extends StaticEnemy {
 
 	@Override
 	public void kill() {
+		this.removeable = true;
 		super.kill();
 	}
 
