@@ -89,6 +89,14 @@ public class MediaPlayer {
 		}
 	}
 	/**
+	 * Stops all sound instances
+	 */
+	public static void stopAllSoundInstances(){
+		for (String s:allSound.keySet())
+			allSound.get(s).stop();
+	}
+	
+	/**
 	 * pauses the music file if it is playing. If not the call is ignored
 	 * @param filename
 	 */

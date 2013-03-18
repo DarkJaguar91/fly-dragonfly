@@ -24,7 +24,6 @@ public class OptionsScreen implements Screen{
 	
 	private boolean back_clicked = false;
 	private boolean audio_clicked = false;
-	private boolean audio_on = true;
 	private boolean backToMenu = false;
 	private boolean muteSound = false;
 	private int counter;
@@ -83,7 +82,7 @@ public class OptionsScreen implements Screen{
 		
 		//draw menu buttons				
 		if(!audio_clicked){
-			if(audio_on)
+			if(MediaPlayer.isSoundOn())
 				batch.draw(audio_on_tex, ((menuScreenStartX+menuScreenWidth)/2)-(int)(screenWidth*0.47)/2+10, 
 						((menuScreenStartY+menuScreenHeight)/2)+(int)(screenHeight*0.2*0.2),
 						(int)(screenWidth*0.47), (int)(screenHeight*0.2), 0, 0, 
@@ -95,7 +94,7 @@ public class OptionsScreen implements Screen{
 						audio_off_tex.getWidth(), audio_off_tex.getHeight(), false, false);	
 		}
 		else{
-			if(audio_on)
+			if(MediaPlayer.isSoundOn())
 				batch.draw(audio_on_tex_clicked, ((menuScreenStartX+menuScreenWidth)/2)-(int)(screenWidth*0.47)/2+10, 
 						((menuScreenStartY+menuScreenHeight)/2)+(int)(screenHeight*0.2*0.2),
 						(int)(screenWidth*0.47), (int)(screenHeight*0.2), 0, 0, 
@@ -123,12 +122,10 @@ public class OptionsScreen implements Screen{
 			counter++;
 			if(counter > 5){
 				if(MediaPlayer.isSoundOn()){
-					MediaPlayer.setSoundOn(false);
-					audio_on = false;					
+					MediaPlayer.setSoundOn(false);					
 				}
 				else{
 					MediaPlayer.setSoundOn(true);
-					audio_on = true;
 				}
 				muteSound = false;
 			}

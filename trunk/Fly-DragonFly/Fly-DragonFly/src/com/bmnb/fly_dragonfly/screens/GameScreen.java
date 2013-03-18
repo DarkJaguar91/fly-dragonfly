@@ -53,7 +53,7 @@ public class GameScreen implements Screen {
 	/**
 	 * Final static vars for global use
 	 */
-	public static final float width = 800, height = 1280, scrollSpeed = 200;
+	public static final float width = 800, height = 1280, scrollSpeed = 200, TIME_POINTS_INCREASE_RATE = 50f;
 
 	/**
 	 * global variables for class
@@ -165,7 +165,7 @@ public class GameScreen implements Screen {
 				Gdx.files.internal("data/font/commicsans.png"), false);
 		MediaPlayer.loadMusic("data/sound/flydragonfly_bg_music.mp3");
 		MediaPlayer.playMusic("data/sound/flydragonfly_bg_music.mp3", true);
-		MediaPlayer.setMusicVolume("data/sound/background.mp3", 0.02f);
+		MediaPlayer.setMusicVolume("data/sound/flydragonfly_bg_music.mp3", 1.0f);
 		
 		//initialise tut screen manager
 		tutScreen = new TutorialScreens(font,game,this);
@@ -235,7 +235,7 @@ public class GameScreen implements Screen {
 			playerScore = "" + player.getScore();
 			font.draw(batch, playerScore, 10, height - livesTex.getHeight()
 					- 50);
-			player.increaseScoreBy(delta);
+			player.increaseScoreBy(delta*TIME_POINTS_INCREASE_RATE);
 			
 			//draw recent points scored by player
 			int temp = 0;

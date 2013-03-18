@@ -72,6 +72,7 @@ public class VenusFlytrap extends StaticEnemy {
 								.mul(MAX_PULL_SPEED
 										* (float) Math.pow(1 - v.len()
 												/ VACUUM_RADIUS, ALPHA) * delta)));
+				player.setPosition(player.getX(), Math.max(player.getY(), player.getHeight()/2));
 			}
 			if (countDown-- <= 0) {
 				poisonGas.setContinuous(true);
