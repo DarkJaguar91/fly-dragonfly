@@ -6,11 +6,11 @@
 	</tutorialScreen>
 	<tutorialScreen>
 		<id>1</id>
-		<y>551</y>
+		<y>2000</y>
 	</tutorialScreen>
 	<obj type="frog">
 		<x>631</x>
-		<y>1902</y>
+		<y>2102</y>
 		<width>150</width>
 		<height>150</height>
 		<rotation>0.0</rotation>
