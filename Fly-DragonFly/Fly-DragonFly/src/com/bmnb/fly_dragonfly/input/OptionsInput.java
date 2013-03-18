@@ -1,20 +1,18 @@
 package com.bmnb.fly_dragonfly.input;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.bmnb.fly_dragonfly.Fly_DragonFly;
 import com.bmnb.fly_dragonfly.screens.GameScreen;
-import com.bmnb.fly_dragonfly.screens.MenuScreen;
 import com.bmnb.fly_dragonfly.screens.OptionsScreen;
 
-public class MenuInput implements InputProcessor {
-	protected MenuScreen screen;
+public class OptionsInput implements InputProcessor{
+	protected OptionsScreen screen;
 	protected Fly_DragonFly our_game;
 	protected float width, height;
 	protected float menuScreenStartX, menuScreenStartY, menuScreenWidth, menuScreenHeight;
 	
-	public MenuInput(Fly_DragonFly g){
+	public OptionsInput(Fly_DragonFly g){
 		our_game = g;
 		width = GameScreen.width;
 		height = GameScreen.height;
@@ -23,18 +21,13 @@ public class MenuInput implements InputProcessor {
 		menuScreenWidth = width-80;
 		menuScreenHeight = height-350;	
 	}
-	
-	public void setGameScreen(MenuScreen in){
+	public void setGameScreen(OptionsScreen in){
 		screen = in;
 	}
-	
+
 	@Override
 	public boolean keyDown(int keycode) {
-		if(keycode == Input.Keys.BACK){//press back
-			//exit game
-			System.exit(1);
-			return true;
-		}
+		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -68,16 +61,6 @@ public class MenuInput implements InputProcessor {
 			return true;
 		}
 		startX = (int)((menuScreenStartX+menuScreenWidth)/2)-(int)(width*0.33)/2+10;
-		startY = (int)((menuScreenStartY+menuScreenHeight)/2)-(int)(height*0.1*0.5)+10;
-		//player opens options screen		
-		if (screenX >  startX && 
-				screenY > startY &&
-				screenX < startX+(int)(width*0.33) && 
-				screenY < startY+(int)(height*0.1)){
-			screen.optionsBtnClicked();						
-			return true;
-		}
-		startX = (int)((menuScreenStartX+menuScreenWidth)/2)-(int)(width*0.33)/2+10;
 		startY = (int)((menuScreenStartY+menuScreenHeight)/2)-(int)(height*0.14*1.1);
 		//player exits game
 		if (screenX >  startX && 
@@ -92,7 +75,7 @@ public class MenuInput implements InputProcessor {
 	}
 
 	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {		
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		screenX = (int) (screenX * ((float) width / (float) Gdx.graphics
 				.getWidth()));
 		screenY = (int) (height - screenY
@@ -106,16 +89,6 @@ public class MenuInput implements InputProcessor {
 				screenX < startX+(int)(width*0.47) && 
 				screenY < startY+(int)(height*0.14)){
 			screen.playBtnReleased();			
-			return true;
-		}
-		startX = (int)((menuScreenStartX+menuScreenWidth)/2)-(int)(width*0.33)/2+10;
-		startY = (int)((menuScreenStartY+menuScreenHeight)/2)-(int)(height*0.1*0.5)+10;
-		//player opens options screen		
-		if (screenX >  startX && 
-				screenY > startY &&
-				screenX < startX+(int)(width*0.33) && 
-				screenY < startY+(int)(height*0.1)){
-			screen.optionsBtnReleased();						
 			return true;
 		}
 		startX = (int)((menuScreenStartX+menuScreenWidth)/2)-(int)(width*0.33)/2+10;
