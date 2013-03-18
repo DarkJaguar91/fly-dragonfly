@@ -100,8 +100,8 @@ public class GameInput implements InputProcessor {
 
 		//player presses button area on to remove tutorial screen
 		if (screenX > ((30+(width-70))/2)-50 && screenY > ((height/3)+70) &&
-				screenX < ((30+(width-70))/2)-50+100 && screenY < ((height/3)+70)+50 && screen.isShowingTutorialScreen()){
-			screen.showTutorialScreen(0);			
+				screenX < ((30+(width-70))/2)-50+100 && screenY < ((height/3)+70)+50 && screen.tutScreen.isShowingTutorialScreen()){
+			screen.tutScreen.okBtnClicked();				
 			return true;
 		}
 
@@ -134,6 +134,13 @@ public class GameInput implements InputProcessor {
 		screenY = (int) (height - screenY
 				* ((float) height / (float) Gdx.graphics.getHeight()));
 
+		//player presses button area on to remove tutorial screen
+		if (screenX > ((30+(width-70))/2)-50 && screenY > ((height/3)+70) &&
+				screenX < ((30+(width-70))/2)-50+100 && screenY < ((height/3)+70)+50 && screen.tutScreen.isShowingTutorialScreen()){
+			screen.tutScreen.okBtnReleased();			
+			return true;
+		}
+		
 		if (shootPointer == pointer) {
 			player.stopShooting();
 			shootPointer = -1;

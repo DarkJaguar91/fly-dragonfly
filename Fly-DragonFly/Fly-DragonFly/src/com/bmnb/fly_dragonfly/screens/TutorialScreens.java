@@ -37,7 +37,7 @@ public class TutorialScreens {
 		tutFlytrapTex = new Texture("data/textures/flytrap_left.png");
 		tutbirdTex = new Texture("data/tutorials/bird1.png");
 		tutFlyMoziTex = new Texture("data/tutorials/firefly.png");
-		tutFlameTex = new Texture("data/tutorials/flamesBot.png");
+		tutFlameTex = new Texture("data/tutorials/flamesButton.png");
 		tutWinTex = new Texture("data/tutorials/dragonfly.png");
 
 		font = f;
@@ -55,7 +55,7 @@ public class TutorialScreens {
 	}
 
 	//shows pop-up tutorial screen 
-	public static void showTutorialScreen(int id){
+	public void showTutorialScreen(int id){
 		if(draw_tutorial){
 			draw_tutorial = false;
 			tutID = 0;
