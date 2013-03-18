@@ -16,7 +16,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -79,6 +78,7 @@ public class GameScreen implements Screen {
 	
 	public static ArrayList<Integer> recentPoints;
 	protected float accumulatedTime = 0;
+	public TutorialScreens tutScreen;
 
 	protected static Sprite flashSprite;
 	protected static TweenManager flashman;
@@ -112,6 +112,7 @@ public class GameScreen implements Screen {
 		enemies = new ArrayList<GameObject>();
 		rocks = new ArrayList<GameObject>();
 		boids = new ArrayList<GameObject>();
+		recentPoints = new ArrayList<Integer>();
 
 		// init flash sprite
 		flashSprite = new Sprite(new Texture("data/textures/flash.png"));
@@ -137,6 +138,7 @@ public class GameScreen implements Screen {
 		draw_tutorial = false;
 		tutID = 0;
 		survivalTime = 0;
+		tutScreen = new TutorialScreens(font);
 
 		// set the input processor
 		Gdx.input.setInputProcessor(new GameInput(width, height, player));
@@ -144,7 +146,7 @@ public class GameScreen implements Screen {
 
 		// Add the flocking models:
 		boidsmodel = new BoidsModel();
-
+		
 		// Load map
 		try {
 			this.map = new MapLoader("data/maps/map.xml");
@@ -227,7 +229,7 @@ public class GameScreen implements Screen {
 
 		// draw tutorial screen
 		if (draw_tutorial) {
-			drawTutorialScreen(batch);
+			tutScreen.drawTutorialScreen(batch);
 		} else {
 			scroller.update(delta);
 
@@ -377,6 +379,7 @@ public class GameScreen implements Screen {
 						player.getBoundingRectangle())) {
 					o.kill();
 					player.increaseScoreBy(10);
+					recentPoints.add(10);
 					if (o instanceof FireFly)
 						player.convertWeaponFireflies();
 					else

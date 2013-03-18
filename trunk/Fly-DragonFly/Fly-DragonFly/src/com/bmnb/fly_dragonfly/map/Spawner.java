@@ -81,7 +81,7 @@ public class Spawner {
 		for (int i = 0; i < _map.getTutorialScreens().size(); ++i){
 			TutorialScreenSpawner ts = _map.getTutorialScreens().get(i);
 			if (ts.getY() < _y + GameScreen.height){	
-				_gs.showTutorialScreen(ts.getId());
+				_gs.tutScreen.showTutorialScreen(ts.getId());
 				_map.getTutorialScreens().remove(i--);
 			}
 		}

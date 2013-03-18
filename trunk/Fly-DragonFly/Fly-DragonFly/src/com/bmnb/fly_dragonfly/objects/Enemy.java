@@ -1,6 +1,7 @@
 package com.bmnb.fly_dragonfly.objects;
 
 import com.badlogic.gdx.math.Vector2;
+import com.bmnb.fly_dragonfly.screens.GameScreen;
 
 public abstract class Enemy extends GameObject{
 
@@ -20,6 +21,7 @@ public abstract class Enemy extends GameObject{
 		
 		if (health <= 0 && !dead){
 			player.increaseScoreBy(enemykillReward);
+			GameScreen.recentPoints.add(Math.round(enemykillReward));
 			kill();
 		}
 	}
