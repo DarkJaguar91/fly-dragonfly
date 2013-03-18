@@ -169,7 +169,7 @@ public class MenuScreen implements Screen{
 	public void showOptions(){
 		drawHighScores = false;
 		if(drawOptions){
-			drawOptions = false;
+			drawOptions = false;//?????
 		}
 		else{
 			drawOptions = true;

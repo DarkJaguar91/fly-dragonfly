@@ -8,7 +8,7 @@ import com.bmnb.fly_dragonfly.tools.SpriteAnimator;
 
 public class Tongue extends StaticEnemy {
 
-	public static final float growRate = 800f;// percentage
+	public static final float growRate = 600f;// percentage
 	protected float length;
 	protected Vector2 target;
 	protected boolean grow = true;
