@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -36,6 +37,7 @@ public class MenuScreen implements Screen{
 	private int play_counter = 0;
 	
 	protected SpriteBatch batch;
+	protected OrthographicCamera camera;
 	protected BitmapFont font;
 	protected Fly_DragonFly game;
 	
@@ -86,22 +88,19 @@ public class MenuScreen implements Screen{
 		
 		font.setColor(Color.WHITE);
 		
-		if(drawHighScores){
-			drawHighScores(batch);
-		}
-		else if(drawOptions){
+		if(drawOptions){
 			drawOptionScreen(batch);
 		}
 		else{
 			//draw main menu
-			float menuScreenStartX = 10;
+			float menuScreenStartX = 40;
 			float menuScreenStartY = 50;		
-			float menuScreenWidth = 280;
-			float menuScreenHeight = 340;	
+			float menuScreenWidth = screenWidth-80;
+			float menuScreenHeight = screenHeight-350;	
 						
 			//draw logo
-			batch.draw(dragon_menu, ((menuScreenStartX+menuScreenWidth)/2)-70, 
-					menuScreenStartY + menuScreenHeight, 150, 100, 0, 0, 
+			batch.draw(dragon_menu, ((menuScreenStartX+menuScreenWidth)/2)-120, 
+					menuScreenStartY + menuScreenHeight, 300, 250, 0, 0, 
 					dragon_menu.getWidth(), dragon_menu.getHeight(), false, false);
 			
 			batch.draw(menu_back, menuScreenStartX, menuScreenStartY, menuScreenWidth, menuScreenHeight, 0, 0, 
@@ -109,33 +108,39 @@ public class MenuScreen implements Screen{
 
 			//draw menu buttons				
 			if(!play_clicked){
-				batch.draw(play_btnTex, ((menuScreenStartX+menuScreenWidth)/2)-70, 
-						menuScreenStartY + 180, 140, 70, 0, 0, 
+				batch.draw(play_btnTex, ((menuScreenStartX+menuScreenWidth)/2)-(int)(screenWidth*0.47)/2+10, 
+						((menuScreenStartY+menuScreenHeight)/2)+(int)(screenHeight*0.14*0.5),
+						(int)(screenWidth*0.47), (int)(screenHeight*0.14), 0, 0, 
 						play_btnTex.getWidth(), play_btnTex.getHeight(), false, false);				
 			}
 			else{
-				batch.draw(play_btnTex_clicked, ((menuScreenStartX+menuScreenWidth)/2)-70, 
-						menuScreenStartY + 180, 140, 70, 0, 0, 
+				batch.draw(play_btnTex_clicked, ((menuScreenStartX+menuScreenWidth)/2)-(int)(screenWidth*0.47)/2+10, 
+						((menuScreenStartY+menuScreenHeight)/2)+(int)(screenHeight*0.14*0.5),
+						(int)(screenWidth*0.47), (int)(screenHeight*0.14), 0, 0, 
 						play_btnTex_clicked.getWidth(), play_btnTex_clicked.getHeight(), false, false);
 			}
 					
 			if(!options_clicked)
-				batch.draw(options_btnTex, ((menuScreenStartX+menuScreenWidth)/2)-50, 
-						menuScreenStartY + 110, 100, 50, 0, 0, 
+				batch.draw(options_btnTex, ((menuScreenStartX+menuScreenWidth)/2)-(int)(screenWidth*0.33)/2+10, 
+						((menuScreenStartY+menuScreenHeight)/2)-(int)(screenHeight*0.1*0.5)+10, 
+						(int)(screenWidth*0.33), (int)(screenHeight*0.1), 0, 0, 
 						options_btnTex.getWidth(), options_btnTex.getHeight(), false, false);
 			else
-				batch.draw(options_btnTex_clicked, ((menuScreenStartX+menuScreenWidth)/2)-50, 
-						menuScreenStartY + 110, 100, 50, 0, 0, 
+				batch.draw(options_btnTex_clicked, ((menuScreenStartX+menuScreenWidth)/2)-(int)(screenWidth*0.33)/2+10, 
+						((menuScreenStartY+menuScreenHeight)/2)-(int)(screenHeight*0.1*0.5)+10, 
+						(int)(screenWidth*0.33), (int)(screenHeight*0.1), 0, 0, 
 						options_btnTex_clicked.getWidth(), options_btnTex_clicked.getHeight(), false, false);
 				
 			if(exit_clicked)
-				batch.draw(exit_btnTex_clicked, ((menuScreenStartX+menuScreenWidth)/2)-50, 
-					menuScreenStartY + 40, 100, 50, 0, 0, 
+				batch.draw(exit_btnTex_clicked, ((menuScreenStartX+menuScreenWidth)/2)-(int)(screenWidth*0.33)/2+10, 
+						((menuScreenStartY+menuScreenHeight)/2)-(int)(screenHeight*0.14*1.1), 
+					(int)(screenWidth*0.33), (int)(screenHeight*0.1), 0, 0, 
 					exit_btnTex_clicked.getWidth(), exit_btnTex_clicked.getHeight(), false, false);
 			else
-				batch.draw(exit_btnTex, ((menuScreenStartX+menuScreenWidth)/2)-50, 
-						menuScreenStartY + 40, 100, 50, 0, 0, 
-						exit_btnTex.getWidth(), exit_btnTex.getHeight(), false, false);
+				batch.draw(exit_btnTex, ((menuScreenStartX+menuScreenWidth)/2)-(int)(screenWidth*0.33)/2+10, 
+						((menuScreenStartY+menuScreenHeight)/2)-(int)(screenHeight*0.14*1.1), 
+					(int)(screenWidth*0.33), (int)(screenHeight*0.1), 0, 0, 
+					exit_btnTex.getWidth(), exit_btnTex.getHeight(), false, false);
 			
 			//display click animation
 			if(start_new_game){
@@ -155,10 +160,11 @@ public class MenuScreen implements Screen{
 				}
 			}
 			
-//			font.setScale(0.6f);
+			font.setScale(2.0f);
 			font.setColor(Color.BLACK);
 			message = "Main Menu";			
-			font.draw(batch, message, 30,menuScreenStartY+menuScreenHeight-30);			
+			font.draw(batch, message, ((menuScreenStartX+menuScreenWidth)/2)-200,
+			menuScreenStartY+menuScreenHeight-30);			
 		}
 		
 		batch.end();
@@ -172,33 +178,17 @@ public class MenuScreen implements Screen{
 	public void showOptions(){
 		drawHighScores = false;
 		if(drawOptions){
-			drawOptions = false;//?????
+			drawOptions = false;
 		}
 		else{
 			drawOptions = true;
 		}
-		System.out.println("show options");
-	}
-	
-	public void drawHighScores(SpriteBatch batch){
-		message = "HighScores";			
-		font.draw(batch, message, 10,300);
-	}
-	public void showHighScores(){
-		drawOptions = false;
-		if(drawHighScores){
-			drawHighScores = false;
-		}
-		else{
-			drawHighScores = true;
-		}
-		System.out.println("show highscores");
+//		System.out.println("show options");
 	}
 
 	public void showMainMenu(){
 		drawHighScores = false;
 		drawOptions = false;
-		System.out.println("show main menu");
 	}
 	
 	@Override
@@ -206,13 +196,20 @@ public class MenuScreen implements Screen{
 
 	@Override
 	public void show() {
-		// setting up of major devices
-		batch = new SpriteBatch();
 		drawHighScores = false;
 		drawOptions = false;
 		screenHeight = GameScreen.height;
 		screenWidth = GameScreen.width;
 		
+		// setting up of major devices
+		batch = new SpriteBatch();
+		camera = new OrthographicCamera(screenWidth, screenHeight);
+		camera.translate(screenWidth / 2f, screenHeight / 2f);
+		camera.update();
+		batch.setProjectionMatrix(camera.combined); // needs only be done once,
+													// since camera does not
+													// move
+						
 		//import textures
 		dragon_menu = new Texture("data/menu/dragonfly.png");
 		menu_back = new Texture("data/menu/tutorial_bg.png");
@@ -227,7 +224,7 @@ public class MenuScreen implements Screen{
 		Gdx.input.setInputProcessor(new MenuInput(game));
 		Gdx.input.setCatchBackKey(true);
 		Gdx.input.setCatchMenuKey(true);
-		((MenuInput)Gdx.input.getInputProcessor()).setGameScreen(this);//TODO
+		((MenuInput)Gdx.input.getInputProcessor()).setGameScreen(this);
 		
 		//Load font
 		font = new BitmapFont(Gdx.files.internal("data/font/commicsans.fnt"),

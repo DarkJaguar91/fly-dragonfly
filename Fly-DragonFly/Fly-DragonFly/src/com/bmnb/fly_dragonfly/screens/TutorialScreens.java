@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.bmnb.fly_dragonfly.Fly_DragonFly;
 
 public class TutorialScreens {
 	protected Texture tutorial_tex;
@@ -24,11 +25,12 @@ public class TutorialScreens {
 	protected Texture tutTextTex;
 	protected Texture tutWinTex;
 	protected BitmapFont font;
+	protected Fly_DragonFly game;
 
-	protected static int tutID;
-	public boolean draw_tutorial;
+	protected int tutID;
+	public boolean draw_tutorial = false;
 
-	public TutorialScreens(BitmapFont f){
+	public TutorialScreens(BitmapFont f, Fly_DragonFly g){
 		//init tutorial graphics
 		tutorial_tex = new Texture("data/tutorials/tutorial_bg.png");
 		tutorial_tex.setFilter(TextureFilter.Linear,TextureFilter.Linear);
@@ -45,6 +47,7 @@ public class TutorialScreens {
 
 		font = f;
 		tutID = 0;
+		game = g;
 	}
 
 	int play_counter = 0;
@@ -55,6 +58,10 @@ public class TutorialScreens {
 		okBtnClicked = false;
 		draw_tutorial = false;
 		play_counter = 0;
+		
+		if(tutID == 0){
+			game.returnToMenu();
+		}
 	}
 
 	//shows pop-up tutorial screen 
@@ -171,6 +178,7 @@ public class TutorialScreens {
 					tutFlameTex.getWidth(), 
 					tutFlameTex.getHeight(), 0, 0, 
 					tutFlameTex.getWidth(), tutFlameTex.getHeight(), false, false);	
+			font.setScale(0.6f);
 			msg = "You can use your flame to kill enemies and traps which are trying to kill you." +
 					"Tap/Press in the bottom right hand corner of the screen to breath your flame." +
 					"But you have give yourself time to catch your breath, so plan ahead!";			

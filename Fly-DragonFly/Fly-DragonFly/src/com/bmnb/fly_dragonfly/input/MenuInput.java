@@ -1,5 +1,6 @@
 package com.bmnb.fly_dragonfly.input;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.bmnb.fly_dragonfly.Fly_DragonFly;
@@ -17,10 +18,10 @@ public class MenuInput implements InputProcessor {
 		our_game = g;
 		width = GameScreen.width;
 		height = GameScreen.height;
-		menuScreenStartX = 10;
+		menuScreenStartX = 40;
 		menuScreenStartY = 50;		
-		menuScreenWidth = 280;
-		menuScreenHeight = 340;	
+		menuScreenWidth = width-80;
+		menuScreenHeight = height-350;	
 	}
 	
 	public void setGameScreen(MenuScreen in){
@@ -29,10 +30,7 @@ public class MenuInput implements InputProcessor {
 	
 	@Override
 	public boolean keyDown(int keycode) {
-		 if(keycode == Input.Keys.X){
-			screen.showHighScores();
-		}
-		else if(keycode == Input.Keys.V){
+		if(keycode == Input.Keys.V){
 			screen.showMainMenu();
 		}
 		else if(keycode == Input.Keys.BACK){//press back
@@ -57,23 +55,38 @@ public class MenuInput implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		screenX = (int) (screenX * ((float) width / (float) Gdx.graphics
+				.getWidth()));
+		screenY = (int) (height - screenY
+				* ((float) height / (float) Gdx.graphics.getHeight()));
+		
+		int startX = (int)(((menuScreenStartX+menuScreenWidth)/2)-(int)(width*0.47)/2+10);
+		int startY = (int)(((menuScreenStartY+menuScreenHeight)/2)+(int)(height*0.14*0.5));		
 		//player starts new game		
-		if (screenX > ((menuScreenStartX+menuScreenWidth)/2)-70 && screenY > (menuScreenStartY + 180)-35 &&
-				screenX < (((menuScreenStartX+menuScreenWidth)/2)-70)+140 && 
-				screenY < (menuScreenStartY + 180)+70-35){
+		if (screenX >  startX && 
+				screenY > startY &&
+				screenX < startX+(int)(width*0.47) && 
+				screenY < startY+(int)(height*0.14)){
 			screen.playBtnClicked();					
 			return true;
 		}
+		startX = (int)((menuScreenStartX+menuScreenWidth)/2)-(int)(width*0.33)/2+10;
+		startY = (int)((menuScreenStartY+menuScreenHeight)/2)-(int)(height*0.1*0.5)+10;
 		//player opens options screen		
-		if (screenX > ((menuScreenStartX+menuScreenWidth)/2)-50 && screenY > (menuScreenStartY + 110)+125 &&
-				screenX < (((menuScreenStartX+menuScreenWidth)/2)-50)+100 && 
-				screenY < (menuScreenStartY + 110)+50+125){
+		if (screenX >  startX && 
+				screenY > startY &&
+				screenX < startX+(int)(width*0.33) && 
+				screenY < startY+(int)(height*0.1)){
 			screen.optionsBtnClicked();						
 			return true;
 		}
+		startX = (int)((menuScreenStartX+menuScreenWidth)/2)-(int)(width*0.33)/2+10;
+		startY = (int)((menuScreenStartY+menuScreenHeight)/2)-(int)(height*0.14*1.1);
 		//player exits game
-		if (screenX > ((menuScreenStartX+menuScreenWidth)/2)-50 && screenY > (menuScreenStartY + 40)+265 &&
-				screenX < ((menuScreenStartX+menuScreenWidth)/2)+100 && screenY < (menuScreenStartY + 40)+50+265){
+		if (screenX >  startX && 
+				screenY > startY &&
+				screenX < startX+(int)(width*0.33) && 
+				screenY < startY+(int)(height*0.1)){
 			screen.exitBtnClicked();						
 			return true;
 		}
@@ -83,23 +96,38 @@ public class MenuInput implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {		
+		screenX = (int) (screenX * ((float) width / (float) Gdx.graphics
+				.getWidth()));
+		screenY = (int) (height - screenY
+				* ((float) height / (float) Gdx.graphics.getHeight()));
+		
+		int startX = (int)(((menuScreenStartX+menuScreenWidth)/2)-(int)(width*0.47)/2+10);
+		int startY = (int)(((menuScreenStartY+menuScreenHeight)/2)+(int)(height*0.14*0.5));
 		//player starts new game		
-		if (screenX > ((menuScreenStartX+menuScreenWidth)/2)-70 && screenY > (menuScreenStartY + 180)-35 &&
-				screenX < (((menuScreenStartX+menuScreenWidth)/2)-70)+140 && 
-				screenY < (menuScreenStartY + 180)+70-35){
+		if (screenX >  startX && 
+				screenY > startY &&
+				screenX < startX+(int)(width*0.47) && 
+				screenY < startY+(int)(height*0.14)){
 			screen.playBtnReleased();			
 			return true;
 		}
+		startX = (int)((menuScreenStartX+menuScreenWidth)/2)-(int)(width*0.33)/2+10;
+		startY = (int)((menuScreenStartY+menuScreenHeight)/2)-(int)(height*0.1*0.5)+10;
 		//player opens options screen		
-		if (screenX > ((menuScreenStartX+menuScreenWidth)/2)-50 && screenY > (menuScreenStartY + 110)+125 &&
-				screenX < (((menuScreenStartX+menuScreenWidth)/2)-50)+100 && 
-				screenY < (menuScreenStartY + 110)+50+125){
+		if (screenX >  startX && 
+				screenY > startY &&
+				screenX < startX+(int)(width*0.33) && 
+				screenY < startY+(int)(height*0.1)){
 			screen.optionsBtnReleased();						
 			return true;
 		}
+		startX = (int)((menuScreenStartX+menuScreenWidth)/2)-(int)(width*0.33)/2+10;
+		startY = (int)((menuScreenStartY+menuScreenHeight)/2)-(int)(height*0.14*1.1);
 		//player exits game
-		if (screenX > ((menuScreenStartX+menuScreenWidth)/2)-50 && screenY > (menuScreenStartY + 40)+265 &&
-				screenX < ((menuScreenStartX+menuScreenWidth)/2)+100 && screenY < (menuScreenStartY + 40)+50+265){
+		if (screenX >  startX && 
+				screenY > startY &&
+				screenX < startX+(int)(width*0.33) && 
+				screenY < startY+(int)(height*0.1)){
 			screen.exitBtnReleased();						
 			return true;
 		}

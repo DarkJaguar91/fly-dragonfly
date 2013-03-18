@@ -43,7 +43,7 @@ public class GameInput implements InputProcessor {
 	 */
 	@Override
 	public boolean keyDown(int keycode) {
-		if(keycode == Input.Keys.BACK){
+		if(keycode == Input.Keys.Z){
 			our_game.returnToMenu();
 			return true;
 		}

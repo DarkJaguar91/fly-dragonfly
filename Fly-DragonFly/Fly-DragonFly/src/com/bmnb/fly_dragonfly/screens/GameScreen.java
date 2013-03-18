@@ -168,7 +168,7 @@ public class GameScreen implements Screen {
 		MediaPlayer.setMusicVolume("data/sound/background.mp3", 0.02f);
 		
 		//initialise tut screen manager
-		tutScreen = new TutorialScreens(font);
+		tutScreen = new TutorialScreens(font,game);
 	}
 
 	/**
