@@ -11,12 +11,19 @@ public class SpriteAnimator {
 	protected int currentTexture, numTextures;
 	protected float countDownTime, timer;
 	protected GameObject parent;
-
+	protected boolean kill = false;
+	
 	public SpriteAnimator(TextureAtlas atlas, String caller,
 			int framesPerSecond, GameObject parent) {
 		init(atlas, caller, framesPerSecond, parent);
 	}
 
+	public SpriteAnimator(Texture tex, int numTextures, int numInRow,
+			String caller, int framesPerSecond, GameObject parent, boolean kill) {
+		this(tex, numTextures, numInRow, caller, framesPerSecond, parent);
+		this.kill = kill;
+	}
+	
 	public SpriteAnimator(Texture tex, int numTextures, int numInRow,
 			String caller, int framesPerSecond, GameObject parent) {
 		atlas = new TextureAtlas();
@@ -58,6 +65,9 @@ public class SpriteAnimator {
 		timer -= delta;
 		if (timer <= 0) {
 			currentTexture++;
+			if (kill)
+				if (currentTexture > numTextures)
+					parent.setRemovable();
 			currentTexture = currentTexture > numTextures ? 1 : currentTexture;
 			
 			TextureRegion r = atlas.findRegion(caller + (currentTexture));

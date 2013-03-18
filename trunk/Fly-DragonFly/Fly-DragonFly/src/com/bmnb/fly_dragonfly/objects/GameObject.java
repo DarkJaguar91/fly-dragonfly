@@ -140,6 +140,10 @@ public abstract class GameObject extends Sprite implements Comparable<GameObject
 		setSize(Math.abs(getWidth()), Math.abs(getHeight()));
 		setOrigin(getWidth() / 2, getHeight() / 2);
 	}
+	
+	public void setRemovable(){
+		removeable = true;
+	}
 
 	@Override
 	public int compareTo(GameObject o) {
