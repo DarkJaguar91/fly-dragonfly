@@ -2,6 +2,7 @@ package com.bmnb.fly_dragonfly.input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.bmnb.fly_dragonfly.Fly_DragonFly;
 import com.bmnb.fly_dragonfly.screens.GameScreen;
@@ -30,7 +31,7 @@ public class MenuInput implements InputProcessor {
 	
 	@Override
 	public boolean keyDown(int keycode) {
-		if(keycode == Input.Keys.BACK){//press back
+		if(keycode == Keys.BACK){//press back
 			//exit game
 			System.exit(1);
 			return true;

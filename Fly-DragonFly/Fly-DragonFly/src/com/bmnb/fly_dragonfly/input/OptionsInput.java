@@ -1,6 +1,8 @@
 package com.bmnb.fly_dragonfly.input;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.bmnb.fly_dragonfly.Fly_DragonFly;
 import com.bmnb.fly_dragonfly.screens.GameScreen;
@@ -27,7 +29,10 @@ public class OptionsInput implements InputProcessor{
 
 	@Override
 	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
+		if(keycode == Keys.BACK){
+			our_game.returnToMenu();
+			return true;
+		}
 		return false;
 	}
 
