@@ -144,7 +144,7 @@ public class GameScreen implements Screen {
 		
 		// Load map
 		try {
-			this.map = new MapLoader("data/maps/map.xml");
+			this.map = new MapLoader("data/maps/map_final.xml");
 			this.spawner = new Spawner(map, boidsmodel, this, scrollSpeed,
 					player);
 		} catch (Exception e) {
