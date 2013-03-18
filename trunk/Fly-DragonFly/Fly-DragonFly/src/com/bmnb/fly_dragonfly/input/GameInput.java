@@ -4,8 +4,10 @@
 package com.bmnb.fly_dragonfly.input;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.bmnb.fly_dragonfly.Fly_DragonFly;
 import com.bmnb.fly_dragonfly.objects.Player;
 import com.bmnb.fly_dragonfly.screens.GameScreen;
 
@@ -18,14 +20,16 @@ public class GameInput implements InputProcessor {
 	protected float width, height;
 	protected Player player;
 	protected int movePointer = -1, shootPointer = -1;
-
+	protected Fly_DragonFly our_game;
+	
 	// debug
 	protected GameScreen screen;
 	
-	public GameInput(float width, float height, Player player) {
+	public GameInput(Fly_DragonFly g,float width, float height, Player player) {
 		this.width = width;
 		this.height = height;
 		this.player = player;
+		our_game = g;
 	}
 
 	public void setGameScreen(GameScreen in){
@@ -47,6 +51,11 @@ public class GameInput implements InputProcessor {
 			player.kill();
 			return true;
 		}*/
+		if(keycode == Input.Keys.Z){//press back
+			//exit game
+			our_game.returnToMenu();
+			return true;
+		}
 		
 		return false;
 	}
@@ -101,12 +110,12 @@ public class GameInput implements InputProcessor {
 		//player presses button area on to remove tutorial screen
 		if (screenX > ((30+(width-70))/2)-50 && screenY > ((height/3)+70) &&
 				screenX < ((30+(width-70))/2)-50+100 && screenY < ((height/3)+70)+50 && screen.isShowingTutorialScreen()){
-			screen.showTutorialScreen(0);			
+			screen.okBtnClicked();			
 			return true;
 		}
 
 		if (shootPointer == -1) {
-			if (screenX <= (width * 0.15f) && screenY <= (height * 0.35f + width * 0.075f) && screenY >= (height * 0.35f - width * 0.075f)) {
+			if (screenX < width * 0.1f && screenY < height * 0.35f + width * 0.075f && screenY > height * 0.35f - width * 0.075f) {
 				player.startShooting();
 				shootPointer = pointer;
 				return true;
@@ -134,6 +143,13 @@ public class GameInput implements InputProcessor {
 		screenY = (int) (height - screenY
 				* ((float) height / (float) Gdx.graphics.getHeight()));
 
+		//player presses button area on to remove tutorial screen
+		if (screenX > ((30+(width-70))/2)-50 && screenY > ((height/3)+70) &&
+				screenX < ((30+(width-70))/2)-50+100 && screenY < ((height/3)+70)+50 && screen.isShowingTutorialScreen()){
+			screen.okBtnReleased();			
+			return true;
+		}
+		
 		if (shootPointer == pointer) {
 			player.stopShooting();
 			shootPointer = -1;

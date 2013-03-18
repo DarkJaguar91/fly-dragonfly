@@ -131,6 +131,18 @@ public abstract class GameObject extends Sprite implements Comparable<GameObject
 		return removeable;
 	}
 	
+	public boolean circularCollsion(GameObject other){
+		float radthis = this.getWidth();
+		float radOther = other.getWidth();
+		
+		float dist = this.getPosition().cpy().sub(other.getPosition().cpy()).len();
+		
+//		if (other instanceof Particle)
+//			Gdx.app.log("Coll - ", "dist = " + dist + "  -> add = " + (radOther + radthis));
+		
+		return (radthis + radOther) > dist;
+	}
+	
 	@Override
 	public void setTexture(Texture texture) {
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -139,10 +151,6 @@ public abstract class GameObject extends Sprite implements Comparable<GameObject
 //		setColor(1, 1, 1, 1);
 		setSize(Math.abs(getWidth()), Math.abs(getHeight()));
 		setOrigin(getWidth() / 2, getHeight() / 2);
-	}
-	
-	public void setRemovable(){
-		removeable = true;
 	}
 
 	@Override

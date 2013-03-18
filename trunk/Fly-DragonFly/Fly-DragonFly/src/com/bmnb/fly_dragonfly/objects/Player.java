@@ -13,14 +13,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter;
 import com.bmnb.fly_dragonfly.graphics.GameParticleEmitter.ParticleType;
 import com.bmnb.fly_dragonfly.graphics.flashAnim;
-import com.bmnb.fly_dragonfly.screens.GameScreen;
 import com.bmnb.fly_dragonfly.tools.MathTools;
-import com.bmnb.fly_dragonfly.tools.SpriteAnimator;
 
 /**
  * Player class, holds all methods needed for the player specifically
@@ -35,7 +32,7 @@ public class Player extends GameObject {
 	 */
 	protected static final float maxVertPath = 1.0f, upSpeedPercent = 0.8f,
 			downSpeedPercent = 1.2f, mosDamage = 0.25f, flyDamage = 1.0f,
-			manaRegen = 0.5f, manaUse = 5, maxMana = 20;
+			manaRegen = 1, manaUse = 5, maxMana = 50;
 	protected static final float[] mosColor = { 0.047058824f, 0.105882354f,
 			0.91764706f },
 			flyColor = { 0.91764706f, 0.105882354f, 0.047058824f },
@@ -88,11 +85,8 @@ public class Player extends GameObject {
 
 		// load textures (loading here for now, must create texture loader
 		// later)
-//		this.setTexture(new Texture("data/textures/dragonfly.png"));
-		animator = new SpriteAnimator(new Texture("data/textures/dragonfly.png"), 2, 2, "dragon", 50, this);
-		btnTxt = new Texture("data/textures/button.png");
-		
-		// load the flames emitter settings
+		this.setTexture(new Texture("data/textures/dragonfly.png"));
+		btnTxt = new Texture("data/textures/flamesButton.png");
 		try {
 			dragonBreath = new GameParticleEmitter(new BufferedReader(
 					new InputStreamReader(Gdx.files.internal(
@@ -199,18 +193,6 @@ public class Player extends GameObject {
 				/ 3f);
 	}
 
-	
-	
-	@Override
-	public Rectangle getBoundingRectangle() {
-		Rectangle r =  super.getBoundingRectangle();
-		
-		r.x += this.getWidth() * 0.38f;
-		r.width -= this.getWidth() * 0.38f * 2;
-		
-		return r;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -248,7 +230,7 @@ public class Player extends GameObject {
 		}
 		super.update(delta);
 	}
-	
+
 	/**
 	 * Starts a flashing animation
 	 */
@@ -258,8 +240,6 @@ public class Player extends GameObject {
 			if (numLives < 0)
 				numLives = 3;
 
-			GameScreen.flash();
-			
 			Tween.registerAccessor(Sprite.class, new flashAnim());
 
 			TweenCallback cb = new TweenCallback() {
@@ -357,8 +337,12 @@ public class Player extends GameObject {
 	@Override
 	public void kill() {
 		numLives--;
-		if (numLives < 0)
+		if (numLives < 0){
+			//record score, if it makes the high score list
+			
+			
 			super.kill();
+		}
 	}
 
 	/**
@@ -371,7 +355,6 @@ public class Player extends GameObject {
 	}
 	
 	public float [] getFireColour(){
-		float f [] = dragonBreath.getTint().getColors().clone();
-		return f;
+		return dragonBreath.getTint().getColors();
 	}
 }
