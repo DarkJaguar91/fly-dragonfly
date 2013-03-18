@@ -217,11 +217,11 @@ public class TutorialScreens {
 			int numGoldStars = 0;
 			if (fancyScoreCounter < 1000)
 				numGoldStars = 1;
-			else if (fancyScoreCounter < 1500)
+			else if (fancyScoreCounter < 1600)
 				numGoldStars = 2;
 			else if (fancyScoreCounter < 2000)
 				numGoldStars = 3;
-			else if (fancyScoreCounter < 2500)
+			else if (fancyScoreCounter < 2300)
 				numGoldStars = 4;
 			else
 				numGoldStars = 5;

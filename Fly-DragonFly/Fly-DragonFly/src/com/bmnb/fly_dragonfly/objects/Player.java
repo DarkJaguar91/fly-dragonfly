@@ -111,14 +111,14 @@ public class Player extends GameObject {
 	}
 
 	public int getScore() {
-		return numPoints;
+		return (int)Math.ceil(numPoints);
 	}
 
 	int counter = 0;;
 
 	public void increaseScoreBy(float p) {
-		numPoints += Math.ceil(p);
-		counter += Math.ceil(p);
+		numPoints += p;
+		counter += p;
 		if (counter > 1000) {
 			counter = 0;
 			addLife();

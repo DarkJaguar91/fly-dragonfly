@@ -13,6 +13,7 @@ import com.bmnb.fly_dragonfly.map.TutorialScreenSpawner;
 import com.bmnb.fly_dragonfly.objects.Player;
 import com.bmnb.fly_dragonfly.screens.GameScreen;
 import com.bmnb.fly_dragonfly.screens.TutorialScreens;
+import com.bmnb.fly_dragonfly.sound.MediaPlayer;
 
 /**
  * @author Brandon
@@ -49,6 +50,8 @@ public class GameInput implements InputProcessor {
 	public boolean keyDown(int keycode) {
 		if(keycode == Keys.BACK){
 			our_game.returnToMenu();
+			MediaPlayer.stopMusic("data/sound/flydragonfly_bg_music.mp3");
+			MediaPlayer.stopAllSoundInstances();
 			return true;
 		}
 		/*else if(keycode == Input.Keys.X){
