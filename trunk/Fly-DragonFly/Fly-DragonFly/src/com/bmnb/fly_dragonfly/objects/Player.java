@@ -34,8 +34,8 @@ public class Player extends GameObject {
 	 * Static set up vars
 	 */
 	protected static final float maxVertPath = 1.0f, upSpeedPercent = 0.8f,
-			downSpeedPercent = 1.2f, mosDamage = 0.25f, flyDamage = 1.0f,
-			manaRegen = 0.5f, manaUse = 5, maxMana = 20;
+			downSpeedPercent = 1.2f, mosDamage = 0.2f, flyDamage = 0.8f,
+			manaRegen = 0.5f, manaUse = 5, maxMana = 15;
 	protected static final float[] mosColor = { 0.047058824f, 0.105882354f,
 			0.91764706f },
 			flyColor = { 0.91764706f, 0.105882354f, 0.047058824f },
@@ -293,6 +293,8 @@ public class Player extends GameObject {
 	 * Converts the gun into the firefly version by 1 step
 	 */
 	public void convertWeaponFireflies() {
+		this.mana++;
+		
 		dragonBreath.getTint().setColors(
 				MathTools.interp(dragonBreath.getTint().getColors(), flyColor,
 						mosColor, 5));
@@ -316,6 +318,8 @@ public class Player extends GameObject {
 	 * Converts the gun into the mossy version by 1 step
 	 */
 	public void convertWeaponMossies() {
+		this.mana++;
+		
 		dragonBreath.getTint().setColors(
 				MathTools.interp(dragonBreath.getTint().getColors(), mosColor,
 						flyColor, 5));
