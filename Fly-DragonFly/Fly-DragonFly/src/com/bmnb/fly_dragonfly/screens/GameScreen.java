@@ -53,7 +53,7 @@ public class GameScreen implements Screen {
 	/**
 	 * Final static vars for global use
 	 */
-	public static final float width = 800, height = 1280, scrollSpeed = 200, TIME_POINTS_INCREASE_RATE = 50f;
+	public static final float width = 800, height = 1280, scrollSpeed = 200, TIME_POINTS_INCREASE_RATE = 35f;
 
 	/**
 	 * global variables for class
@@ -482,7 +482,9 @@ public class GameScreen implements Screen {
 		enemies = new ArrayList<GameObject>();
 		rocks = new ArrayList<GameObject>();
 		boids = new ArrayList<GameObject>();
-
+		MediaPlayer.stopAllSoundInstances();
+		MediaPlayer.stopMusic("data/sound/flydragonfly_bg_music.mp3");
+		MediaPlayer.disposeInstances();
 		livesTex.dispose();
 		livesTexBack.dispose();
 	}

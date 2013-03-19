@@ -95,7 +95,16 @@ public class MediaPlayer {
 		for (String s:allSound.keySet())
 			allSound.get(s).stop();
 	}
-	
+	public static void disposeInstances(){
+		for (String s:allSound.keySet())
+			allSound.get(s).dispose();
+		for (String s:allMusic.keySet()){
+			allMusic.get(s).getVal1().dispose();
+		}
+		allSound.clear();
+		allMusic.clear();
+		allSndInstances.clear();
+	}
 	/**
 	 * pauses the music file if it is playing. If not the call is ignored
 	 * @param filename
