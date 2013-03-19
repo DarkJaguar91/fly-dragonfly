@@ -149,7 +149,9 @@ public class GameInput implements InputProcessor {
 		if (screenX > ((30+(width-70))/2)-50 && screenY > ((height/3)+70) &&
 				screenX < ((30+(width-70))/2)-50+100 && screenY < ((height/3)+70)+50 && screen.tutScreen.isShowingTutorialScreen()){
 			screen.tutScreen.okBtnReleased();	
-			if (gs.tutScreen.getTutID() == 0){
+			if (gs.tutScreen.getTutID() == 0 || gs.tutScreen.getTutID() == 7){
+				MediaPlayer.stopMusic("data/sound/flydragonfly_bg_music.mp3");
+				MediaPlayer.stopAllSoundInstances();
 				our_game.returnToMenu();
 			}
 			return true;

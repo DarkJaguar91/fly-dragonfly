@@ -229,6 +229,9 @@ public class GameScreen implements Screen {
 		if (tutScreen.draw_tutorial) {
 			tutScreen.drawTutorialScreen(batch,delta);
 		} else {
+			if (player.getNumLives() < 0){
+				tutScreen.showTutorialScreen(7); //gameover
+			}
 			scroller.update(delta);
 
 			// draw score

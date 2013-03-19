@@ -256,7 +256,7 @@ public class Player extends GameObject {
 		if (canBeHit) {
 			numLives--;
 			if (numLives < 0)
-				numLives = 3;
+				return false;
 
 			GameScreen.flash();
 			
