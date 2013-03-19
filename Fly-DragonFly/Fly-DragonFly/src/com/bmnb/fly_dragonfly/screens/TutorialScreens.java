@@ -234,6 +234,13 @@ public class TutorialScreens {
 					starToUse.getWidth(), starToUse.getHeight(), false, false);
 			}
 			break;
+		case 7:
+			msg = "~~~ G A M E  O V E R ~~~";
+			font.setScale(1.2f);
+			font.drawWrapped(spritebatch, msg, tutScreenStartX+20,
+					(tutScreenStartY+tutScreenHeight/2+40),
+					tutScreenWidth);
+			break;
 		}		
 		font.setColor(Color.WHITE);
 		font.setScale(1f);
