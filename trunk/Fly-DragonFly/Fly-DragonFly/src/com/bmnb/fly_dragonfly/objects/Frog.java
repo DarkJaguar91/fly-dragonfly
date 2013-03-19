@@ -43,6 +43,11 @@ public class Frog extends StaticEnemy {
 	@Override
 	public void update(float delta) {
 
+		if (!hasTriggered) {
+			float angle = (player.getPosition().cpy().sub(this.getPosition()
+					.cpy())).angle();
+			this.setRotation(angle - 90);
+		}
 		if (isDead()){
 			removeable = true;
 		}
@@ -50,11 +55,6 @@ public class Frog extends StaticEnemy {
 			hasTriggered = true;
 			GameScreen.addObject(new Tongue(this.getPosition().cpy(), this.getWidth()/4f, 1,
 					this.speed, screenWidth, screenHeight, player));
-		}
-		if (!hasTriggered) {
-			float angle = (player.getPosition().cpy().sub(this.getPosition()
-					.cpy())).angle();
-			this.setRotation(angle - 90);
 		}
 
 		super.update(delta);

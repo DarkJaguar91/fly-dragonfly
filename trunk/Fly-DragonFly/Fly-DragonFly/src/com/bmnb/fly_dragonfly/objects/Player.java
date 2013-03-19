@@ -33,7 +33,7 @@ public class Player extends GameObject {
 	/**
 	 * Static set up vars
 	 */
-	protected static final float maxVertPath = 1.0f, upSpeedPercent = 0.8f,
+	protected static final float maxVertPath = 0.8f, upSpeedPercent = 0.8f,
 			downSpeedPercent = 1.2f, mosDamage = 0.2f, flyDamage = 0.8f,
 			manaRegen = 0.5f, manaUse = 5, maxMana = 15;
 	protected static final float[] mosColor = { 0.047058824f, 0.105882354f,
@@ -361,6 +361,7 @@ public class Player extends GameObject {
 	@Override
 	public void kill() {
 		numLives--;
+		counter=0;
 		if (numLives < 0)
 			super.kill();
 	}
